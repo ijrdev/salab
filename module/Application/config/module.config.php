@@ -30,6 +30,7 @@ use Application\Model\Factory\UsuarioModelFactory;
 use Application\Model\SessionModel;
 use Application\Model\UsuarioModel;
 use Application\View\Helper\Breadcrumbs;
+use Application\View\Helper\Menu;
 use Application\View\Helper\PageTitle;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Router\Http\Literal;
@@ -107,10 +108,12 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            Breadcrumbs::class => InvokableFactory::class,
+            Menu::class        => InvokableFactory::class,
             PageTitle::class   => InvokableFactory::class,
+            Breadcrumbs::class => InvokableFactory::class,
         ],
         'aliases' => [
+            'menu'   => Menu::class,
             'pageTitle'   => PageTitle::class,
             'breadcrumbs' => Breadcrumbs::class,
         ],

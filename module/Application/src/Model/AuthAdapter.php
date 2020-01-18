@@ -40,8 +40,9 @@ class AuthAdapter implements AdapterInterface
         $sql = new Sql($this->db);
         
         $select = $sql
-            ->select('tb_usuarios')
-            ->where(['matricula' => $matricula]);
+            ->select(['u' => 'tb_usuarios'])
+            ->join(['g' => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
+            ->where(['u.matricula' => $matricula]);
         
         $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
         

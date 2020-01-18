@@ -22,9 +22,10 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-        
-        
         $this->layout('layout/login');
+        
+//        $auth = new \Laminas\Authentication\AuthenticationService();
+//        $auth->clearIdentity();
         
         $form = new LoginForm();
         
@@ -38,31 +39,33 @@ class AuthController extends AbstractActionController
             {
                 try
                 {    
-                    // $auth = new \Laminas\Authentication\AuthenticationService();
-                    // var_dump($auth->getIdentity());
-                    
                     $result = $this->authModel->login($form->getData()['matricula'], $form->getData()['senha']);
                     
-                    echo "<pre>";
-                    print_r($result->getMessages());
-                    exit;
+//                    echo "<pre>";
+//                    print_r($result->getIdentity());
+//                    exit;
                     
                     if($result->getCode() == Result::SUCCESS)
                     {
-                        
+                        switch($result->getIdentity()['id_grupo'])
+                        {
+                            case 1:
+                                return $this->redirect()->toRoute('administrador');
+                                break;
+                            case 2:
+                                return $this->redirect()->toRoute('laboratorista');
+                                break;
+                            case 3:
+                                return $this->redirect()->toRoute('professor');
+                                break;
+                        }
                     }
-                    
-//                    $this->chamadosManager->edit($form->getData(), $id_chamado);
-//
-//                    $this->flashMessenger()->addSuccessMessage("Editar Chamado| Operação realizada com sucesso!");
-//
-//                    return $this->redirect()->toRoute('inicio-projetos');
                 }
                 catch (\Exception $exc)
                 {
 //                    $this->flashMessenger()->addErrorMessage("Editar Chamado| Ocorreu um erro na edição do chamado.");
-//
-//                    return $this->redirect()->toRoute('inicio-projetos');
+
+//                    return $this->redirect()->toRoute('login');
                 }
             }
         }

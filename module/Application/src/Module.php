@@ -74,6 +74,20 @@ class Module
             // Redirect the user to the "Login" page.
             return $controller->redirect()->toRoute('login');
         }
+        
+//        if($controllerName != "Application\Controller\AuthController")
+//        {
+//            $auth    = new \Laminas\Authentication\AuthenticationService();
+//            $usuario = $auth->getIdentity();
+//            
+//            if(isset($usuario) && !empty($usuario))
+//            {
+//                if($usuario['grupo'] != $controllerName)
+//                {
+//                    return $controller->redirect()->toRoute('login');
+//                }
+//            }
+//        }
     }
 }
 
