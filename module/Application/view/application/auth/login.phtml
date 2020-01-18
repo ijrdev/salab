@@ -1,0 +1,53 @@
+<?php
+$this->headLink()->appendStylesheet($this->basePath('/css/auth/login.css?version=' . mt_rand(1, 10000)));
+
+$form->prepare();
+?>
+<div class="text-center mb-2">
+    <img src="/img/salab.png" alt="SALAB - Sistema de Agendamento de Laboratórios" title="SALAB - Sistema de Agendamento de Laboratórios" width="140px" height="120px">
+    <div>
+        Sistema de Agendamento de Laboratórios
+    </div>
+</div> 
+
+<div class="card">
+    <div class="card-body login-card-body">
+        <p class="login-box-msg">Realize o login para iniciar a sessão.</p>
+        
+        <?= $this->form()->openTag($form); ?>
+            <div class="input-group mb-3">
+                <?= $this->formElement($form->get('matricula')); ?>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="error">
+                <?= $this->formElementErrors($form->get('matricula'), ['class' => 'text-danger']); ?>
+            </div>
+        
+            <div class="input-group mb-3">
+                <?= $this->formElement($form->get('senha')); ?>
+                <div class="input-group-append">
+                    <div class="input-group-text">
+                        <span class="fas fa-lock"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="error">
+                <?= $this->formElementErrors($form->get('senha'), ['class' => 'text-danger']); ?>
+            </div>
+        
+            <div class="row">
+                <div class="col-12 text-right">
+                    <?= $this->formElement($form->get('entrar')); ?>
+                </div>
+            </div>
+        <?= $this->form()->closeTag(); ?>
+
+        <div>
+            <a href="<?= $this->url('login') ?>">Esqueceu sua senha?</a>
+        </div>
+    </div>
+</div>
