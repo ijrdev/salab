@@ -10,45 +10,20 @@
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
         ?>
         
-        <title>SALAB - Sistema de Agendamento de Laboratótios</title>
+        <title>SALAB - Sistema de Agendamento de Laboratórios</title>
         
         <?php echo "\n"; ?>
 
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
             ->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/fontawesome-free/css/all.min.css'))
-            // Google Font: Source Sans Pro
-            //->prependStylesheet($this->basePath('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700'))
-            // Ionicons
-            //->prependStylesheet($this->basePath('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'))
-            // Tempusdominus Bbootstrap 4
-            //->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css'))
-            // iCheck
-            //->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css'))
-            // Theme style
-            ->prependStylesheet($this->basePath('AdminLTE-3.0.1/dist/css/adminlte.min.css'))
-            ->prependStylesheet($this->basePath('css/geral.css'));
-            // overlayScrollbars
-            //->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'))
-            // Daterange picker
-            //->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/daterangepicker/daterangepicker.css'))
+            ->prependStylesheet($this->basePath('AdminLTE-3.0.1/dist/css/adminlte.min.css'));
         ?>
         
         <?php echo "\n"; ?>
 
         <!-- Scripts -->
         <?= $this->inlineScript()
-            // daterangepicker
-            //->prependFile($this->basePath('AdminLTE-3.0.1/plugins/moment/moment.min.js'))
-            //->prependFile($this->basePath('AdminLTE-3.0.1/plugins/daterangepicker/daterangepicker.js'))
-            // Tempusdominus Bootstrap 4
-            //->prependFile($this->basePath('AdminLTE-3.0.1/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'))
-            // overlayScrollbars
-            //->prependFile($this->basePath('AdminLTE-3.0.1/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'))
-            // AdminLTE dashboard demo (This is only for demo purposes)
-            //->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/pages/dashboard.js'))
-            // AdminLTE for demo purposes
-            //->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/demo.js'))
             // AdminLTE App
             ->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/adminlte.js'))
             // Bootstrap 4
@@ -60,7 +35,6 @@
     </head>
     <body class="hold-transition layout-top-nav">
         <div class="wrapper">
-
             <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
                 <div class="container">
                     <a href="../../index3.html" class="navbar-brand">
@@ -73,52 +47,7 @@
                     </button>
 
                     <div class="collapse navbar-collapse order-3 justify-content-end" id="navbarCollapse">
-                        
-                            
-                            <?= $this->menu()->setItems([
-                                'Início' => 'www',
-                                'Menu'   => 'www',
-                                'ACB'    => 'www',
-                                'OK'     => 'www',
-                                'LOGOUT'     => [
-                                    'Quer sair?' => 'simm',
-                                    'sair MESMO?' => 'NÃO',
-                                    'EAI, VAI?' => 'simm',
-                                ]
-                            ]); ?>
-                            
-                            <?= $this->menu()->render(); ?>
-                            
-                        
-<!--                            <li class="nav-item dropdown">
-                                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
-                                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-                                    <li><a href="#" class="dropdown-item">Some action </a></li>
-                                    <li><a href="#" class="dropdown-item">Some other action</a></li>
-
-                                    <li class="dropdown-divider"></li>
-
-                                    <li class="dropdown-submenu dropdown-hover">
-                                        <a id="dropdownSubMenu2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
-                                        <ul aria-labelledby="dropdownSubMenu2" class="dropdown-menu border-0 shadow">
-                                            <li>
-                                                <a tabindex="-1" href="#" class="dropdown-item">level 2</a>
-                                            </li>
-
-                                            <li class="dropdown-submenu">
-                                                <a id="dropdownSubMenu3" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">level 2</a>
-                                                <ul aria-labelledby="dropdownSubMenu3" class="dropdown-menu border-0 shadow">
-                                                    <li><a href="#" class="dropdown-item">3rd level</a></li>
-                                                    <li><a href="#" class="dropdown-item">3rd level</a></li>
-                                                </ul>
-                                            </li>
-
-                                            <li><a href="#" class="dropdown-item">level 2</a></li>
-                                            <li><a href="#" class="dropdown-item">level 2</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>-->
+                        <?= $this->menu()->render(); ?>
                     </div>
                 </div>
             </nav>
@@ -141,7 +70,7 @@
             </div>
 
             <footer class="main-footer text-center p-1">
-                <strong>Copyright &copy; 2020 - <?= date('Y') ?> <i>ijrdev</i>.</strong> All rights reserved.
+                <strong>Copyright &copy; 2020 - <?= date('Y') ?> <i>SALAB</i>.</strong> All rights reserved.
             </footer>
         </div>
     </body>

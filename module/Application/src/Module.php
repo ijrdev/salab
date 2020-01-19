@@ -6,6 +6,7 @@ namespace Application;
 
 use Application\Controller\AuthController;
 use Application\Model\AuthModel;
+use Laminas\Authentication\AuthenticationService;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Validator\AbstractValidator;
@@ -75,19 +76,19 @@ class Module
             return $controller->redirect()->toRoute('login');
         }
         
-//        if($controllerName != "Application\Controller\AuthController")
-//        {
-//            $auth    = new \Laminas\Authentication\AuthenticationService();
-//            $usuario = $auth->getIdentity();
-//            
-//            if(isset($usuario) && !empty($usuario))
-//            {
-//                if($usuario['grupo'] != $controllerName)
-//                {
-//                    return $controller->redirect()->toRoute('login');
-//                }
-//            }
-//        }
+        if($controllerName != "Application\Controller\AuthController")
+        {
+            $auth    = new AuthenticationService();
+            $usuario = $auth->getIdentity();
+            
+            if(isset($usuario) && !empty($usuario))
+            {
+                if($usuario['grupo'] != $controllerName)
+                {
+                    return $controller->redirect()->toRoute('login');
+                }
+            }
+        }
     }
 }
 

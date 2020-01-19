@@ -1,32 +1,84 @@
+<?php
+$this->headScript()->appendFile('/js/projetos/chamados/add/add.js?version=' . rand(1, 10000));
+
+$this->menu()->setItems([
+    'Início'  => $this->url('administrador'),
+    'Reserva' => $this->url('administrador'),
+    'Cadastro' => [
+        'Usuário' => 'www',
+        'Laboratório'   => 'www'
+    ],
+    'Consultar' => [
+        'Usuário' => 'www',
+        'Laboratório'   => 'www'
+    ],
+    'Quadro de aviso' => $this->url('administrador'),
+    'Sair'            => $this->url('administrador'),
+]);
+
+$this->pageTitle()->setTitle('Painel Administrativo');
+$this->pageTitle()->setSubTitle('Informações referentes a administração do sistema.');
+?>
+
 <div class="row">
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color: #3d9970">
+            <div class="inner">
+                <h3>150</h3>
 
-                <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <p>Reservas realizadas</p>
             </div>
-        </div>
-
-        <div class="card card-primary card-outline">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+            <div class="icon">
+                <i class="fas fa-calendar"></i>
             </div>
+            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color: #d49b00">
+            <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>Alguma coisa</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color: #02a7d9">
+            <div class="inner">
+                <h3>44</h3>
+
+                <p>Usuários Cadastrados</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-users"></i>
+            </div>
+            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box" style="background-color: #bdbdbd">
+            <div class="inner">
+                <h3>65</h3>
+
+                <p>Laboratórios</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-flask"></i>
+            </div>
+            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-6">
         <div class="card">
             <div class="card-header">
@@ -39,8 +91,9 @@
                 <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
-
-        <div class="card card-primary card-outline">
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
             <div class="card-header">
                 <h5 class="card-title m-0">Featured</h5>
             </div>
