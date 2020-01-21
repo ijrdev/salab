@@ -8,6 +8,7 @@ class Menu extends AbstractHelper
 {
     private $items      = [];
     private $activeItem = '';
+    private $activeSubItem = '';
 
     public function setItems($items) 
     {
@@ -17,6 +18,11 @@ class Menu extends AbstractHelper
     public function setActiveItem($activeItem) 
     {
         $this->activeItem = $activeItem;
+    }
+    
+    public function setActiveSubItem($activeSubItem) 
+    {
+        $this->activeSubItem = $activeSubItem;
     }
     
     public function render()
@@ -30,28 +36,65 @@ class Menu extends AbstractHelper
         
         foreach($this->items as $item => $url) 
         {
-            if(is_array($url))
+            if($item == $this->activeItem)
             {
-                $menu .= 
-                    "<li class='nav-item dropdown'>
-                        <a id='dropdownSubMenu' href='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' class='nav-link dropdown-toggle'>$item</a>
-                            <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 shadow'>";
-                                
-                foreach($url as $subItem => $subUrl)
+                if(is_array($url))
                 {
                     $menu .= 
-                            "<li><a href='$subUrl' class='dropdown-item'>$subItem</a></li>";
+                        "<li class='nav-item dropdown active'>
+                            <a id='dropdownSubMenu' href='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' class='nav-link dropdown-toggle'>$item</a>
+                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 shadow'>";
+
+                    foreach($url as $subItem => $subUrl)
+                    {
+                        if($subItem == $this->activeSubItem)
+                        {
+                            $menu .= 
+                                    "<li><a href='$subUrl' class='dropdown-item active'>$subItem</a></li>";
+                        }
+                        else    
+                        {
+                            $menu .= 
+                                    "<li><a href='$subUrl' class='dropdown-item'>$subItem</a></li>";
+                        }
+                    }
+                        $menu .=
+                                "</ul>
+                            </li>";
                 }
-                    $menu .=
-                            "</ul>
+                else
+                {
+                    $menu .= 
+                        "<li class='nav-item active'>
+                            <a href='$url' class='nav-link'>$item</a>
                         </li>";
+                }
             }
             else
             {
-                $menu .= 
-                    "<li class='nav-item'>
-                        <a href='$url' class='nav-link'>$item</a>
-                    </li>";
+                if(is_array($url))
+                {
+                    $menu .= 
+                        "<li class='nav-item dropdown'>
+                            <a id='dropdownSubMenu' href='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' class='nav-link dropdown-toggle'>$item</a>
+                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 shadow'>";
+
+                    foreach($url as $subItem => $subUrl)
+                    {
+                        $menu .= 
+                                "<li><a href='$subUrl' class='dropdown-item'>$subItem</a></li>";
+                    }
+                        $menu .=
+                                "</ul>
+                            </li>";
+                }
+                else
+                {
+                    $menu .= 
+                        "<li class='nav-item'>
+                            <a href='$url' class='nav-link'>$item</a>
+                        </li>";
+                }
             }
         }
         

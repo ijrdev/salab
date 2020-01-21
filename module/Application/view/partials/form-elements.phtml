@@ -1,0 +1,55 @@
+<?php
+$elem     = $this->element;
+
+$elemName = $elem->getName();
+$values   = $elem->getValue();
+$attr     = $elem->getAttributes();
+$options  = $elem->getOptions();
+$label    = $elem->getLabel();
+$messages = $elem->getMessages();
+
+//echo "<pre>";
+//var_dump($elem);
+//exit;
+
+switch(strtolower($attr['type']))
+{
+    case 'text':
+    case 'password':
+
+        ?>
+
+        <div class="form-group">
+            <label style="font-size: 14px;" for="<?= $attr['id'] ?>"><?= $label ?></label>
+            <input type="<?= $attr['type'] ?>" name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+
+        <?php
+        
+        break;
+    
+    case 'radio':
+        
+        ?>
+
+        <div class="form-group">
+            <label style="font-size: 14px;" for=""><?= $label ?></label>
+            <?php
+            foreach($elem->getValueOptions() as $key => $value)
+                {
+                    ?>
+                        <div class="icheck-primary">
+                            <input type="radio" id="<?= $elemName . $key ?>" name="<?= $elemName ?>" value="<?php echo $key; ?>" class="<?= $attr['class'] ?>">
+                            <label style="font-weight: normal; font-size: 14px;" for="<?= $elemName . $key ?>"><?= $value ?></label>
+                        </div>
+                    <?php
+                }
+            ?>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+
+        <?php
+        
+        break;
+}

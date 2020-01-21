@@ -60,6 +60,7 @@ return [
                     ],
                 ],
             ],
+            // ADM.
             'administrador' => [
                 'type'    => Segment::class,
                 'options' => [
@@ -70,6 +71,21 @@ return [
                     ],
                 ],
             ],
+            
+            'cadastrar-usuario' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/cadastrar-usuario[/:action]',
+                    'defaults' => [
+                        'controller' => AdministradorController::class,
+                        'action'     => 'cadastrar-usuario',
+                    ],
+                ],
+            ],
+            
+            
+            
+            // ----------------------------------------------------------------
             'professor' => [
                 'type'    => Segment::class,
                 'options' => [

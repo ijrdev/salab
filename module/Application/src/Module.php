@@ -61,16 +61,6 @@ class Module
         if ($controllerName != AuthController::class && 
             !$authModel->filterAccess($controllerName, $actionName)) 
         {
-            // Remember the URL of the page the user tried to access. We will
-            // redirect the user to that URL after successful login.
-            // $uri = $event->getApplication()->getRequest()->getUri();
-            // Make the URL relative (remove scheme, user info, host name and port)
-            // to avoid redirecting to other domain by a malicious user.
-//            $uri->setScheme(null)
-//                ->setHost(null)
-//                ->setPort(null)
-//                ->setUserInfo(null);
-//            $redirectUrl = $uri->toString();
             
             // Redirect the user to the "Login" page.
             return $controller->redirect()->toRoute('login');

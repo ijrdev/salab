@@ -27,25 +27,24 @@ class UsuarioModel
             ->insert('tb_usuarios')
             ->values([
                 'matricula' => $post['matricula'],
-                'nome'      => $post['nome'],
-                'sobrenome' => $post['sobrenome'],
                 'email'     => $post['email'],
-                'senha'     => $newPassword,
+                'tipo'      => $post['tipo'],
+                'senha'     => $newPassword
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
     }
     
-    public function fetchEmail($email)
+    public function getEmail($email)
     {
         $where = new Where();
         $where->equalTo('email', $email);
         
-        $select = $this->db
+        $select = $sql
             ->select('tb_usuarios')
             ->where($where);
         
-        return $this->db->prepareStatementForSqlObject($select)->execute();
+        return $sql->prepareStatementForSqlObject($select)->execute();
     }
 }
 

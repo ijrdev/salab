@@ -41,10 +41,6 @@ class AuthController extends AbstractActionController
                 {    
                     $result = $this->authModel->login($form->getData()['matricula'], $form->getData()['senha']);
                     
-//                    echo "<pre>";
-//                    print_r($result->getIdentity());
-//                    exit;
-                    
                     if($result->getCode() == Result::SUCCESS)
                     {
                         switch($result->getIdentity()['id_grupo'])
@@ -65,7 +61,7 @@ class AuthController extends AbstractActionController
                 {
 //                    $this->flashMessenger()->addErrorMessage("Editar Chamado| Ocorreu um erro na edição do chamado.");
 
-//                    return $this->redirect()->toRoute('login');
+                    return $this->redirect()->toRoute('login');
                 }
             }
         }

@@ -17,6 +17,7 @@
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
             ->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/fontawesome-free/css/all.min.css'))
+            ->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.css'))
             ->prependStylesheet($this->basePath('AdminLTE-3.0.1/dist/css/adminlte.min.css'));
         ?>
         
@@ -24,11 +25,10 @@
 
         <!-- Scripts -->
         <?= $this->inlineScript()
-            // AdminLTE App
             ->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/adminlte.js'))
-            // Bootstrap 4
+            ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.js'))
+            ->prependFile($this->basePath('js/geral.js'))
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/bootstrap/js/bootstrap.bundle.min.js'))
-            // Jquery
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/jquery/jquery.min.js'));
         ?>
         
