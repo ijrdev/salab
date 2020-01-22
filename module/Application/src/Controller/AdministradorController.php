@@ -8,8 +8,10 @@ use Laminas\View\Model\ViewModel;
 
 class AdministradorController extends AbstractActionController
 {
-    public function __construct() {
-        ;
+    private $salabModel;
+    
+    public function __construct(\Application\Model\SalabModel $salabModel) {
+        $this->salabModel = $salabModel;
     }
     
     public function indexAction()
@@ -19,7 +21,7 @@ class AdministradorController extends AbstractActionController
     
     public function cadastrarUsuarioAction()
     {
-        $form = new CadastrarUsuarioForm();
+        $form = new CadastrarUsuarioForm($this->salabModel);
         
         if($this->getRequest()->isPost()) 
         {
@@ -31,19 +33,15 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    echo "<pre>";
-                    print_r($form->getData());
-                    exit;
-                    
-                    $this->chamadosManager->cadastrarUsuario($form->getData());
+                    $this->salabModel->addUser($form->getData());
 
-                    $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
+                    //$this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
                     return $this->redirect()->toRoute('administrador');
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage("Cadastrar Usuário| Ocorreu um erro durante a operação.");
+                    //$this->flashMessenger()->addErrorMessage("Cadastrar Usuário| Ocorreu um erro durante a operação.");
 
                     return $this->redirect()->toRoute('administrador');
                 }

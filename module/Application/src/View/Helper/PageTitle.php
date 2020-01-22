@@ -6,7 +6,7 @@ use Laminas\View\Helper\AbstractHelper;
 
 class PageTitle extends AbstractHelper
 {
-    private $title = '';
+    private $title    = '';
     private $subTitle = '';
 
     public function setTitle($title) 

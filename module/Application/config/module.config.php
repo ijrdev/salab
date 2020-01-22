@@ -25,12 +25,13 @@ use Application\Model\AuthModel;
 use Application\Model\Factory\AuthAdapterFactory;
 use Application\Model\Factory\AuthModelFactory;
 use Application\Model\Factory\AuthServiceFactory;
+use Application\Model\Factory\SalabModelFactory;
 use Application\Model\Factory\SessionModelFactory;
-use Application\Model\Factory\UsuarioModelFactory;
+use Application\Model\SalabModel;
 use Application\Model\SessionModel;
-use Application\Model\UsuarioModel;
 use Application\View\Helper\Breadcrumbs;
 use Application\View\Helper\Menu;
+use Application\View\Helper\Messenger;
 use Application\View\Helper\PageTitle;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Router\Http\Literal;
@@ -127,17 +128,19 @@ return [
             Menu::class        => InvokableFactory::class,
             PageTitle::class   => InvokableFactory::class,
             Breadcrumbs::class => InvokableFactory::class,
+            Messenger::class   => InvokableFactory::class,
         ],
         'aliases' => [
-            'menu'   => Menu::class,
+            'menu'        => Menu::class,
             'pageTitle'   => PageTitle::class,
             'breadcrumbs' => Breadcrumbs::class,
+            'messenger'   => Messenger::class,
         ],
     ],
     'service_manager' => [
         'factories' => [
             Db::class                    => DbFactory::class,
-            UsuarioModel::class          => UsuarioModelFactory::class,
+            SalabModel::class            => SalabModelFactory::class,
             AuthModel::class             => AuthModelFactory::class,
             AuthAdapter::class           => AuthAdapterFactory::class,
             SessionModel::class          => SessionModelFactory::class,

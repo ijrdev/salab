@@ -24,10 +24,14 @@ class LoginForm extends Form
             'name'  => 'matricula',
             'attributes' => [
                 'id'           => 'matricula',
-                'class'        => 'form-control',
+                'class'        => 'form-control form-control-sm',
                 'autocomplete' => 'on',
                 'placeholder'  => 'Matrícula'
             ],
+            'options' => [
+                // 'label' => 'Matrícula',
+                'icon'  => 'user'
+            ]
         ]);
         
         $this->add([            
@@ -35,10 +39,14 @@ class LoginForm extends Form
             'name' => 'senha',
             'attributes' => [
                 'id'           => 'senha',
-                'class'        => 'form-control',
+                'class'        => 'form-control form-control-sm',
                 'autocomplete' => 'off',
                 'placeholder'  => 'Senha'
             ],
+            'options' => [
+                // 'label' => 'Senha',
+                'icon'  => 'lock'
+            ]
         ]);
         
         $this->add([

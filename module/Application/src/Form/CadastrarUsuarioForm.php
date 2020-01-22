@@ -7,8 +7,12 @@ use Laminas\InputFilter\InputFilter;
 
 class CadastrarUsuarioForm extends Form
 {
-    public function __construct()
+    private $salabModel;
+    
+    public function __construct(\Application\Model\SalabModel $salabModel)
     {
+        $this->salabModel = $salabModel;
+        
         parent::__construct('cadastrar-usuario-form');
      
         $this->setAttribute('method', 'post');
@@ -23,23 +27,25 @@ class CadastrarUsuarioForm extends Form
             'type'  => 'text',
             'name'  => 'matricula',
             'attributes' => [
-                'id'    => 'matricula',
-                'class' => 'form-control form-control-sm',
+                'id'          => 'matricula',
+                'class'       => 'form-control form-control-sm',
+                'placeholder' => 'Matricula',
             ],
             'options' => [
                 'label' => 'Matrícula',
+                'icon'  => 'user'
             ]
         ]);
         
         $this->add([
             'type'  => 'radio',
-            'name'  => 'tipo',
+            'name'  => 'grupo',
             'attributes' => [
-                'id'    => 'tipo',
-                'class' => 'form-control form-control-sm'
+                'id'    => 'grupo',
+                'class' => 'form-control form-control-sm',
             ],
             'options' => [
-                'label' => 'Tipo Usuário',
+                'label' => 'Grupo do Usuário',
                 'value_options' => [
                     1 => 'Administrador',
                     2 => 'Laboratorista',
@@ -57,6 +63,7 @@ class CadastrarUsuarioForm extends Form
             ],
             'options' => [
                 'label' => 'Email',
+                'icon'  => 'envelope'
             ]
         ]);
         
@@ -69,6 +76,7 @@ class CadastrarUsuarioForm extends Form
             ],
             'options' => [
                 'label' => 'Senha',
+                'icon'  => 'lock'
             ]
         ]);
         
@@ -111,6 +119,32 @@ class CadastrarUsuarioForm extends Form
             'validators' => [
                 [
                     'name' => 'Digits'
+                ],
+                [
+                    'name' => 'Callback',
+                        'options' => [
+                            'message'  => 'Matrícula já cadastrada no sistema.',
+                            'callback' => function($matricula) 
+                            {
+                                $result = [];
+            
+                                try 
+                                {
+                                    $result = $this->salabModel->getMatricula($matricula);
+                                }
+                                catch (\Exception $ex)
+                                {
+                                    return false;
+                                }
+                                
+                                if(!empty($result))
+                                {
+                                    return false;
+                                }
+                                
+                                return true;
+                            }
+                        ]
                 ]
             ]
         ]);     
@@ -133,11 +167,37 @@ class CadastrarUsuarioForm extends Form
                 [
                     'name' => 'EmailAddress'
                 ],
+                [
+                    'name' => 'Callback',
+                        'options' => [
+                            'message'  => 'Email já cadastrado no sistema.',
+                            'callback' => function($email) 
+                            {
+                                $result = [];
+            
+                                try 
+                                {
+                                    $result = $this->salabModel->getEmail($email);
+                                }
+                                catch (\Exception $ex)
+                                {
+                                    return false;
+                                }
+                                
+                                if(!empty($result))
+                                {
+                                    return false;
+                                }
+                                
+                                return true;
+                            }
+                        ]
+                ]
             ]
         ]);    
         
         $inputFilter->add([
-            'name'     => 'tipo',
+            'name'     => 'grupo',
             'required' => true,
         ]);
         

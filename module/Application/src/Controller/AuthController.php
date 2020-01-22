@@ -27,6 +27,13 @@ class AuthController extends AbstractActionController
 //        $auth = new \Laminas\Authentication\AuthenticationService();
 //        $auth->clearIdentity();
         
+//        $this->usuarioModel->add([
+//            'matricula' => 20191,
+//            'email' => 'adm@gmail.com',
+//            'senha' => 123456,
+//            'id_grupo' => 1
+//        ]);
+        
         $form = new LoginForm();
         
         if($this->getRequest()->isPost())

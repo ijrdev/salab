@@ -11,34 +11,22 @@ $form->prepare();
 </div> 
 
 <div class="card">
-    <div class="card-body login-card-body">
+    <div class="card-body">
         <p class="login-box-msg">Realize o login para iniciar a sessão.</p>
         
         <?= $this->form()->openTag($form); ?>
-            <div class="input-group mb-3">
-                <?= $this->formElement($form->get('matricula')); ?>
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-user"></span>
-                    </div>
+            <div class="row">
+                <div class="col-12">
+                    <?= $this->formRow($form->get('matricula'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
-            <div class="error">
-                <?= $this->formElementErrors($form->get('matricula'), ['class' => 'text-danger']); ?>
-            </div>
-        
-            <div class="input-group mb-3">
-                <?= $this->formElement($form->get('senha')); ?>
-                <div class="input-group-append">
-                    <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                    </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <?= $this->formRow($form->get('senha'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
-            <div class="error">
-                <?= $this->formElementErrors($form->get('senha'), ['class' => 'text-danger']); ?>
-            </div>
-        
+
             <div class="row">
                 <div class="col-12 text-right">
                     <?= $this->formElement($form->get('entrar')); ?>

@@ -6,8 +6,8 @@ use Laminas\View\Helper\AbstractHelper;
 
 class Menu extends AbstractHelper
 {
-    private $items      = [];
-    private $activeItem = '';
+    private $items         = [];
+    private $activeItem    = '';
     private $activeSubItem = '';
 
     public function setItems($items) 
