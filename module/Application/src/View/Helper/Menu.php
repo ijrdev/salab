@@ -43,7 +43,7 @@ class Menu extends AbstractHelper
                     $menu .= 
                         "<li class='nav-item dropdown active'>
                             <a id='dropdownSubMenu' href='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' class='nav-link dropdown-toggle'>$item</a>
-                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 shadow'>";
+                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 p-0 m-0 shadow'>";
 
                     foreach($url as $subItem => $subUrl)
                     {
@@ -77,7 +77,7 @@ class Menu extends AbstractHelper
                     $menu .= 
                         "<li class='nav-item dropdown'>
                             <a id='dropdownSubMenu' href='' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' class='nav-link dropdown-toggle'>$item</a>
-                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 shadow'>";
+                                <ul aria-labelledby='dropdownSubMenu' class='dropdown-menu border-0 p-0 m-0 shadow'>";
 
                     foreach($url as $subItem => $subUrl)
                     {

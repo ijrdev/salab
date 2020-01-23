@@ -61,6 +61,7 @@ return [
                     ],
                 ],
             ],
+            
             // ADM.
             'administrador' => [
                 'type'    => Segment::class,
@@ -84,7 +85,16 @@ return [
                 ],
             ],
             
-            
+            'cadastrar-laboratorio' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/cadastrar-laboratorio[/:action]',
+                    'defaults' => [
+                        'controller' => AdministradorController::class,
+                        'action'     => 'cadastrar-laboratorio',
+                    ],
+                ],
+            ],
             
             // ----------------------------------------------------------------
             'professor' => [

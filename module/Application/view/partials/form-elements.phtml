@@ -22,6 +22,12 @@ switch(strtolower($attr['type']))
         <div class="form-group">
             <?= isset($label) && !empty($label) ? "<label style=\"font-size: 14px;\" for=\"" . $attr['id'] . "\">" . $label . "</label>": "" ?>
             <div class="input-group mb-3">
+                <?= isset($options['icon-side']) && !empty($options['icon-side']) ? 
+                "<div class=\"input-group-append\">
+                    <div class=\"input-group-text\">" 
+                        . $options['icon-side'] . 
+                    "</div>
+                </div>" : '' ?>
                 <input type="<?= $attr['type'] ?>" placeholder="<?= isset($attr['placeholder']) ? $attr['placeholder'] : '' ?>" name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
                 <div class="input-group-append">
                     <div class="input-group-text">

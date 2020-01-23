@@ -28,7 +28,7 @@ class CadastrarUsuarioForm extends Form
             'name'  => 'matricula',
             'attributes' => [
                 'id'          => 'matricula',
-                'class'       => 'form-control form-control-sm',
+                'class'       => 'form-control',
                 'placeholder' => 'Matricula',
             ],
             'options' => [
@@ -42,7 +42,7 @@ class CadastrarUsuarioForm extends Form
             'name'  => 'grupo',
             'attributes' => [
                 'id'    => 'grupo',
-                'class' => 'form-control form-control-sm',
+                'class' => 'form-control',
             ],
             'options' => [
                 'label' => 'Grupo do Usuário',
@@ -59,7 +59,7 @@ class CadastrarUsuarioForm extends Form
             'name'  => 'email',
             'attributes' => [
                 'id'    => 'email',
-                'class' => 'form-control form-control-sm',
+                'class' => 'form-control',
             ],
             'options' => [
                 'label' => 'Email',
@@ -72,7 +72,7 @@ class CadastrarUsuarioForm extends Form
             'name' => 'senha',
             'attributes' => [
                 'id'    => 'senha',
-                'class' => 'form-control form-control-sm',
+                'class' => 'form-control',
             ],
             'options' => [
                 'label' => 'Senha',

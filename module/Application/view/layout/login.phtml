@@ -42,5 +42,9 @@
         <div class="login-box">
             <?= $this->content ?>
         </div>
+        <?php
+        echo $this->partial('partials/toastr-flash-messenger');
+        echo $this->inlineScript();
+        ?>
     </body>
 </html>

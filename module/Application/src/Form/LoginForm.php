@@ -24,7 +24,7 @@ class LoginForm extends Form
             'name'  => 'matricula',
             'attributes' => [
                 'id'           => 'matricula',
-                'class'        => 'form-control form-control-sm',
+                'class'        => 'form-control',
                 'autocomplete' => 'on',
                 'placeholder'  => 'Matrícula'
             ],
@@ -39,7 +39,7 @@ class LoginForm extends Form
             'name' => 'senha',
             'attributes' => [
                 'id'           => 'senha',
-                'class'        => 'form-control form-control-sm',
+                'class'        => 'form-control',
                 'autocomplete' => 'off',
                 'placeholder'  => 'Senha'
             ],

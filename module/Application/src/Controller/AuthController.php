@@ -4,6 +4,7 @@ namespace Application\Controller;
 
 use Application\Form\LoginForm;
 use Application\Model\AuthModel;
+use Application\Model\SalabModel;
 use Application\Model\SessionModel;
 use Laminas\Authentication\Result;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -13,11 +14,13 @@ class AuthController extends AbstractActionController
 {
     private $authModel;
     private $sessionModel;
+    private $salabModel;
     
-    public function __construct(AuthModel $authModel, SessionModel $sessionModel)
+    public function __construct(AuthModel $authModel, SessionModel $sessionModel, SalabModel $salabModel)
     {
         $this->authModel    = $authModel;
         $this->sessionModel = $sessionModel;
+        $this->salabModel = $salabModel;
     }
     
     public function loginAction()
@@ -27,11 +30,11 @@ class AuthController extends AbstractActionController
 //        $auth = new \Laminas\Authentication\AuthenticationService();
 //        $auth->clearIdentity();
         
-//        $this->usuarioModel->add([
+//        $this->salabModel->addUser([
 //            'matricula' => 20191,
 //            'email' => 'adm@gmail.com',
 //            'senha' => 123456,
-//            'id_grupo' => 1
+//            'grupo' => 1
 //        ]);
         
         $form = new LoginForm();
@@ -53,15 +56,29 @@ class AuthController extends AbstractActionController
                         switch($result->getIdentity()['id_grupo'])
                         {
                             case 1:
+                                $this->flashMessenger()->addSuccessMessage("Acesso| " . $result->getMessages()[0]);
+                                
                                 return $this->redirect()->toRoute('administrador');
                                 break;
                             case 2:
+                                $this->flashMessenger()->addSuccessMessage("Acesso| " . $result->getMessages()[0]);
+                                
                                 return $this->redirect()->toRoute('laboratorista');
                                 break;
                             case 3:
+                                $this->flashMessenger()->addSuccessMessage("Acesso| " . $result->getMessages()[0]);
+                                
                                 return $this->redirect()->toRoute('professor');
                                 break;
                         }
+                    }
+                    else if($result->getCode() == Result::FAILURE_CREDENTIAL_INVALID)
+                    {
+                        $this->flashMessenger()->addErrorMessage("Acesso| " . $result->getMessages()[0]);
+                    }
+                    else if($result->getCode() == Result::FAILURE_IDENTITY_NOT_FOUND)
+                    {
+                        $this->flashMessenger()->addErrorMessage("Acesso| " . $result->getMessages()[0]);
                     }
                 }
                 catch (\Exception $exc)

@@ -1,0 +1,74 @@
+<?php
+echo $this->headLink()->appendStylesheet($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.css'));
+echo $this->inlineScript()->prependFile($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.js'));
+
+$namespaces      = ['default', 'success', 'warning', 'error', 'info'];
+$boxParams = [
+    'default' => 'question', 
+    'success' => 'success', 
+    'warning' => 'warning', 
+    'error'   => 'error', 
+    'info'    => 'info'
+];
+$messages        = [];
+
+foreach($namespaces as $namespace)
+{
+    if($this->flashMessenger()->hasMessages($namespace))
+    {
+        $messages[$namespace] = $this->flashMessenger()->getMessages($namespace);
+    }
+    
+    if($this->flashMessenger()->hasCurrentMessages($namespace))
+    {
+        $messages[$namespace] = $this->flashMessenger()->getCurrentMessages($namespace);
+    }
+}
+
+if(!empty($messages))
+{
+    
+    $alert = "";
+    
+    foreach($messages as $key => $message)
+    {
+        foreach($message as $textmessage)
+        {
+            $textmessage = explode("|", $textmessage);
+            
+            $title = str_replace("'", "\\'", str_replace("\"", "\\\"", $textmessage[0]));
+            unset($textmessage[0]);
+            $bodyMessage = str_replace("'", "\\'", str_replace("\"", "\\\"", implode("<br/>", $textmessage)));
+
+            $alert .= "toastr.$boxParams[$key]('$bodyMessage', '$title')";
+
+        }
+    }
+    
+    
+$this->inlineScript()->captureStart();
+echo <<<JS
+    $(document).ready(function(){
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": 300,
+            "hideDuration": 100,
+            "timeOut": 5000,
+            "extendedTimeOut": 1000,
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+$alert
+    });
+JS;
+$this->inlineScript()->captureEnd();
+}  

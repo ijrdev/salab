@@ -40,8 +40,8 @@ class AuthAdapter implements AdapterInterface
         $sql = new Sql($this->db);
         
         $select = $sql
-            ->select(['u' => 'tb_usuarioss'])
-            ->join(['g' => 'tb_gruposs'], 'u.id_grupo = g.id_grupo', 'grupo')
+            ->select(['u' => 'tb_usuarios'])
+            ->join(['g' => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
             ->where(['u.matricula' => $matricula]);
         
         $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -55,7 +55,7 @@ class AuthAdapter implements AdapterInterface
             {
                 $this->sessionModel->setUsuario($result);
 
-                return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Acesso realizado com sucesso!']);
+                return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Login realizado com sucesso!']);
             } 
             else
             {
@@ -64,7 +64,7 @@ class AuthAdapter implements AdapterInterface
         }
         else
         {
-            return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null, ['Matrícula não existe.']);
+            return new Result(Result::FAILURE_IDENTITY_NOT_FOUND, null, ['Matrícula não está cadastrada no sistema.']);
         }
     }
 }

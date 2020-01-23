@@ -17,7 +17,6 @@
         <!-- Le styles -->
         <?= $this->headLink(['rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'])
             ->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/fontawesome-free/css/all.min.css'))
-            ->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.css'))
             ->prependStylesheet($this->basePath('AdminLTE-3.0.1/dist/css/adminlte.min.css'));
         ?>
         
@@ -26,7 +25,6 @@
         <!-- Scripts -->
         <?= $this->inlineScript()
             ->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/adminlte.js'))
-            ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/toastr/toastr.min.js'))
             ->prependFile($this->basePath('js/geral.js'))
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/bootstrap/js/bootstrap.bundle.min.js'))
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/jquery/jquery.min.js'));
@@ -47,6 +45,20 @@
                     </button>
 
                     <div class="collapse navbar-collapse order-3 justify-content-end" id="navbarCollapse">
+                        <?= $this->menu()->setItems([
+                            'Início'  => $this->url('administrador'),
+                            'Reserva' => $this->url('administrador'),
+                            'Cadastro' => [
+                                'Usuário'     => $this->url('cadastrar-usuario'),
+                                'Laboratório' => $this->url('cadastrar-laboratorio')
+                            ],
+                            'Consultar' => [
+                                'Usuário' => 'www',
+                                'Laboratório'   => 'www'
+                            ],
+                            'Quadro de aviso' => $this->url('administrador'),
+                            'Sair'            => $this->url('administrador'),
+                        ]); ?>
                         <?= $this->menu()->render(); ?>
                     </div>
                 </div>
@@ -58,8 +70,6 @@
                         <div class="row mb-2">
                             <?= $this->pageTitle()->render(); ?>
                             <?= $this->breadcrumbs()->render(); ?>
-                            <?= $this->messenger()->render(); ?>
-                            
                         </div>
                     </div>
                 </div>
@@ -75,5 +85,9 @@
                 <strong>Copyright &copy; 2020 - <?= date('Y') ?> <i>SALAB</i>.</strong> All rights reserved.
             </footer>
         </div>
+        <?php
+        echo $this->partial('partials/toastr-flash-messenger');
+        echo $this->inlineScript();
+        ?>
     </body>
 </html>

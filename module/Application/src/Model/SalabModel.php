@@ -24,12 +24,27 @@ class SalabModel
         $newPassword = $bcrypt->create($post['senha']);        
         
         $insert = $sql
-            ->insert('tb_usuarioss')
+            ->insert('tb_usuarios')
             ->values([
                 'matricula' => $post['matricula'],
                 'email'     => $post['email'],
                 'senha'     => $newPassword,
                 'id_grupo'  => $post['grupo']
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insert)->execute();
+    }
+    
+    public function addLab($post)
+    {
+        $sql = new Sql($this->db);
+        
+        $insert = $sql
+            ->insert('tb_laboratorios')
+            ->values([
+                'lab'       => 'LAB ' . $post['lab'],
+                'tipo'      => $post['tipo'],
+                'descricao' => $post['descricao']
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
@@ -43,7 +58,7 @@ class SalabModel
         $where->equalTo('matricula', $matricula);
         
         $select = $sql
-            ->select('tb_usuarioss')
+            ->select('tb_usuarios')
             ->where($where);
         
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -57,7 +72,7 @@ class SalabModel
         $where->equalTo('email', $email);
         
         $select = $sql
-            ->select('tb_usuarioss')
+            ->select('tb_usuarios')
             ->where($where);
         
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
