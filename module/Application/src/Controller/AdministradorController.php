@@ -87,4 +87,46 @@ class AdministradorController extends AbstractActionController
             'form' => $form
         ]);
     }
+    
+    public function consultarUsuariosAction()
+    {
+        $page   = $this->params()->fromQuery('page', 1);
+        $search = $this->params()->fromQuery('search', null);
+        
+        try
+        {
+            $usuarios = $this->salabModel->getAllUsers($page);
+        } 
+        catch(\Exception $ex)
+        {
+            $this->flashMessenger()->addErrorMessage('Consultar Usuários| Ocorreu um problema ao realizar a operação.');
+
+            return $this->redirect()->toRoute('administrador');
+        }
+
+        return new ViewModel([
+            'usuarios' => $usuarios
+        ]);
+    }
+    
+    public function consultarLaboratoriosAction()
+    {
+        $page   = $this->params()->fromQuery('page', 1);
+        $search = $this->params()->fromQuery('search', null);
+        
+        try
+        {
+            $laboratorios = $this->salabModel->getAllLabors($page);
+        } 
+        catch(\Exception $ex)
+        {
+            $this->flashMessenger()->addErrorMessage('Consultar Laboratórios| Ocorreu um problema ao realizar a operação.');
+
+            return $this->redirect()->toRoute('administrador');
+        }
+
+        return new ViewModel([
+            'laboratorios' => $laboratorios
+        ]);
+    }
 }

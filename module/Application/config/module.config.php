@@ -96,6 +96,28 @@ return [
                 ],
             ],
             
+            'consultar-usuarios' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/consultar-usuarios[/:action]',
+                    'defaults' => [
+                        'controller' => AdministradorController::class,
+                        'action'     => 'consultar-usuarios',
+                    ],
+                ],
+            ],
+            
+            'consultar-laboratorios' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/consultar-laboratorios[/:action]',
+                    'defaults' => [
+                        'controller' => AdministradorController::class,
+                        'action'     => 'consultar-laboratorios',
+                    ],
+                ],
+            ],
+            
             // ----------------------------------------------------------------
             'professor' => [
                 'type'    => Segment::class,

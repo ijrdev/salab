@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "09f8da1060a3703daf731c57aa46ad49",
+    "content-hash": "e3204c19edfdc9ff139b02341d6adf96",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -1411,6 +1411,75 @@
                 "mvc"
             ],
             "time": "2019-12-31T17:33:46+00:00"
+        },
+        {
+            "name": "laminas/laminas-paginator",
+            "version": "2.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-paginator.git",
+                "reference": "5e53d927776b2d20e420bc2b289fa0c364a6b0bd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-paginator/zipball/5e53d927776b2d20e420bc2b289fa0c364a6b0bd",
+                "reference": "5e53d927776b2d20e420bc2b289fa0c364a6b0bd",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-stdlib": "^2.7 || ^3.0",
+                "laminas/laminas-zendframework-bridge": "^1.0",
+                "php": "^7.0 || ^5.6"
+            },
+            "replace": {
+                "zendframework/zend-paginator": "self.version"
+            },
+            "require-dev": {
+                "laminas/laminas-cache": "^2.6.1",
+                "laminas/laminas-coding-standard": "~1.0.0",
+                "laminas/laminas-config": "^2.6.0",
+                "laminas/laminas-db": "^2.9.2",
+                "laminas/laminas-filter": "^2.6.1",
+                "laminas/laminas-json": "^2.6.1",
+                "laminas/laminas-servicemanager": "^2.7.5 || ^3.0.3",
+                "laminas/laminas-view": "^2.6.3",
+                "phpunit/phpunit": "^6.2.1 || ^5.7.15"
+            },
+            "suggest": {
+                "laminas/laminas-cache": "Laminas\\Cache component to support cache features",
+                "laminas/laminas-db": "Laminas\\Db component",
+                "laminas/laminas-filter": "Laminas\\Filter component",
+                "laminas/laminas-json": "Laminas\\Json component",
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component",
+                "laminas/laminas-view": "Laminas\\View component"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8.x-dev",
+                    "dev-develop": "2.9.x-dev"
+                },
+                "laminas": {
+                    "component": "Laminas\\Paginator",
+                    "config-provider": "Laminas\\Paginator\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Paginator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Paginate collections of data from arbitrary sources",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "laminas",
+                "paginator"
+            ],
+            "time": "2019-12-31T17:36:22+00:00"
         },
         {
             "name": "laminas/laminas-router",

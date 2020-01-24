@@ -6,6 +6,8 @@ use Application\Adapter\Db;
 use Laminas\Crypt\Password\Bcrypt;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
+use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Paginator;
 
 class SalabModel
 {
@@ -29,7 +31,8 @@ class SalabModel
                 'matricula' => $post['matricula'],
                 'email'     => $post['email'],
                 'senha'     => $newPassword,
-                'id_grupo'  => $post['grupo']
+                'id_grupo'  => $post['grupo'],
+                'dthr_cad'  => date('Y-m-d H:i:s')
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
@@ -44,10 +47,41 @@ class SalabModel
             ->values([
                 'lab'       => 'LAB ' . $post['lab'],
                 'tipo'      => $post['tipo'],
-                'descricao' => $post['descricao']
+                'descricao' => $post['descricao'],
+                'dthr_cad'  => date('Y-m-d H:i:s')
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
+    }
+    
+    public function getAllUsers($page)
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql->select('tb_usuarios');
+        
+        $pag_adapter = new DbSelect($select, $sql);
+        $paginator   = new Paginator($pag_adapter);
+
+        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setCurrentPageNumber($page);
+        
+        return $paginator;
+    }
+    
+    public function getAllLabors($page)
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql->select('tb_laboratorios');
+        
+        $pag_adapter = new DbSelect($select, $sql);
+        $paginator   = new Paginator($pag_adapter);
+
+        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setCurrentPageNumber($page);
+        
+        return $paginator;
     }
     
     public function getMatricula($matricula)

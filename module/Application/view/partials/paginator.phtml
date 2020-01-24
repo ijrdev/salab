@@ -1,0 +1,48 @@
+<?php 
+if ($this->pageCount)
+{
+    ?>
+    <ul class="pagination pagination-sm justify-content-center">
+    <?php if (isset($this->previous)): ?>
+        <li class="page-item">
+          <a class="page-link" href="<?= $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query'=> array_merge(['page' => $this->previous, 'search' => $this->search])]); ?>" aria-label="Primeira Página">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+    <?php else: ?>
+        <li class="page-item">
+          <a class="page-link" href="<?= $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query'=> array_merge(['page' => $this->previous, 'search' => $this->search])]); ?>" aria-label="Primeira Página">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>  
+    <?php endif; ?>
+
+    <?php foreach ($this->pagesInRange as $page): ?>
+      <?php if ($page != $this->current): ?>
+        <li class="page-item">
+            <a class="page-link" href="<?= $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query' => array_merge(['page' => $page, 'search' => $this->search])]); ?>"><?= $this->escapeHtml($page); ?></a>
+        </li>    
+      <?php else: ?>
+        <li class="page-item">
+            <a class="page-link" href="<?= $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query' => array_merge(['page' => $page, 'search' => $this->search])]); ?>"><?= $this->escapeHtml($page); ?></a>
+        </li>    
+      <?php endif; ?>
+    <?php endforeach; ?>
+
+    <?php if (isset($this->next)): ?>
+        <li class="page-item">
+          <a class="page-link" href="<?php echo $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query'=> array_merge(['page' => $this->next, 'search' => $this->search])]); ?>" aria-label="Última Página">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>  
+    <?php else: ?>
+        <li class="page-item">
+          <a class="page-link" href="<?php echo $this->url($this->route, (isset($this->params) && !empty($this->params) ? $this->params : []), ['query'=> array_merge(['page' => $this->next, 'search' => $this->search])]); ?>" aria-label="Última Página">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>  
+    <?php endif; ?>
+    </ul>
+<?php 
+} 
+?>
