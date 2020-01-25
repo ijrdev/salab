@@ -42,7 +42,8 @@ class Menu extends AbstractHelper
                             'Usuário'     => '/administrador/consultar-usuarios',
                             'Laboratório' => '/administrador/consultar-laboratorios'
                         ],
-                        'Sair' => '/logout',
+                        'Perfil' => '/administrador/perfil',
+                        'Sair'   => '/logout',
                     ];
                     break;
                 case 2:

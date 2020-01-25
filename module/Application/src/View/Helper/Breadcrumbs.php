@@ -39,7 +39,7 @@ class Breadcrumbs extends AbstractHelper
                 }
                 else
                 {
-                    $breadcrumb .= "<li class='breadcrumb-item'><a style='color: black;' href='$url'>$item</a></li>";
+                    $breadcrumb .= "<li class='breadcrumb-item'><a href='$url'>$item</a></li>";
                 }
             }
 

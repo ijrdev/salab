@@ -1,0 +1,29 @@
+<?php
+
+if(isset($this->boxes) && !empty($this->boxes))
+{
+    ?>
+    <div class="row">
+        <?php
+        foreach($this->boxes as $box)
+        {
+        ?>
+        <div class="col-lg-3 col-6">
+            <div class="small-box" style="background-color: <?= $box['background'] ?>">
+                <div class="inner">
+                    <h3><?= $box['count'] ?></h3>
+
+                    <p><?= $box['text'] ?></p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-<?= $box['icon'] ?>"></i>
+                </div>
+                <a href="<?= $box['link'] ?>" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <?php
+        }
+        ?>
+    </div>
+<?php
+}

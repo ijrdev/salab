@@ -32,8 +32,8 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                     <thead>
                         <tr>
                             <th class="text-right" style="width: 10px;">Código</th>
-                            <th class="text-center">Cadastro</th>
-                            <th class="text-center">Última Alteração</th>
+                            <th class="text-center">Último Acesso</th>
+                            <th class="text-center">Nome</th>
                             <th class="text-center">Matrícula</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Grupo</th>
@@ -47,8 +47,8 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                         ?>
                             <tr>
                                 <td class="text-right align-middle"><?= $usuario['id_usuario'] ?></td>
-                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_cad'])) ?></td>
-                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_ult_alteracao'])) ?></td>
+                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_ult_acesso'])) ?></td>
+                                <td class="text-center align-middle"><?= $usuario['nome'] . ' ' . $usuario['sobrenome'] ?></td>
                                 <td class="text-center align-middle"><?= $usuario['matricula'] ?></td>
                                 <td class="text-center align-middle"><?= $usuario['email'] ?></td>
                                 <td class="text-center align-middle">
@@ -68,7 +68,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                                 ?>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="<?= $this->url('administrador', ['action' => 'editar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-info"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'editar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-primary"></i></a>
                                     <a href="<?= $this->url('administrador', ['action' => 'excluir-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-times text-danger"></i></a>
                                 </td>
                             </tr>

@@ -29,6 +29,8 @@ class AdministradorModel
             ->insert('tb_usuarios')
             ->values([
                 'matricula' => $post['matricula'],
+                'nome'      => $post['nome'],
+                'sobrenome' => $post['sobrenome'],
                 'email'     => $post['email'],
                 'senha'     => $newPassword,
                 'id_grupo'  => $post['grupo'],
@@ -50,6 +52,10 @@ class AdministradorModel
               ->OR
               ->like('matricula', '%' . strip_tags(trim($search)) . '%')
               ->OR
+              ->like('nome', '%' . strip_tags(trim($search)) . '%')
+              ->OR
+              ->like('sobrenome', '%' . strip_tags(trim($search)) . '%')
+              ->OR
               ->like('email', '%' . strip_tags(trim($search)) . '%');
         }
         
@@ -58,9 +64,12 @@ class AdministradorModel
             ->columns([
                 'id_usuario',
                 'matricula',
+                'nome',
+                'sobrenome',
                 'email',
                 'id_grupo',
                 'dthr_cad',
+                'dthr_ult_acesso',
                 'dthr_ult_alteracao'
             ])
             ->where($where);
@@ -74,6 +83,15 @@ class AdministradorModel
         return $paginator;
     }
     
+    public function getCountAllUsers()
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql->select('tb_usuarios');
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
     public function getUser($id_usuario)
     {
         $sql = new Sql($this->db);
@@ -83,9 +101,12 @@ class AdministradorModel
             ->columns([
                 'id_usuario',
                 'matricula',
+                'nome',
+                'sobrenome',
                 'email',
                 'id_grupo',
                 'dthr_cad',
+                'dthr_ult_acesso',
                 'dthr_ult_alteracao'
             ])
             ->where(['id_usuario' => $id_usuario]);
@@ -133,6 +154,8 @@ class AdministradorModel
         $update = $sql
             ->update('tb_usuarios')
             ->set([
+                'nome'               => $post['nome'],
+                'sobrenome'          => $post['sobrenome'],
                 'matricula'          => $post['matricula'],
                 'email'              => $post['email'],
                 'senha'              => $newPassword,

@@ -4,6 +4,7 @@ namespace Application\Model;
 
 use Application\Adapter\Db;
 use Application\Model\SessionModel;
+use Application\Model\AdministradorModel;
 use Laminas\Authentication\Adapter\AdapterInterface;
 use Laminas\Authentication\Result;
 use Laminas\Crypt\Password\Bcrypt;
@@ -13,13 +14,15 @@ class AuthAdapter implements AdapterInterface
 {
     private $db;
     private $sessionModel;
+    private $administradornModel;
     private $matricula;
     private $senha;
     
-    public function __construct(Db $db, SessionModel $sessionModel)
+    public function __construct(Db $db, SessionModel $sessionModel, AdministradorModel $administradornModel)
     {
-        $this->db           = $db->salab;
-        $this->sessionModel = $sessionModel;
+        $this->db                  = $db->salab;
+        $this->sessionModel        = $sessionModel;
+        $this->administradornModel = $administradornModel;
     }
     
     public function setMatricula($matricula)
@@ -41,7 +44,7 @@ class AuthAdapter implements AdapterInterface
         
         $select = $sql
             ->select(['u' => 'tb_usuarios'])
-            ->join(['g' => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
+            ->join(['g'   => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
             ->where(['u.matricula' => $matricula]);
         
         $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -53,6 +56,13 @@ class AuthAdapter implements AdapterInterface
 
             if($bcrypt->verify($senha, $securePass))
             {
+                $update = $sql
+                    ->update('tb_usuarios')
+                    ->set(['dthr_ult_acesso' => date('Y-m-d H:i:s')])
+                    ->where(['matricula'     => $matricula]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+                
                 $this->sessionModel->setUsuario($result);
 
                 return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Login realizado com sucesso!']);

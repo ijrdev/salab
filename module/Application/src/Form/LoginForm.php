@@ -54,7 +54,7 @@ class LoginForm extends Form
             'name'  => 'entrar',
             'attributes' => [                
                 'id'    => 'entrar',
-                'class' => 'btn btn-sm btn-info',
+                'class' => 'btn btn-sm btn-primary',
                 'value' => 'Entrar'
             ],
         ]);

@@ -24,7 +24,19 @@ class AdministradorController extends AbstractActionController
     
     public function indexAction()
     {
-        return new ViewModel();
+        return new ViewModel([
+            'usuarios'     => $this->administradorModel->getCountAllUsers(),
+            'laboratorios' => $this->laboratoristaModel->getCountAlLabors(),
+        ]);
+    }
+    
+    public function perfilAction()
+    {
+        
+
+        return new ViewModel([
+            
+        ]);
     }
     
     public function cadastrarUsuarioAction()

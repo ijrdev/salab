@@ -77,7 +77,7 @@ class CadastrarLaboratorioForm extends Form
             'name'  => 'salvar',
             'attributes' => [                
                 'id'    => 'salvar',
-                'class' => 'btn btn-sm btn-info',
+                'class' => 'btn btn-sm btn-primary',
                 'value' => 'Salvar'
             ],
         ]);

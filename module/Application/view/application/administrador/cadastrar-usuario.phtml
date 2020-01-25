@@ -13,6 +13,15 @@ $this->pageTitle()->setSubTitle('Realize o cadastro dos usuários do sistema.');
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
             <div class="row">
+                <div class="col-sm-8 offset-sm-2 col-md-8 col-lg-4">
+                    <?= $this->formRow($form->get('nome'), null, null, 'partials/form-elements'); ?>
+                </div>
+                <div class="col-sm-8 offset-sm-2 col-md-8 col-lg-4 offset-lg-0">
+                    <?= $this->formRow($form->get('sobrenome'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('matricula'), null, null, 'partials/form-elements'); ?>
                 </div>

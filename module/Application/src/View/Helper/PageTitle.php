@@ -30,13 +30,13 @@ class PageTitle extends AbstractHelper
         {
             return $pageTitle = 
                 "<div class='col-sm-6'>
-                    <h1 class='m-0 text-dark'> $this->title </h1> <small> $this->subTitle </small>
+                    <h3 class='m-0 text-dark'> $this->title </h3> <small> $this->subTitle </small>
                 </div>";
         }
         
         return $pageTitle = 
                 "<div class='col-sm-6'>
-                    <h1 class='m-0 text-dark'> $this->title </h1>
+                    <h3 class='m-0 text-dark'> $this->title </h3>
                 </div>";
     }
 }

@@ -63,6 +63,15 @@ class LaboratoristaModel
         return $paginator;
     }
     
+    public function getCountAlLabors()
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql->select('tb_laboratorios');
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
     public function getLabor($id_laboratorio)
     {
         $sql = new Sql($this->db);

@@ -4,7 +4,7 @@ $this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/ich
 $this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Usuário');
 
-$this->pageTitle()->setTitle("Editar Usuário - <i> Código: " . $this->usuario['id_usuario'] .  '</i>');
+$this->pageTitle()->setTitle("Editar Usuário");
 $this->pageTitle()->setSubTitle('Informações do usuário.');
 
 $this->breadcrumbs()->setItems([
@@ -19,6 +19,15 @@ $this->breadcrumbs()->setActiveItem('Editar Usuário');
     <div class="card col-sm-8 offset-sm-2">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2 col-md-8 col-lg-4">
+                    <?= $this->formRow($form->get('nome'), null, null, 'partials/form-elements'); ?>
+                </div>
+                <div class="col-sm-8 offset-sm-2 col-md-8 col-lg-4 offset-lg-0">
+                    <?= $this->formRow($form->get('sobrenome'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('matricula'), null, null, 'partials/form-elements'); ?>

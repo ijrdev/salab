@@ -25,6 +25,32 @@ class EditarUsuarioForm extends Form
     {
         $this->add([            
             'type'  => 'text',
+            'name'  => 'nome',
+            'attributes' => [
+                'id'          => 'nome',
+                'class'       => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Nome',
+                'icon'  => 'user'
+            ]
+        ]);
+        
+        $this->add([            
+            'type'  => 'text',
+            'name'  => 'sobrenome',
+            'attributes' => [
+                'id'          => 'sobrenome',
+                'class'       => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Sobrenome',
+                'icon'  => 'user'
+            ]
+        ]);
+        
+        $this->add([            
+            'type'  => 'text',
             'name'  => 'matricula',
             'attributes' => [
                 'id'       => 'matricula',
@@ -33,7 +59,7 @@ class EditarUsuarioForm extends Form
             ],
             'options' => [
                 'label' => 'Matrícula',
-                'icon'  => 'user'
+                'icon'  => 'address-card'
             ]
         ]);
         
@@ -99,7 +125,7 @@ class EditarUsuarioForm extends Form
             'name'  => 'salvar',
             'attributes' => [                
                 'id'    => 'salvar',
-                'class' => 'btn btn-sm btn-info',
+                'class' => 'btn btn-sm btn-primary',
                 'value' => 'Salvar'
             ],
         ]);
@@ -109,6 +135,42 @@ class EditarUsuarioForm extends Form
     {
         $inputFilter = new InputFilter();        
         $this->setInputFilter($inputFilter);
+        
+        $inputFilter->add([
+            'name'     => 'nome',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 3,
+                        'max' => 20
+                    ],
+                ],
+            ]
+        ]);
+                
+        $inputFilter->add([
+            'name'     => 'sobrenome',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 3,
+                        'max' => 20
+                    ],
+                ],
+            ]
+        ]);
                 
         $inputFilter->add([
             'name'     => 'matricula',

@@ -3,65 +3,41 @@ $this->menu()->setActiveItem('Início');
 
 $this->pageTitle()->setTitle('Painel Administrativo');
 $this->pageTitle()->setSubTitle('Informações referentes a administração do sistema.');
+
+echo $this->partial('partials/box-element', [
+    'boxes' => 
+    [
+        [
+            'background' => '#3d9970',
+            'count'      => 10,
+            'text'       => 'Reservas realizadas',
+            'icon'       => 'calendar',
+            'link'       => 'www'
+        ],
+        [
+            'background' => '#d49b00',
+            'count'      => 10,
+            'text'       => 'Alguma coisa',
+            'icon'       => 'user-plus',
+            'link'       => 'wwww'
+        ],
+        [
+            'background' => '#02a7d9',
+            'count'      => $this->usuarios,
+            'text'       => 'Usuários',
+            'icon'       => 'users',
+            'link'       => $this->url('administrador', ['action' => 'consultar-usuarios'])
+        ],
+        [
+            'background' => '#bdbdbd',
+            'count'      => $this->laboratorios,
+            'text'       => 'Laboratórios',
+            'icon'       => 'flask',
+            'link'       => $this->url('administrador', ['action' => 'consultar-laboratorios'])
+        ]
+    ]
+]);
 ?>
-
-<div class="row">
-    <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color: #3d9970">
-            <div class="inner">
-                <h3>150</h3>
-
-                <p>Reservas realizadas</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-calendar"></i>
-            </div>
-            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    
-    <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color: #d49b00">
-            <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                <p>Alguma coisa</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    
-    <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color: #02a7d9">
-            <div class="inner">
-                <h3>44</h3>
-
-                <p>Usuários Cadastrados</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-users"></i>
-            </div>
-            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <div class="small-box" style="background-color: #bdbdbd">
-            <div class="inner">
-                <h3>65</h3>
-
-                <p>Laboratórios</p>
-            </div>
-            <div class="icon">
-                <i class="fas fa-flask"></i>
-            </div>
-            <a href="#" class="small-box-footer">Mais informações <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-</div>
 
 <div class="row">
     <div class="col-lg-6">

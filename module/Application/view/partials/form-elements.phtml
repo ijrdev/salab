@@ -51,7 +51,7 @@ switch(strtolower($attr['type']))
             foreach($elem->getValueOptions() as $key => $value)
                 {
                     ?>
-                        <div class="icheck-info">
+                        <div class="icheck-primary">
                             <input type="radio" id="<?= $elemName . $key ?>" name="<?= $elemName ?>" value="<?php echo $key; ?>" class="<?= $attr['class'] ?>" <?php if($key == $values){ echo ' checked="checked"'; }?>>
                             <label style="font-weight: normal; font-size: 14px;" for="<?= $elemName . $key ?>"><?= $value ?></label>
                         </div>
