@@ -13,16 +13,18 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                 <h3 class="card-title"></h3>
 
                 <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 180px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                    <form action="<?= $this->url('administrador', ['action' => 'consultar-usuarios']) ?>" method="get">
+                        <div class="input-group input-group-sm" style="width: 180px;">
+                            <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
 
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            <div class="input-group-append">
+                                <a href="<?= $this->url('administrador', ['action' => 'consultar-usuarios']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                            </div>
                         </div>
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default"><i class="fas fa-times"></i></button>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -31,6 +33,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                         <tr>
                             <th class="text-right" style="width: 10px;">Código</th>
                             <th class="text-center">Cadastro</th>
+                            <th class="text-center">Última Alteração</th>
                             <th class="text-center">Matrícula</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Grupo</th>
@@ -45,6 +48,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                             <tr>
                                 <td class="text-right align-middle"><?= $usuario['id_usuario'] ?></td>
                                 <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_cad'])) ?></td>
+                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_ult_alteracao'])) ?></td>
                                 <td class="text-center align-middle"><?= $usuario['matricula'] ?></td>
                                 <td class="text-center align-middle"><?= $usuario['email'] ?></td>
                                 <td class="text-center align-middle">
@@ -64,8 +68,8 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                                 ?>
                                 </td>
                                 <td class="text-center align-middle">
-                                    <a href="#" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-info"></i></a>
-                                    <a href="#" class="btn btn-xs btn-default m-1"><i class="fas fa-times text-danger"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'editar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-info"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'excluir-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-times text-danger"></i></a>
                                 </td>
                             </tr>
                         <?php
@@ -79,6 +83,6 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
 </div>
 <div class="row">
     <div class="col-12">
-        <?php echo $this->paginationControl($this->usuarios, 'Sliding', 'partials/paginator', ['route' => 'consultar-usuarios']) ?>
+        <?php echo $this->paginationControl($this->usuarios, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'consultar-usuarios']]) ?>
     </div>
 </div>

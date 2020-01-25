@@ -4,15 +4,22 @@ namespace Application\Controller;
 
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
+use Application\Form\EditarLaboratorioForm;
+use Application\Form\EditarUsuarioForm;
+use Application\Model\AdministradorModel;
+use Application\Model\LaboratoristaModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
 class AdministradorController extends AbstractActionController
 {
-    private $salabModel;
+    private $administradorModel;
+    private $laboratoristaModel;
     
-    public function __construct(\Application\Model\SalabModel $salabModel) {
-        $this->salabModel = $salabModel;
+    public function __construct(AdministradorModel $administradorModel, LaboratoristaModel $laboratoristaModel)
+    {
+        $this->administradorModel = $administradorModel;
+        $this->laboratoristaModel = $laboratoristaModel;
     }
     
     public function indexAction()
@@ -22,7 +29,7 @@ class AdministradorController extends AbstractActionController
     
     public function cadastrarUsuarioAction()
     {
-        $form = new CadastrarUsuarioForm($this->salabModel);
+        $form = new CadastrarUsuarioForm($this->administradorModel);
         
         if($this->getRequest()->isPost()) 
         {
@@ -34,7 +41,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->salabModel->addUser($form->getData());
+                    $this->administradorModel->add($form->getData());
 
                     $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
@@ -56,7 +63,7 @@ class AdministradorController extends AbstractActionController
     
     public function cadastrarLaboratorioAction()
     {
-        $form = new CadastrarLaboratorioForm($this->salabModel);
+        $form = new CadastrarLaboratorioForm();
         
         if($this->getRequest()->isPost()) 
         {
@@ -68,7 +75,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->salabModel->addLab($form->getData());
+                    $this->laboratoristaModel->add($form->getData());
 
                     $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
@@ -95,7 +102,7 @@ class AdministradorController extends AbstractActionController
         
         try
         {
-            $usuarios = $this->salabModel->getAllUsers($page);
+            $usuarios = $this->administradorModel->getAllUsers($page, $search);
         } 
         catch(\Exception $ex)
         {
@@ -105,7 +112,8 @@ class AdministradorController extends AbstractActionController
         }
 
         return new ViewModel([
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'search'   => $search
         ]);
     }
     
@@ -116,7 +124,7 @@ class AdministradorController extends AbstractActionController
         
         try
         {
-            $laboratorios = $this->salabModel->getAllLabors($page);
+            $laboratorios = $this->laboratoristaModel->getAllLabors($page, $search);
         } 
         catch(\Exception $ex)
         {
@@ -126,7 +134,135 @@ class AdministradorController extends AbstractActionController
         }
 
         return new ViewModel([
-            'laboratorios' => $laboratorios
+            'laboratorios' => $laboratorios,
+            'search'       => $search
+        ]);
+    }
+    
+    public function editarUsuarioAction()
+    {
+        $id_usuario = (int) $this->params()->fromRoute('id', 0);
+        
+        if(!$id_usuario)
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $usuario = $this->administradorModel->getUser($id_usuario);
+        
+        if(!isset($usuario) || empty($usuario))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+  
+        $form = new EditarUsuarioForm($this->administradorModel);
+
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    $this->administradorModel->update($form->getData(), $id_usuario);
+
+                    $this->flashMessenger()->addSuccessMessage("Editar Usuário| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Editar Usuário| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
+            }
+        }
+        else
+        {
+            $usuario['grupo'] = $usuario['id_grupo'];
+            
+            $form->setData($usuario);
+        }
+        
+        return new ViewModel([
+            'form'    => $form,
+            'usuario' => $usuario
+        ]);
+    }
+    
+    public function editarLaboratorioAction()
+    {
+        $id_laboratorio = (int) $this->params()->fromRoute('id', 0);
+        
+        if(!$id_laboratorio)
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $laboratorio = $this->laboratoristaModel->getLabor($id_laboratorio);
+        
+        if(!isset($laboratorio) || empty($laboratorio))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+  
+        $form = new EditarLaboratorioForm();
+
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    $this->laboratoristaModel->update($form->getData(), $id_laboratorio);
+
+                    $this->flashMessenger()->addSuccessMessage("Editar Laboratório| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Editar Laboratório| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
+            }
+        }
+        else
+        {
+            $lab = explode(' ', $laboratorio['lab']);
+            $laboratorio['lab'] = $lab[1];
+            
+            $form->setData($laboratorio);
+        }
+
+        return new ViewModel([
+            'form'        => $form,
+            'laboratorio' => $laboratorio
         ]);
     }
 }

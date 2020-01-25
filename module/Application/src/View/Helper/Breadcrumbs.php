@@ -29,7 +29,7 @@ class Breadcrumbs extends AbstractHelper
         {
             $breadcrumb = 
                 "<div class='col-sm-6'>
-                    <ol class='breadcrumb float-sm-right'>";
+                    <ol class='breadcrumb float-sm-right' style='font-size: 14px;'>";
 
             foreach($this->items as $item => $url)
             {
@@ -39,7 +39,7 @@ class Breadcrumbs extends AbstractHelper
                 }
                 else
                 {
-                    $breadcrumb .= "<li class='breadcrumb-item'><a href='$url'>$item</a></li>";
+                    $breadcrumb .= "<li class='breadcrumb-item'><a style='color: black;' href='$url'>$item</a></li>";
                 }
             }
 

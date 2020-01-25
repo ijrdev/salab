@@ -20,16 +20,19 @@ use Application\Controller\Factory\LaboratoristaControllerFactory;
 use Application\Controller\Factory\ProfessorControllerFactory;
 use Application\Controller\LaboratoristaController;
 use Application\Controller\ProfessorController;
+use Application\Model\AdministradorModel;
 use Application\Model\AuthAdapter;
 use Application\Model\AuthModel;
+use Application\Model\Factory\AdministradorModelFactory;
 use Application\Model\Factory\AuthAdapterFactory;
 use Application\Model\Factory\AuthModelFactory;
 use Application\Model\Factory\AuthServiceFactory;
-use Application\Model\Factory\SalabModelFactory;
+use Application\Model\Factory\LaboratoristaModelFactory;
 use Application\Model\Factory\SessionModelFactory;
-use Application\Model\SalabModel;
+use Application\Model\LaboratoristaModel;
 use Application\Model\SessionModel;
 use Application\View\Helper\Breadcrumbs;
+use Application\View\Helper\Factory\MenuFactory;
 use Application\View\Helper\Menu;
 use Application\View\Helper\Messenger;
 use Application\View\Helper\PageTitle;
@@ -52,77 +55,39 @@ return [
                 ],
             ],
             'login' => [
-                'type'    => Segment::class,
+                'type'    => Literal::class,
                 'options' => [
-                    'route'    => '/login[/:action]',
+                    'route'    => '/login',
                     'defaults' => [
                         'controller' => AuthController::class,
                         'action'     => 'login',
                     ],
                 ],
             ],
-            
-            // ADM.
+            'logout' => [
+                'type'    => Literal::class,
+                'options' => [
+                    'route'    => '/logout',
+                    'defaults' => [
+                        'controller' => AuthController::class,
+                        'action'     => 'logout',
+                    ],
+                ],
+            ],
             'administrador' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/administrador[/:action]',
+                    'route'    => '/administrador[/:action][/:id]',
                     'defaults' => [
                         'controller' => AdministradorController::class,
                         'action'     => 'index',
                     ],
                 ],
             ],
-            
-            'cadastrar-usuario' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/cadastrar-usuario[/:action]',
-                    'defaults' => [
-                        'controller' => AdministradorController::class,
-                        'action'     => 'cadastrar-usuario',
-                    ],
-                ],
-            ],
-            
-            'cadastrar-laboratorio' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/cadastrar-laboratorio[/:action]',
-                    'defaults' => [
-                        'controller' => AdministradorController::class,
-                        'action'     => 'cadastrar-laboratorio',
-                    ],
-                ],
-            ],
-            
-            'consultar-usuarios' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/consultar-usuarios[/:action]',
-                    'defaults' => [
-                        'controller' => AdministradorController::class,
-                        'action'     => 'consultar-usuarios',
-                    ],
-                ],
-            ],
-            
-            'consultar-laboratorios' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/consultar-laboratorios[/:action]',
-                    'defaults' => [
-                        'controller' => AdministradorController::class,
-                        'action'     => 'consultar-laboratorios',
-                    ],
-                ],
-            ],
-            
-            // ----------------------------------------------------------------
             'professor' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/professor[/:action]',
+                    'route'    => '/professor[/:action][/:id]',
                     'defaults' => [
                         'controller' => ProfessorController::class,
                         'action'     => 'index',
@@ -132,7 +97,7 @@ return [
             'laboratorista' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/laboratorista[/:action]',
+                    'route'    => '/laboratorista[/:action][/:id]',
                     'defaults' => [
                         'controller' => LaboratoristaController::class,
                         'action'     => 'index',
@@ -157,7 +122,7 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            Menu::class        => InvokableFactory::class,
+            Menu::class        => MenuFactory::class,
             PageTitle::class   => InvokableFactory::class,
             Breadcrumbs::class => InvokableFactory::class,
             Messenger::class   => InvokableFactory::class,
@@ -172,7 +137,8 @@ return [
     'service_manager' => [
         'factories' => [
             Db::class                    => DbFactory::class,
-            SalabModel::class            => SalabModelFactory::class,
+            AdministradorModel::class    => AdministradorModelFactory::class,
+            LaboratoristaModel::class    => LaboratoristaModelFactory::class,
             AuthModel::class             => AuthModelFactory::class,
             AuthAdapter::class           => AuthAdapterFactory::class,
             SessionModel::class          => SessionModelFactory::class,

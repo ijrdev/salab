@@ -5,11 +5,11 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class CadastrarLaboratorioForm extends Form
+class EditarLaboratorioForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('cadastrar-laboratorio-form');
+        parent::__construct('editar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -65,7 +65,7 @@ class CadastrarLaboratorioForm extends Form
             'attributes' => [
                 'id'      => 'voltar',
                 'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador\''
+                'onclick' => 'window.location=\'/administrador/\consultar-laboratorios\''
             ],
             'options' => [
                 'label' => 'Voltar'

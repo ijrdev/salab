@@ -9,7 +9,7 @@ use Laminas\Db\Sql\Where;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Paginator;
 
-class SalabModel
+class AdministradorModel
 {
     private $db;
 
@@ -18,7 +18,7 @@ class SalabModel
        $this->db = $db->salab;
     }
     
-    public function addUser($post)
+    public function add($post)
     {
         $sql = new Sql($this->db);
         
@@ -38,27 +38,32 @@ class SalabModel
         $sql->prepareStatementForSqlObject($insert)->execute();
     }
     
-    public function addLab($post)
+    public function getAllUsers($page, $search)
     {
         $sql = new Sql($this->db);
         
-        $insert = $sql
-            ->insert('tb_laboratorios')
-            ->values([
-                'lab'       => 'LAB ' . $post['lab'],
-                'tipo'      => $post['tipo'],
-                'descricao' => $post['descricao'],
-                'dthr_cad'  => date('Y-m-d H:i:s')
-            ]);
+        $where = new Where();
         
-        $sql->prepareStatementForSqlObject($insert)->execute();
-    }
-    
-    public function getAllUsers($page)
-    {
-        $sql = new Sql($this->db);
+        if(isset($search) && !empty($search))
+        {
+            $where->equalTo('id_usuario', strip_tags(trim($search)))
+              ->OR
+              ->like('matricula', '%' . strip_tags(trim($search)) . '%')
+              ->OR
+              ->like('email', '%' . strip_tags(trim($search)) . '%');
+        }
         
-        $select = $sql->select('tb_usuarios');
+        $select = $sql
+            ->select('tb_usuarios')
+            ->columns([
+                'id_usuario',
+                'matricula',
+                'email',
+                'id_grupo',
+                'dthr_cad',
+                'dthr_ult_alteracao'
+            ])
+            ->where($where);
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);
@@ -69,19 +74,23 @@ class SalabModel
         return $paginator;
     }
     
-    public function getAllLabors($page)
+    public function getUser($id_usuario)
     {
         $sql = new Sql($this->db);
-        
-        $select = $sql->select('tb_laboratorios');
-        
-        $pag_adapter = new DbSelect($select, $sql);
-        $paginator   = new Paginator($pag_adapter);
 
-        $paginator->setDefaultItemCountPerPage(10);
-        $paginator->setCurrentPageNumber($page);
+        $select = $sql
+            ->select('tb_usuarios')
+            ->columns([
+                'id_usuario',
+                'matricula',
+                'email',
+                'id_grupo',
+                'dthr_cad',
+                'dthr_ult_alteracao'
+            ])
+            ->where(['id_usuario' => $id_usuario]);
         
-        return $paginator;
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
     public function getMatricula($matricula)
@@ -93,6 +102,7 @@ class SalabModel
         
         $select = $sql
             ->select('tb_usuarios')
+            ->columns(['matricula'])
             ->where($where);
         
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -107,9 +117,31 @@ class SalabModel
         
         $select = $sql
             ->select('tb_usuarios')
+            ->columns(['email'])
             ->where($where);
         
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    public function update($post, $id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $bcrypt      = new Bcrypt();
+        $newPassword = $bcrypt->create($post['nova-senha']); 
+
+        $update = $sql
+            ->update('tb_usuarios')
+            ->set([
+                'matricula'          => $post['matricula'],
+                'email'              => $post['email'],
+                'senha'              => $newPassword,
+                'id_grupo'           => $post['grupo'],
+                'dthr_ult_alteracao' => date('Y-m-d H:i:s')
+            ])
+            ->where(['id_usuario' => $id_usuario]);
+        
+        $sql->prepareStatementForSqlObject($update)->execute();
     }
 }
 

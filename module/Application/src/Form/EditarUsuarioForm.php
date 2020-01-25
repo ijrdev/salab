@@ -5,7 +5,7 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class CadastrarUsuarioForm extends Form
+class EditarUsuarioForm extends Form
 {
     private $administradorModel;
     
@@ -13,7 +13,7 @@ class CadastrarUsuarioForm extends Form
     {
         $this->administradorModel = $administradorModel;
         
-        parent::__construct('cadastrar-usuario-form');
+        parent::__construct('editar-usuario-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -27,8 +27,9 @@ class CadastrarUsuarioForm extends Form
             'type'  => 'text',
             'name'  => 'matricula',
             'attributes' => [
-                'id'          => 'matricula',
-                'class'       => 'form-control',
+                'id'       => 'matricula',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
             ],
             'options' => [
                 'label' => 'Matrícula',
@@ -57,8 +58,9 @@ class CadastrarUsuarioForm extends Form
             'type'  => 'text',
             'name'  => 'email',
             'attributes' => [
-                'id'    => 'email',
-                'class' => 'form-control',
+                'id'       => 'email',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
             ],
             'options' => [
                 'label' => 'Email',
@@ -68,13 +70,13 @@ class CadastrarUsuarioForm extends Form
         
         $this->add([            
             'type' => 'password',
-            'name' => 'senha',
+            'name' => 'nova-senha',
             'attributes' => [
-                'id'    => 'senha',
+                'id'    => 'nova-senha',
                 'class' => 'form-control',
             ],
             'options' => [
-                'label' => 'Senha',
+                'label' => 'Nova Senha',
                 'icon'  => 'lock'
             ]
         ]);
@@ -85,7 +87,7 @@ class CadastrarUsuarioForm extends Form
             'attributes' => [
                 'id'      => 'voltar',
                 'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador\''
+                'onclick' => 'window.location=\'/administrador/\consultar-usuarios\''
             ],
             'options' => [
                 'label' => 'Voltar'
@@ -110,7 +112,7 @@ class CadastrarUsuarioForm extends Form
                 
         $inputFilter->add([
             'name'     => 'matricula',
-            'required' => true,
+            'required' => false,
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
@@ -138,6 +140,11 @@ class CadastrarUsuarioForm extends Form
                                 
                                 if(!empty($result))
                                 {
+                                    if($result['matricula'] == $matricula)
+                                    {
+                                        return true;
+                                    }
+                                    
                                     return false;
                                 }
                                 
@@ -185,6 +192,11 @@ class CadastrarUsuarioForm extends Form
                                 
                                 if(!empty($result))
                                 {
+                                    if($result['email'] == $email)
+                                    {
+                                        return true;
+                                    }
+                                    
                                     return false;
                                 }
                                 
@@ -198,10 +210,14 @@ class CadastrarUsuarioForm extends Form
         $inputFilter->add([
             'name'     => 'grupo',
             'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
         ]);
         
         $inputFilter->add([
-            'name'     => 'senha',
+            'name'     => 'nova-senha',
             'required' => true,
             'filters'  => [
                 ['name' => 'StringTrim'],

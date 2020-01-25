@@ -4,7 +4,6 @@ namespace Application\Controller;
 
 use Application\Form\LoginForm;
 use Application\Model\AuthModel;
-use Application\Model\SalabModel;
 use Application\Model\SessionModel;
 use Laminas\Authentication\Result;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -14,28 +13,16 @@ class AuthController extends AbstractActionController
 {
     private $authModel;
     private $sessionModel;
-    private $salabModel;
     
-    public function __construct(AuthModel $authModel, SessionModel $sessionModel, SalabModel $salabModel)
+    public function __construct(AuthModel $authModel, SessionModel $sessionModel)
     {
         $this->authModel    = $authModel;
         $this->sessionModel = $sessionModel;
-        $this->salabModel = $salabModel;
     }
     
     public function loginAction()
     {
         $this->layout('layout/login');
-        
-//        $auth = new \Laminas\Authentication\AuthenticationService();
-//        $auth->clearIdentity();
-        
-//        $this->salabModel->addUser([
-//            'matricula' => 20191,
-//            'email' => 'adm@gmail.com',
-//            'senha' => 123456,
-//            'grupo' => 1
-//        ]);
         
         $form = new LoginForm();
         
@@ -83,7 +70,7 @@ class AuthController extends AbstractActionController
                 }
                 catch (\Exception $exc)
                 {
-//                    $this->flashMessenger()->addErrorMessage("Editar Chamado| Ocorreu um erro na edição do chamado.");
+                    $this->flashMessenger()->addErrorMessage("Acesso| Ocorreu um erro ao realizar o acesso.");
 
                     return $this->redirect()->toRoute('login');
                 }
@@ -93,5 +80,12 @@ class AuthController extends AbstractActionController
         return new ViewModel([
             'form' => $form
         ]);
+    }
+    
+    public function logoutAction()
+    {
+        $this->authModel->logout();
+        
+        return $this->redirect()->toRoute('login');
     }
 }

@@ -6,13 +6,57 @@ use Laminas\View\Helper\AbstractHelper;
 
 class Menu extends AbstractHelper
 {
+    private $authService;
+    private $authUser;
     private $items         = [];
     private $activeItem    = '';
     private $activeSubItem = '';
-
-    public function setItems($items) 
+    
+    public function __construct(\Laminas\Authentication\AuthenticationService $authService) 
     {
-        $this->items = $items;
+        $this->authService = $authService;
+    }
+
+    public function setUser()
+    {
+        $this->authUser = $this->authService->getIdentity()['id_grupo'];
+    }
+    
+    public function setItems() 
+    {
+        $this->setUser();
+        
+        if(isset($this->authUser) && !empty($this->authUser))
+        {
+            switch($this->authUser)
+            {
+                case 1:
+                    $this->items = [
+                        'Início'   => '/administrador',
+                        'Reserva'  => '/administrador',
+                        'Cadastrar' => [
+                            'Usuário'     => '/administrador/cadastrar-usuario',
+                            'Laboratório' => '/administrador/cadastrar-laboratorio'
+                        ],
+                        'Consultar' => [
+                            'Usuário'     => '/administrador/consultar-usuarios',
+                            'Laboratório' => '/administrador/consultar-laboratorios'
+                        ],
+                        'Sair' => '/logout',
+                    ];
+                    break;
+                case 2:
+                    $this->items = [
+            
+                    ];
+                    break;
+                case 3:
+                    $this->items = [
+            
+                    ];
+                    break;
+            }
+        }
     }
     
     public function setActiveItem($activeItem) 
@@ -27,6 +71,8 @@ class Menu extends AbstractHelper
     
     public function render()
     {
+        $this->setItems();
+        
         if(empty($this->items))
         {
             return '';

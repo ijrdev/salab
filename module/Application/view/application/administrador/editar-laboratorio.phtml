@@ -1,13 +1,20 @@
 <?php
-$this->menu()->setActiveItem('Cadastrar');
+$this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Laboratório');
 
-$this->pageTitle()->setTitle('Cadastrar Laboratório');
-$this->pageTitle()->setSubTitle('Realize o cadastro de laboratórios.');
+$this->pageTitle()->setTitle("Editar Laboratório - <i> Código: " . $this->laboratorio['id_laboratorio'] .  '</i>');
+$this->pageTitle()->setSubTitle('Informações do laboratório.');
+
+$this->breadcrumbs()->setItems([
+    'Consultar laboratórios' => $this->url('administrador', ['action' => 'consultar-laboratorios']),
+    'Editar Laboratório'     => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Editar Laboratório');
 ?>
 
 <div class="row">
-    <div class="card col-sm-6 offset-sm-3">
+    <div class="card col-sm-8 offset-sm-2">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
             <div class="row">

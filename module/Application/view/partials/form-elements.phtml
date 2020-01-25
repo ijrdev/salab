@@ -9,7 +9,7 @@ $label    = $elem->getLabel();
 $messages = $elem->getMessages();
 
 //echo "<pre>";
-//print_r($options);
+//print_r($values);
 //exit;
 
 switch(strtolower($attr['type']))
@@ -28,7 +28,7 @@ switch(strtolower($attr['type']))
                         . $options['icon-side'] . 
                     "</div>
                 </div>" : '' ?>
-                <input type="<?= $attr['type'] ?>" placeholder="<?= isset($attr['placeholder']) ? $attr['placeholder'] : '' ?>" name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
+                <input type="<?= $attr['type'] ?>" placeholder="<?= isset($attr['placeholder']) ? $attr['placeholder'] : '' ?>" name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>" value="<?= isset($values) && !empty($values) ? $values : '' ?>"  <?= isset($attr['readonly']) && !empty($attr['readonly']) ? ' readonly="readonly"' : '' ?>">
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <span class="fas fa-<?= $options['icon'] ?>"></span>
@@ -51,8 +51,8 @@ switch(strtolower($attr['type']))
             foreach($elem->getValueOptions() as $key => $value)
                 {
                     ?>
-                        <div class="icheck-primary">
-                            <input type="radio" id="<?= $elemName . $key ?>" name="<?= $elemName ?>" value="<?php echo $key; ?>" class="<?= $attr['class'] ?>">
+                        <div class="icheck-info">
+                            <input type="radio" id="<?= $elemName . $key ?>" name="<?= $elemName ?>" value="<?php echo $key; ?>" class="<?= $attr['class'] ?>" <?php if($key == $values){ echo ' checked="checked"'; }?>>
                             <label style="font-weight: normal; font-size: 14px;" for="<?= $elemName . $key ?>"><?= $value ?></label>
                         </div>
                     <?php

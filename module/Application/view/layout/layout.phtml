@@ -45,20 +45,6 @@
                     </button>
 
                     <div class="collapse navbar-collapse order-3 justify-content-end" id="navbarCollapse">
-                        <?= $this->menu()->setItems([
-                            'Início'  => $this->url('administrador'),
-                            'Reserva' => $this->url('administrador'),
-                            'Cadastro' => [
-                                'Usuário'     => $this->url('cadastrar-usuario'),
-                                'Laboratório' => $this->url('cadastrar-laboratorio')
-                            ],
-                            'Consultar' => [
-                                'Usuário'     => $this->url('consultar-usuarios'),
-                                'Laboratório' => $this->url('consultar-laboratorios')
-                            ],
-                            'Quadro de aviso' => $this->url('administrador'),
-                            'Sair'            => $this->url('administrador'),
-                        ]); ?>
                         <?= $this->menu()->render(); ?>
                     </div>
                 </div>
