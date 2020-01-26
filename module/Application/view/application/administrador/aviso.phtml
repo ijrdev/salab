@@ -1,9 +1,10 @@
 <?php
-$this->menu()->setActiveItem('Cadastrar');
-$this->menu()->setActiveSubItem('Laboratório');
+$this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css?version=' . rand(1, 10000)));
 
-$this->pageTitle()->setTitle('Cadastrar Laboratório');
-$this->pageTitle()->setSubTitle('Realize o cadastro de laboratórios.');
+$this->menu()->setActiveItem('Aviso');
+
+$this->pageTitle()->setTitle('Aviso');
+$this->pageTitle()->setSubTitle('Deixa algum aviso para os usuários do sistema.');
 
 $form->prepare();
 ?>
@@ -12,28 +13,23 @@ $form->prepare();
     <div class="card card-primary card-outline col-sm-8 offset-sm-2">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
+            
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
-                    <?= $this->formRow($form->get('lab'), null, null, 'partials/form-elements'); ?>
+                    <?= $this->formRow($form->get('mensagem'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
-                    <?= $this->formRow($form->get('tipo'), null, null, 'partials/form-elements'); ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-8 offset-sm-2">
-                    <?= $this->formRow($form->get('descricao'), null, null, 'partials/form-elements'); ?>
+                    <?= $this->formRow($form->get('anexo'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-sm-8 offset-2 text-right">
                     <?= $this->formElement($form->get('voltar')); ?>
-                    <?= $this->formElement($form->get('salvar')); ?>
+                    <?= $this->formElement($form->get('enviar')); ?>
                 </div>
             </div>
             <?= $this->form()->closeTag(); ?>

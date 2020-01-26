@@ -37,6 +37,21 @@ switch(strtolower($attr['type']))
             </div>
             <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
         </div>
+
+        <?php
+        
+        break;
+    
+    case 'textarea':
+        
+        ?>
+
+        <div class="form-group">
+            <?= isset($label) && !empty($label) ? "<label style=\"font-size: 14px;\" for=\"" . $attr['id'] . "\">" . $label . "</label>": "" ?>
+            <textarea form="<?= $attr['form'] ?>" maxlength="<?= $attr['maxlength'] ?>" rows="<?= isset($options['rows']) ? $options['rows'] : 5 ?>" cols="<?= isset($options['cols']) ? $options['cols'] : 50 ?>" placeholder="<?= isset($attr['placeholder']) ? $attr['placeholder'] : '' ?>" name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>"> </textarea>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+        
         <?php
         
         break;
@@ -74,6 +89,40 @@ switch(strtolower($attr['type']))
                 <input type="hidden" name="<?= $attr['name'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>" value="<?= isset($values) && !empty($values) ? $values : '' ?>" <?= isset($attr['readonly']) && !empty($attr['readonly']) ? ' readonly="readonly"' : '' ?>>
             </div>
         </div>
+
+        <?php
+        
+        break;
+    
+    case 'file':
+
+        ?>
+
+        <div class="form-group">
+            <?= isset($label) && !empty($label) ? "<label style=\"font-size: 14px;\" for=\"" . $attr['id'] . "\">" . $label . "</label>": "" ?>
+            <div class="custom-file">
+                <input type="file" multiple="<?= $attr['multiple'] ?>" name="<?= $attr['name'] . '[]' ?>" id="<?= 'target-file-'.$attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
+                <label id="file-label" class="custom-file-label" for="<?= $attr['id'] ?>">Escolha o arquivo</label>
+            </div>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+
+        <?php
+        
+        $this->inlineScript()->captureStart();
+        echo <<<JS
+        $(document).ready(function() 
+        {
+            $("input[type='file']").on("change", function()
+            {  
+                var numFiles = $(this).get(0).files.length;
+                $("#file-label").text(numFiles + ' arquivos selecionados.');
+            });
+        });
+JS;
+        $this->inlineScript()->captureEnd();
+        
+        ?>
 
         <?php
         

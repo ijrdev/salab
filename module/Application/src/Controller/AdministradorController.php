@@ -2,6 +2,7 @@
 
 namespace Application\Controller;
 
+use Application\Form\AvisoForm;
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
 use Application\Form\EditarLaboratorioForm;
@@ -33,60 +34,6 @@ class AdministradorController extends AbstractActionController
         return new ViewModel([
             'usuarios'     => $this->administradorModel->getCountAllUsers(),
             'laboratorios' => $this->laboratoristaModel->getCountAlLabors(),
-        ]);
-    }
-    
-    public function perfilAction()
-    {
-        $usuario = $this->authService->getIdentity();
-        
-        if(!isset($usuario) || empty($usuario))
-        {
-            $this->getResponse()->setStatusCode(404);
-            
-            return;
-        }
-  
-        $form = new PerfilForm($this->administradorModel);
-
-        if($this->getRequest()->isPost()) 
-        {
-            $post = $this->params()->fromPost();
-
-            $form->setData($post);
-
-            if($form->isValid()) 
-            {
-                try 
-                {
-                    $this->administradorModel->updatePerfil($form->getData(), $usuario['id_usuario']);
-
-                    $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
-
-                    return $this->redirect()->toRoute('administrador', ['action' => 'perfil']);
-                }
-                catch (\Exception $exc)
-                {
-                    $this->flashMessenger()->addErrorMessage('Perfil| Ocorreu um problema ao realizar a operação.');
-
-                    return $this->redirect()->toRoute('administrador', ['action' => 'perfil']);
-                }
-            }
-            else
-            {
-                $form->setData($post);
-            }
-        }
-        else
-        {
-            $usuario['grupo'] = $usuario['id_grupo'];
-            
-            $form->setData($usuario);
-        }
-        
-        return new ViewModel([
-            'usuario' => $usuario,
-            'form'    => $form
         ]);
     }
     
@@ -442,6 +389,103 @@ class AdministradorController extends AbstractActionController
         return new ViewModel([
             'form'        => $form,
             'laboratorio' => $laboratorio
+        ]);
+    }
+    
+    public function perfilAction()
+    {
+        $usuario = $this->authService->getIdentity();
+        
+        if(!isset($usuario) || empty($usuario))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+  
+        $form = new PerfilForm($this->administradorModel);
+
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    $this->administradorModel->updatePerfil($form->getData(), $usuario['id_usuario']);
+
+                    $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'perfil']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Perfil| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('administrador', ['action' => 'perfil']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
+            }
+        }
+        else
+        {
+            $usuario['grupo'] = $usuario['id_grupo'];
+            
+            $form->setData($usuario);
+        }
+        
+        return new ViewModel([
+            'usuario' => $usuario,
+            'form'    => $form
+        ]);
+    }
+    
+    public function avisoAction()
+    {
+        $form = new AvisoForm();
+
+        $request = $this->getRequest();
+        
+        if($request->isPost()) 
+        {
+            $values = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+
+            $form->setData($values);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    $this->administradorModel->aviso($form->getData(), $this->authService->getIdentity()['id_usuario']);
+
+                    $this->flashMessenger()->addSuccessMessage("Aviso| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('administrador');
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Aviso| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('administrador');
+                }
+            }
+            else
+            {
+                $form->setData($values);
+            }
+        }
+        
+        return new ViewModel([
+            'form' => $form
         ]);
     }
 }

@@ -31,7 +31,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                 <table class="table table-sm">
                     <thead>
                         <tr>
-                            <th class="text-right" style="width: 10px;">Código</th>
+                            <th class="text-center" style="width: 10px;">Código</th>
                             <th class="text-center">Último Acesso</th>
                             <th class="text-center">Nome</th>
                             <th class="text-center">Matrícula</th>
@@ -46,7 +46,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                             {
                         ?>
                             <tr>
-                                <td class="text-right align-middle"><?= $usuario['id_usuario'] ?></td>
+                                <td class="text-center align-middle"><?= $usuario['id_usuario'] ?></td>
                                 <td class="text-center align-middle"><?= date('d-m-Y', strtotime($usuario['dthr_ult_acesso'])) ?></td>
                                 <td class="text-center align-middle"><?= $usuario['nome'] . ' ' . $usuario['sobrenome'] ?></td>
                                 <td class="text-center align-middle"><?= $usuario['matricula'] ?></td>

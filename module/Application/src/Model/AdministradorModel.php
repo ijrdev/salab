@@ -49,15 +49,15 @@ class AdministradorModel
         
         if(isset($search) && !empty($search))
         {
-            $where->equalTo('id_usuario', strip_tags(trim($search)))
-              ->OR
-              ->like('matricula', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('nome', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('sobrenome', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('email', '%' . strip_tags(trim($search)) . '%');
+            $where->like('id_usuario', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('matricula', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('nome', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('sobrenome', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('email', '%' . strip_tags(trim($search)) . '%');
         }
         
         $select = $sql
@@ -198,6 +198,55 @@ class AdministradorModel
             ->where(['id_usuario' => $post['id_usuario']]);
         
         $sql->prepareStatementForSqlObject($delete)->execute();
+    }
+    
+    public function aviso($post, $id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $insertAviso = $sql
+            ->insert('tb_avisos')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'mensagem'   => $post['mensagem'],
+                'dthr_aviso' => date('Y-m-d H:i:s'),
+            ]);
+
+        $id_aviso = $sql->prepareStatementForSqlObject($insertAviso)->execute()->getGeneratedValue();
+        
+        if(isset($post['anexo']) && !empty($post['anexo']))
+        {
+            foreach($post['anexo'] as $anexo)
+            {
+                if(isset($anexo['error']) && $anexo['error'] == 0)
+                {
+                    $fileName = $anexo['name'];
+                    $tmpName  = $anexo['tmp_name'];
+                    $fileSize = $anexo['size'];
+                    $fileType = $anexo['type'];
+                    $ext      = pathinfo($fileName, PATHINFO_EXTENSION);
+                    
+                    $insertAnexo = $sql->insert('tb_anexos')->values([
+                        'id_usuario' => $id_usuario,
+                        'nome'       => $fileName,
+                        'extensao'   => $ext,
+                        'tipo'       => $fileType,
+                        'tamanho'    => $fileSize,
+                        'arquivo'    => file_get_contents($tmpName),
+                        'dthr_cad'   => date('Y-m-d H:i:s')
+                    ]);
+
+                    $id_anexo = $sql->prepareStatementForSqlObject($insertAnexo)->execute()->getGeneratedValue();
+                    
+                    $insertAvisoAnexo = $sql->insert('tb_avisos_anexos')->values([
+                        'id_aviso' => $id_aviso,
+                        'id_anexo' => $id_anexo,
+                    ]);
+
+                    $sql->prepareStatementForSqlObject($insertAvisoAnexo)->execute();
+                }
+            }
+        }
     }
 }
 

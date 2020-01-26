@@ -23,9 +23,8 @@
         <?php echo "\n"; ?>
 
         <!-- Scripts -->
-        <?= $this->inlineScript()
+        <?= $this->headScript()
             ->prependFile($this->basePath('AdminLTE-3.0.1/dist/js/adminlte.js'))
-            ->prependFile($this->basePath('js/geral.js'))
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/bootstrap/js/bootstrap.bundle.min.js'))
             ->prependFile($this->basePath('AdminLTE-3.0.1/plugins/jquery/jquery.min.js'));
         ?>
@@ -68,7 +67,7 @@
             </div>
 
             <footer class="main-footer text-center p-0" style="font-size: 14px;">
-                <strong>Copyright &copy; 2020 - <?= date('Y') ?> <i>SALAB</i>.</strong> All rights reserved.
+                <strong>Copyright &copy; 2020 - <?= date('Y') ?> <i>SALAB</i>.</strong> Todos os direitos reservados.
             </footer>
         </div>
         <?php

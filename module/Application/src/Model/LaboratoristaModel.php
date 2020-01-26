@@ -41,7 +41,7 @@ class LaboratoristaModel
         
         if(isset($search) && !empty($search))
         {
-            $where->equalTo('id_laboratorio', strip_tags(trim($search)))
+            $where->like('id_laboratorio', '%' . strip_tags(trim($search)) . '%')
               ->OR
               ->like('lab', '%' . strip_tags(trim($search)) . '%')
               ->OR
