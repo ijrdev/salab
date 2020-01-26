@@ -11,10 +11,12 @@ $this->breadcrumbs()->setItems([
 ]);
 
 $this->breadcrumbs()->setActiveItem('Editar Laboratório');
+
+$form->prepare();
 ?>
 
 <div class="row">
-    <div class="card col-sm-8 offset-sm-2">
+    <div class="card card-primary card-outline col-sm-8 offset-sm-2">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
             <div class="row">

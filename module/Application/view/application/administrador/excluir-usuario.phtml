@@ -1,0 +1,39 @@
+<?php
+$this->menu()->setActiveItem('Consultar');
+$this->menu()->setActiveSubItem('Usuário');
+
+$this->pageTitle()->setTitle("Excluir Usuário");
+$this->pageTitle()->setSubTitle('Excluir o usuário do sistema.');
+
+$this->breadcrumbs()->setItems([
+    'Consultar Usuários' => $this->url('administrador', ['action' => 'consultar-usuarios']),
+    'Excluir Usuário'    => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Excluir Usuário');
+
+$form->prepare();
+?>
+
+<div class="row">
+    <div class="card card-danger card-outline col-12">
+        <div class="card-body">
+            <div class="col-12">
+                <h5><i class="fas fa-times text-danger"></i>  Você está prestes a realizar a exclusão de um usuário, tem certeza?</h5>
+
+                <div>
+                    <strong>Matrícula: </strong> <i> <?= $this->usuario['matricula'] ?> </i> <br>
+                    <strong>Usuário: </strong> <i> <?= $this->usuario['nome'] . ' ' . $this->usuario['sobrenome'] ?> </i>
+                </div>
+            </div>
+            <?= $this->form()->openTag($form); ?>
+                <?= $this->formRow($form->get('id_usuario'), null, null, 'partials/form-elements'); ?>
+                
+                <div class="col-12 text-right">
+                    <?= $this->formElement($form->get('voltar')); ?>
+                    <?= $this->formElement($form->get('excluir')); ?>
+                </div>
+            <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>

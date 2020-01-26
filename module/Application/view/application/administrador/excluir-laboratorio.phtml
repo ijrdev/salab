@@ -1,0 +1,40 @@
+<?php
+$this->menu()->setActiveItem('Consultar');
+$this->menu()->setActiveSubItem('Laboratório');
+
+$this->pageTitle()->setTitle("Excluir Laboratório");
+$this->pageTitle()->setSubTitle('Excluir laboratório cadastrado.');
+
+$this->breadcrumbs()->setItems([
+    'Consultar Laboratórios' => $this->url('administrador', ['action' => 'consultar-laboratorios']),
+    'Excluir Laboratório'    => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Excluir Laboratório');
+
+$form->prepare();
+?>
+
+<div class="row">
+    <div class="card card-danger card-outline col-12">
+        <div class="card-body">
+            <div class="col-12">
+                <h5><i class="fas fa-times text-danger"></i>  Você está prestes a realizar a exclusão do laboratório, tem certeza?</h5>
+
+                <div>
+                    <strong>Laboratório: </strong> <i> <?= $this->laboratorio['lab'] ?> </i> <br>
+                    <strong>Tipo: </strong> <i> <?= $this->laboratorio['tipo'] ?> </i> <br>
+                    <strong>Descrição: </strong> <i> <?= $this->laboratorio['descricao'] ?> </i>
+                </div>
+            </div>
+            <?= $this->form()->openTag($form); ?>
+                <?= $this->formRow($form->get('id_laboratorio'), null, null, 'partials/form-elements'); ?>
+                
+                <div class="col-12 text-right">
+                    <?= $this->formElement($form->get('voltar')); ?>
+                    <?= $this->formElement($form->get('excluir')); ?>
+                </div>
+            <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>

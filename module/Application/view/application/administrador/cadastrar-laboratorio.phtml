@@ -4,10 +4,12 @@ $this->menu()->setActiveSubItem('Laboratório');
 
 $this->pageTitle()->setTitle('Cadastrar Laboratório');
 $this->pageTitle()->setSubTitle('Realize o cadastro de laboratórios.');
+
+$form->prepare();
 ?>
 
 <div class="row">
-    <div class="card col-sm-6 offset-sm-3">
+    <div class="card card-primary card-outline col-sm-6 offset-sm-3">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
             <div class="row">

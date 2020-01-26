@@ -40,11 +40,12 @@ class AdministradorModel
         $sql->prepareStatementForSqlObject($insert)->execute();
     }
     
-    public function getAllUsers($page, $search)
+    public function getAllUsers($page, $search, $id_usuario)
     {
         $sql = new Sql($this->db);
         
         $where = new Where();
+        $where->notEqualTo('id_usuario', $id_usuario);
         
         if(isset($search) && !empty($search))
         {
@@ -156,8 +157,6 @@ class AdministradorModel
             ->set([
                 'nome'               => $post['nome'],
                 'sobrenome'          => $post['sobrenome'],
-                'matricula'          => $post['matricula'],
-                'email'              => $post['email'],
                 'senha'              => $newPassword,
                 'id_grupo'           => $post['grupo'],
                 'dthr_ult_alteracao' => date('Y-m-d H:i:s')
@@ -165,6 +164,40 @@ class AdministradorModel
             ->where(['id_usuario' => $id_usuario]);
         
         $sql->prepareStatementForSqlObject($update)->execute();
+    }
+    
+    public function updatePerfil($post, $id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $bcrypt      = new Bcrypt();
+        $newPassword = $bcrypt->create($post['nova-senha']); 
+
+        $update = $sql
+            ->update('tb_usuarios')
+            ->set([
+                'nome'               => $post['nome'],
+                'sobrenome'          => $post['sobrenome'],
+                'senha'              => $newPassword,
+                'id_grupo'           => $post['grupo'],
+                'dthr_ult_alteracao' => date('Y-m-d H:i:s')
+            ])
+            ->where(['id_usuario' => $id_usuario]);
+        
+        $sql->prepareStatementForSqlObject($update)->execute();
+    }
+    
+    public function delete($post)
+    {
+        $sql = new Sql($this->db);
+        
+        $result = $this->getUser($post['id_usuario']);
+
+        $delete = $sql
+            ->delete('tb_usuarios')
+            ->where(['id_usuario' => $post['id_usuario']]);
+        
+        $sql->prepareStatementForSqlObject($delete)->execute();
     }
 }
 

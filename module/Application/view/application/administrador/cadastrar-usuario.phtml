@@ -6,10 +6,12 @@ $this->menu()->setActiveSubItem('Usuário');
 
 $this->pageTitle()->setTitle('Cadastrar Usuário');
 $this->pageTitle()->setSubTitle('Realize o cadastro dos usuários do sistema.');
+
+$form->prepare();
 ?>
 
 <div class="row">
-    <div class="card col-sm-6 offset-sm-3">
+    <div class="card card-primary card-outline col-sm-6 offset-sm-3">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
             <div class="row">

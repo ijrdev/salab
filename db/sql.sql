@@ -12,11 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- Copiando estrutura do banco de dados para salab3
-CREATE DATABASE IF NOT EXISTS `salab3` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `salab3`;
+-- Copiando estrutura do banco de dados para salab4
+CREATE DATABASE IF NOT EXISTS `salab4` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `salab4`;
 
--- Copiando estrutura para tabela salab3.tb_grupos
+-- Copiando estrutura para tabela salab4.tb_grupos
 CREATE TABLE IF NOT EXISTS `tb_grupos` (
   `id_grupo` int(11) NOT NULL AUTO_INCREMENT,
   `grupo` varchar(50) DEFAULT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `tb_grupos` (
   KEY `id_grupo` (`id_grupo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela salab3.tb_grupos: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela salab4.tb_grupos: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tb_grupos` DISABLE KEYS */;
 INSERT INTO `tb_grupos` (`id_grupo`, `grupo`) VALUES
 	(1, 'Application\\Controller\\AdministradorController'),
@@ -33,7 +33,7 @@ INSERT INTO `tb_grupos` (`id_grupo`, `grupo`) VALUES
 	(3, 'Application\\Controller\\ProfessorController');
 /*!40000 ALTER TABLE `tb_grupos` ENABLE KEYS */;
 
--- Copiando estrutura para tabela salab3.tb_laboratorios
+-- Copiando estrutura para tabela salab4.tb_laboratorios
 CREATE TABLE IF NOT EXISTS `tb_laboratorios` (
   `id_laboratorio` int(11) NOT NULL AUTO_INCREMENT,
   `lab` varchar(100) DEFAULT NULL,
@@ -45,21 +45,22 @@ CREATE TABLE IF NOT EXISTS `tb_laboratorios` (
   KEY `id_laboratorio` (`id_laboratorio`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela salab3.tb_laboratorios: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela salab4.tb_laboratorios: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tb_laboratorios` DISABLE KEYS */;
 INSERT INTO `tb_laboratorios` (`id_laboratorio`, `lab`, `tipo`, `descricao`, `dthr_cad`, `dthr_ult_alteracao`) VALUES
-	(1, 'LAB 11', 'ANÁLISES E MEDIDAS (LAMP)', '1° Andar (Lob/Lamp)', NULL, NULL),
-	(2, 'LAB 16', 'ANÁLISES CLÍNICAS', '1° Andar', NULL, NULL),
-	(3, 'LAB 05', 'ANATOMIA SINTÉTICA', 'Térreo (Anatomia 3)', NULL, NULL);
+	(2, 'LAB 16', 'ANÁLISES CLÍNICAS', '1° Andar', NULL, NULL);
 /*!40000 ALTER TABLE `tb_laboratorios` ENABLE KEYS */;
 
--- Copiando estrutura para tabela salab3.tb_usuarios
+-- Copiando estrutura para tabela salab4.tb_usuarios
 CREATE TABLE IF NOT EXISTS `tb_usuarios` (
   `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT,
   `matricula` bigint(20) DEFAULT NULL,
+  `nome` varchar(50) DEFAULT NULL,
+  `sobrenome` varchar(50) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `senha` mediumtext,
   `dthr_cad` datetime DEFAULT NULL,
+  `dthr_ult_acesso` varchar(50) DEFAULT NULL,
   `dthr_ult_alteracao` datetime DEFAULT NULL,
   `id_grupo` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
@@ -68,14 +69,13 @@ CREATE TABLE IF NOT EXISTS `tb_usuarios` (
   KEY `FK_tb_usuarioss_tb_gruposs` (`id_grupo`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `FK_tb_usuarioss_tb_gruposs` FOREIGN KEY (`id_grupo`) REFERENCES `tb_grupos` (`id_grupo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela salab3.tb_usuarios: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela salab4.tb_usuarios: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `tb_usuarios` DISABLE KEYS */;
-INSERT INTO `tb_usuarios` (`id_usuario`, `matricula`, `email`, `senha`, `dthr_cad`, `dthr_ult_alteracao`, `id_grupo`) VALUES
-	(3, 20191, 'adm@gmail.com', '$2y$10$xKhneSRWzwOB1.pxV4t.yura1C.De2X/XMAAnTz2lvgHXj.ko.12a', NULL, NULL, 1),
-	(5, 20195, 'a@gmail.com', '$2y$10$4AkZ66Ut6GM3TCwdSJytheGj17tWgtA5PrVT0ncaz2bdvPBl3N76W', NULL, '2020-01-25 07:40:34', 3),
-	(7, 20192, 'labor@gmail.com', '$2y$10$GnuRhttt/QQToY9WEn6yI.ybp38v8b9V6gm554NNjVKvzs4jPbekO', '2020-01-25 03:57:22', NULL, 2);
+INSERT INTO `tb_usuarios` (`id_usuario`, `matricula`, `nome`, `sobrenome`, `email`, `senha`, `dthr_cad`, `dthr_ult_acesso`, `dthr_ult_alteracao`, `id_grupo`) VALUES
+	(3, 20191, 'João', 'Kaio', 'adm@gmail.com', '$2y$10$J5mWj5IkZUewWAfPaY50Ced3khLqu7EWe3SgzTysvEfxbtZA0INdK', '2020-01-25 23:24:39', '2020-01-26 02:24:51', '2020-01-26 00:28:22', 1),
+	(8, 20359, 'usu', 'teste', 'asdas@gmail.com', '$2y$10$myCbDCw4yNYAYRvTOfm32Oo/3secGqChSUDd3ugaBPx3gWMvW3s9i', '2020-01-26 01:35:54', NULL, NULL, 2);
 /*!40000 ALTER TABLE `tb_usuarios` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

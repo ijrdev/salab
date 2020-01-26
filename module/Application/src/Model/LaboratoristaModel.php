@@ -98,4 +98,15 @@ class LaboratoristaModel
         
         $sql->prepareStatementForSqlObject($update)->execute();
     }
+    
+    public function delete($post)
+    {
+        $sql = new Sql($this->db);
+
+        $delete = $sql
+            ->delete('tb_laboratorios')
+            ->where(['id_laboratorio' => $post['id_laboratorio']]);
+        
+        $sql->prepareStatementForSqlObject($delete)->execute();
+    }
 }
