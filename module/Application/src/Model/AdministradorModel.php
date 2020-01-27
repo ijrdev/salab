@@ -170,29 +170,44 @@ class AdministradorModel
     {
         $sql = new Sql($this->db);
         
-        $bcrypt      = new Bcrypt();
-        $newPassword = $bcrypt->create($post['nova-senha']); 
+        if(isset($post['nova-senha']) && !empty($post['nova-senha']))
+        {
+            $bcrypt      = new Bcrypt();
+            $newPassword = $bcrypt->create($post['nova-senha']); 
 
-        $update = $sql
-            ->update('tb_usuarios')
-            ->set([
-                'nome'               => $post['nome'],
-                'sobrenome'          => $post['sobrenome'],
-                'senha'              => $newPassword,
-                'id_grupo'           => $post['grupo'],
-                'dthr_ult_alteracao' => date('Y-m-d H:i:s')
-            ])
-            ->where(['id_usuario' => $id_usuario]);
-        
-        $sql->prepareStatementForSqlObject($update)->execute();
+            $update = $sql
+                ->update('tb_usuarios')
+                ->set([
+                    'nome'               => $post['nome'],
+                    'sobrenome'          => $post['sobrenome'],
+                    'senha'              => $newPassword,
+                    'id_grupo'           => $post['grupo'],
+                    'dthr_ult_alteracao' => date('Y-m-d H:i:s')
+                ])
+                ->where(['id_usuario' => $id_usuario]);
+
+            $sql->prepareStatementForSqlObject($update)->execute();
+        }
+        else
+        {
+            $update = $sql
+                ->update('tb_usuarios')
+                ->set([
+                    'nome'               => $post['nome'],
+                    'sobrenome'          => $post['sobrenome'],
+                    'id_grupo'           => $post['grupo'],
+                    'dthr_ult_alteracao' => date('Y-m-d H:i:s')
+                ])
+                ->where(['id_usuario' => $id_usuario]);
+
+            $sql->prepareStatementForSqlObject($update)->execute();
+        }
     }
     
     public function delete($post)
     {
         $sql = new Sql($this->db);
         
-        $result = $this->getUser($post['id_usuario']);
-
         $delete = $sql
             ->delete('tb_usuarios')
             ->where(['id_usuario' => $post['id_usuario']]);
@@ -247,6 +262,19 @@ class AdministradorModel
                 }
             }
         }
+    }
+    
+    public function getAllAvisos()
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql
+            ->select(['a' => 'tb_avisos'])
+            ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome',' email'], 'LEFT')
+            ->order('a.id_aviso DESC')
+            ->limit(10);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute();
     }
 }
 

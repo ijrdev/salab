@@ -111,7 +111,7 @@ class PerfilForm extends Form
             'attributes' => [
                 'id'      => 'voltar',
                 'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador/\consultar-usuarios\''
+                'onclick' => 'window.location=\'/administrador\''
             ],
             'options' => [
                 'label' => 'Voltar'
@@ -163,7 +163,7 @@ class PerfilForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 3,
+                        'min' => 1,
                         'max' => 20
                     ],
                 ],
@@ -278,7 +278,7 @@ class PerfilForm extends Form
         
         $inputFilter->add([
             'name'     => 'nova-senha',
-            'required' => true,
+            'required' => false,
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],

@@ -34,6 +34,7 @@ class AdministradorController extends AbstractActionController
         return new ViewModel([
             'usuarios'     => $this->administradorModel->getCountAllUsers(),
             'laboratorios' => $this->laboratoristaModel->getCountAlLabors(),
+            'avisos'       => $this->administradorModel->getAllAvisos()
         ]);
     }
     

@@ -33,6 +33,7 @@ class Menu extends AbstractHelper
                 case 1:
                     $this->items = [
                         'Início'   => '/administrador',
+                        'Reservas' => '/reservas',
                         'Cadastrar' => [
                             'Usuário'     => '/administrador/cadastrar-usuario',
                             'Laboratório' => '/administrador/cadastrar-laboratorio'
