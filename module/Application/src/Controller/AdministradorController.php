@@ -311,7 +311,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->delete($form->getData());
+                    $this->administradorModel->delete($id_usuario);
 
                     $this->flashMessenger()->addSuccessMessage("Excluir Usuário| Operação realizada com sucesso!");
 
@@ -324,10 +324,6 @@ class AdministradorController extends AbstractActionController
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
             }
-        }
-        else
-        {
-            $form->setData(['id_usuario' => $id_usuario]);
         }
         
         return new ViewModel([
@@ -368,7 +364,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->delete($form->getData());
+                    $this->laboratoristaModel->delete($id_laboratorio);
 
                     $this->flashMessenger()->addSuccessMessage("Excluir Laboratório| Operação realizada com sucesso!");
 
@@ -381,10 +377,6 @@ class AdministradorController extends AbstractActionController
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }
             }
-        }
-        else
-        {
-            $form->setData(['id_laboratorio' => $id_laboratorio]);
         }
         
         return new ViewModel([
@@ -405,17 +397,22 @@ class AdministradorController extends AbstractActionController
         }
   
         $form = new PerfilForm($this->administradorModel);
+        
+        $request = $this->getRequest();
 
-        if($this->getRequest()->isPost()) 
+        if($request->isPost()) 
         {
-            $post = $this->params()->fromPost();
+            $values = array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
 
-            $form->setData($post);
+            $form->setData($values);
 
             if($form->isValid()) 
             {
                 try 
-                {
+                {                    
                     $this->administradorModel->updatePerfil($form->getData(), $usuario['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
@@ -431,7 +428,7 @@ class AdministradorController extends AbstractActionController
             }
             else
             {
-                $form->setData($post);
+                $form->setData($values);
             }
         }
         else

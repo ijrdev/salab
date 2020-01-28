@@ -43,7 +43,8 @@ class AvisoForm extends Form
             'attributes' => [
                 'id'       => 'anexo',
                 'class'    => 'custom-file-input',
-                'multiple' => 'multiple'
+                'multiple' => 'multiple',
+                'accept'   => 'image/png, image/jpeg, image/jpg',
             ],
             'options' => [
                 'label' => 'Anexo',

@@ -27,8 +27,6 @@ $form->prepare();
                 </div>
             </div>
             <?= $this->form()->openTag($form); ?>
-                <?= $this->formRow($form->get('id_usuario'), null, null, 'partials/form-elements'); ?>
-                
                 <div class="col-12 text-right">
                     <?= $this->formElement($form->get('voltar')); ?>
                     <?= $this->formElement($form->get('excluir')); ?>

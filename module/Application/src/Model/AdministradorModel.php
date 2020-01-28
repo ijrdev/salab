@@ -171,7 +171,7 @@ class AdministradorModel
         $sql = new Sql($this->db);
         
         if(isset($post['nova-senha']) && !empty($post['nova-senha']))
-        {
+        {           
             $bcrypt      = new Bcrypt();
             $newPassword = $bcrypt->create($post['nova-senha']); 
 
@@ -187,6 +187,70 @@ class AdministradorModel
                 ->where(['id_usuario' => $id_usuario]);
 
             $sql->prepareStatementForSqlObject($update)->execute();
+            
+            if(isset($post['foto']) && !empty($post['foto']))
+            {
+                if(isset($post['foto']['error']) && $post['foto']['error'] == 0)
+                {
+                    $fileName = $post['foto']['name'];
+                    $tmpName  = $post['foto']['tmp_name'];
+                    $fileSize = $post['foto']['size'];
+                    $fileType = $post['foto']['type'];
+                    $ext      = pathinfo($fileName, PATHINFO_EXTENSION);
+
+                    $where = new Where();
+                    $where->equalTo('id_usuario', $id_usuario)
+                          ->AND
+                          ->equalTo('segmento', 'PRF');
+
+                    $select = $sql
+                            ->select('tb_anexos')
+                            ->where($where);
+
+                    $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
+
+                    if(!$result)
+                    {
+                        $insertAnexo = $sql
+                            ->insert('tb_anexos')
+                            ->values([
+                                'id_usuario' => $id_usuario,
+                                'segmento'   => 'PRF',
+                                'nome'       => $fileName,
+                                'extensao'   => $ext,
+                                'tipo'       => $fileType,
+                                'tamanho'    => $fileSize,
+                                'arquivo'    => file_get_contents($tmpName),
+                                'dthr_cad'   => date('Y-m-d H:i:s')
+                            ]);
+
+                        $sql->prepareStatementForSqlObject($insertAnexo)->execute();
+                    }
+                    else
+                    {
+                        $where = new Where();
+                        $where->equalTo('id_usuario', $id_usuario)
+                              ->AND
+                              ->equalTo('segmento', 'PRF');
+
+                        $updateAnexo = $sql
+                            ->update('tb_anexos')
+                            ->set([
+                                'id_usuario' => $id_usuario,
+                                'segmento'   => 'PRF',
+                                'nome'       => $fileName,
+                                'extensao'   => $ext,
+                                'tipo'       => $fileType,
+                                'tamanho'    => $fileSize,
+                                'arquivo'    => file_get_contents($tmpName),
+                                'dthr_cad'   => date('Y-m-d H:i:s')
+                            ])
+                            ->where($where); 
+
+                        $sql->prepareStatementForSqlObject($updateAnexo)->execute();
+                    }
+                }
+            }
         }
         else
         {
@@ -201,16 +265,80 @@ class AdministradorModel
                 ->where(['id_usuario' => $id_usuario]);
 
             $sql->prepareStatementForSqlObject($update)->execute();
+            
+            if(isset($post['foto']) && !empty($post['foto']))
+            {
+                if(isset($post['foto']['error']) && $post['foto']['error'] == 0)
+                {
+                    $fileName = $post['foto']['name'];
+                    $tmpName  = $post['foto']['tmp_name'];
+                    $fileSize = $post['foto']['size'];
+                    $fileType = $post['foto']['type'];
+                    $ext      = pathinfo($fileName, PATHINFO_EXTENSION);
+
+                    $where = new Where();
+                    $where->equalTo('id_usuario', $id_usuario)
+                          ->AND
+                          ->equalTo('segmento', 'PRF');
+
+                    $select = $sql
+                            ->select('tb_anexos')
+                            ->where($where);
+
+                    $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
+
+                    if(!$result)
+                    {
+                        $insertAnexo = $sql
+                            ->insert('tb_anexos')
+                            ->values([
+                                'id_usuario' => $id_usuario,
+                                'segmento'   => 'PRF',
+                                'nome'       => $fileName,
+                                'extensao'   => $ext,
+                                'tipo'       => $fileType,
+                                'tamanho'    => $fileSize,
+                                'arquivo'    => file_get_contents($tmpName),
+                                'dthr_cad'   => date('Y-m-d H:i:s')
+                            ]);
+
+                        $sql->prepareStatementForSqlObject($insertAnexo)->execute();
+                    }
+                    else
+                    {
+                        $where = new Where();
+                        $where->equalTo('id_usuario', $id_usuario)
+                              ->AND
+                              ->equalTo('segmento', 'PRF');
+
+                        $updateAnexo = $sql
+                            ->update('tb_anexos')
+                            ->set([
+                                'id_usuario' => $id_usuario,
+                                'segmento'   => 'PRF',
+                                'nome'       => $fileName,
+                                'extensao'   => $ext,
+                                'tipo'       => $fileType,
+                                'tamanho'    => $fileSize,
+                                'arquivo'    => file_get_contents($tmpName),
+                                'dthr_cad'   => date('Y-m-d H:i:s')
+                            ])
+                            ->where($where); 
+
+                        $sql->prepareStatementForSqlObject($updateAnexo)->execute();
+                    }
+                }
+            }
         }
     }
     
-    public function delete($post)
+    public function delete($id_usuario)
     {
         $sql = new Sql($this->db);
         
         $delete = $sql
             ->delete('tb_usuarios')
-            ->where(['id_usuario' => $post['id_usuario']]);
+            ->where(['id_usuario' => $id_usuario]);
         
         $sql->prepareStatementForSqlObject($delete)->execute();
     }
@@ -243,6 +371,7 @@ class AdministradorModel
                     
                     $insertAnexo = $sql->insert('tb_anexos')->values([
                         'id_usuario' => $id_usuario,
+                        'segmento'   => 'ANX',
                         'nome'       => $fileName,
                         'extensao'   => $ext,
                         'tipo'       => $fileType,

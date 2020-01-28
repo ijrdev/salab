@@ -8,10 +8,6 @@ $options  = $elem->getOptions();
 $label    = $elem->getLabel();
 $messages = $elem->getMessages();
 
-//echo "<pre>";
-//print_r($values);
-//exit;
-
 switch(strtolower($attr['type']))
 {
     case 'text':
@@ -95,19 +91,37 @@ switch(strtolower($attr['type']))
         break;
     
     case 'file':
-
+        
+        if(isset($attr['multiple']))
+        {
         ?>
 
         <div class="form-group">
             <?= isset($label) && !empty($label) ? "<label style=\"font-size: 14px;\" for=\"" . $attr['id'] . "\">" . $label . "</label>": "" ?>
             <div class="custom-file">
-                <input type="file" multiple="<?= $attr['multiple'] ?>" name="<?= $attr['name'] . '[]' ?>" id="<?= 'target-file-'.$attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
+                <input type="file" <?= isset($attr['onchange']) ? "onchange='{$attr['onchange']}'" : '' ?> <?= isset($attr['accept']) ? "accept='{$attr['accept']}'" : '' ?>  multiple='multiple' name="<?= $attr['name'] . '[]' ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
                 <label id="file-label" class="custom-file-label" for="<?= $attr['id'] ?>">Escolha o arquivo</label>
             </div>
             <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
         </div>
 
         <?php
+        }
+        else
+        {
+        ?>
+
+        <div class="form-group">
+            <?= isset($label) && !empty($label) ? "<label style=\"font-size: 14px;\" for=\"" . $attr['id'] . "\">" . $label . "</label>": "" ?>
+            <div class="custom-file">
+                <input type="file" <?= isset($attr['onchange']) ? "onchange='{$attr['onchange']}'" : '' ?> <?= isset($attr['accept']) ? "accept='{$attr['accept']}'" : '' ?>  name="<?= $attr['name'] ?>" id="<?= $attr['id'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>">
+                <label id="file-label" class="custom-file-label" for="<?= $attr['id'] ?>">Escolha o arquivo</label>
+            </div>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+
+        <?php
+        }
         
         $this->inlineScript()->captureStart();
         echo <<<JS

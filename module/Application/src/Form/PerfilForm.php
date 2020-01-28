@@ -24,6 +24,17 @@ class PerfilForm extends Form
     protected function addElements() 
     {
         $this->add([            
+            'type'  => 'file',
+            'name'  => 'foto',
+            'attributes' => [
+                'id'       => 'foto',
+                'class'    => 'custom-file-input',
+                'accept'   => 'image/png, image/jpeg, image/jpg',
+                'onchange' => 'mudaFotoPerfil(this)'
+            ]
+        ]);
+        
+        $this->add([            
             'type'  => 'text',
             'name'  => 'nome',
             'attributes' => [
@@ -133,6 +144,28 @@ class PerfilForm extends Form
     {
         $inputFilter = new InputFilter();        
         $this->setInputFilter($inputFilter);
+        
+        $inputFilter->add([
+            'name'     => 'foto',
+            'required' => false,
+            'validators' => [
+                [
+                    'name' => 'FileSize',
+                    'options' => [
+                        'message' => 'Tamanho máximo permitido de 500KB',
+                        'max' => '500KB'
+                    ]
+                ],
+                [
+                    'name' => 'FileMimeType',
+                    'options' => [
+                        'message' => 'Apenas imagens nos formatos: jpeg, jpg e png',
+                        'enableHeaderCheck' => true,
+                        'mimeType'          => ["image/jpeg", "image/jpg", 'image/png']
+                    ]
+                ],
+            ],
+        ]);
         
         $inputFilter->add([
             'name'     => 'nome',

@@ -99,13 +99,13 @@ class LaboratoristaModel
         $sql->prepareStatementForSqlObject($update)->execute();
     }
     
-    public function delete($post)
+    public function delete($id_laboratorio)
     {
         $sql = new Sql($this->db);
 
         $delete = $sql
             ->delete('tb_laboratorios')
-            ->where(['id_laboratorio' => $post['id_laboratorio']]);
+            ->where(['id_laboratorio' => $id_laboratorio]);
         
         $sql->prepareStatementForSqlObject($delete)->execute();
     }

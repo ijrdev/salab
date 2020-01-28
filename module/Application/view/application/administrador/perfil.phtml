@@ -18,8 +18,17 @@ $form->prepare();
     <div class="col-md-3">
         <div class="card card-primary card-outline">
             <div class="card-body box-profile">
+                <?= $this->form()->openTag($form); ?>
                 <div class="text-center">
-                    <img class="img-fluid img-circle" src="/img/profile.png" title="User profile" alt="User profile" width="100px" height="100px">
+                    <img class="img-fluid img-circle" id="img-perfil" src="/img/profile.png" title="Foto de Perfil" alt="Foto de Perfil" style="width: 120px; height: 110px !important;" onclick="fotoPerfil()">
+                    
+                    <div id="foto-perfil">
+                        <div class="row">
+                            <div class="col-sm-8 offset-sm-2">
+                                <?= $this->formRow($form->get('foto'), null, null, 'partials/form-elements'); ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <h3 class="profile-username text-center"> <?= $this->usuario['nome'] . ' ' . $this->usuario['sobrenome'] ?> </h3>
@@ -55,7 +64,6 @@ $form->prepare();
     
     <div class="card card-primary card-outline col-md-9">
         <div class="card-body">
-            <?= $this->form()->openTag($form); ?>
             <div class="row">
                 <div class="col-sm-8 offset-sm-2 col-md-8 col-lg-4">
                     <?= $this->formRow($form->get('nome'), null, null, 'partials/form-elements'); ?>

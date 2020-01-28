@@ -3,7 +3,6 @@
 namespace Application\Form;
 
 use Laminas\Form\Form;
-use Laminas\InputFilter\InputFilter;
 
 class ExcluirUsuarioForm extends Form
 {
@@ -14,19 +13,10 @@ class ExcluirUsuarioForm extends Form
         $this->setAttribute('method', 'post');
                 
         $this->addElements();
-        $this->addInputFilter();          
     }
 
     protected function addElements() 
     {
-        $this->add([            
-            'type'  => 'hidden',
-            'name'  => 'id_usuario',
-            'attributes' => [
-                'class'  => 'form-control',
-            ],
-        ]);
-        
         $this->add([
             'type'  => 'Button',
             'name'  => 'voltar',
@@ -50,31 +40,4 @@ class ExcluirUsuarioForm extends Form
             ],
         ]);
     }
-
-    private function addInputFilter() 
-    {
-        $inputFilter = new InputFilter();        
-        $this->setInputFilter($inputFilter);
-        
-        $inputFilter->add([
-            'name'     => 'id_usuario',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-                ['name' => 'StripTags'],
-            ],
-            'validators' => [
-                [
-                    'name' => 'Digits'
-                ],
-                [
-                    'name'    => 'StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 3
-                    ],
-                ],
-            ]
-        ]);
-    }        
 }
