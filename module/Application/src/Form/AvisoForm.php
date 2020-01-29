@@ -91,7 +91,7 @@ class AvisoForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 10,
+                        'min' => 2,
                         'max' => 350
                     ],
                 ]

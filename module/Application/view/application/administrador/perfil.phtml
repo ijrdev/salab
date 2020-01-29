@@ -20,7 +20,7 @@ $form->prepare();
             <div class="card-body box-profile">
                 <?= $this->form()->openTag($form); ?>
                 <div class="text-center">
-                    <img class="img-fluid img-circle" id="img-perfil" src="/img/profile.png" title="Foto de Perfil" alt="Foto de Perfil" style="width: 120px; height: 110px !important;" onclick="fotoPerfil()">
+                    <img class="img-fluid img-circle" id="img-perfil" src="<?= isset($this->usuario['arquivo']) ? 'data:' . $this->usuario['tipo'] . ';base64,' . base64_encode($this->usuario['arquivo']) : '/img/profile.png' ?>" title="Foto de Perfil" alt="Foto de Perfil" style="width: 120px; height: 120px !important;" onclick="fotoPerfil()">
                     
                     <div id="foto-perfil">
                         <div class="row">

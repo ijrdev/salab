@@ -5,11 +5,11 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class EditarLaboratorioForm extends Form
+class AlterarLaboratorioForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('editar-laboratorio-form');
+        parent::__construct('alterar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -116,6 +116,15 @@ class EditarLaboratorioForm extends Form
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
             ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 5,
+                        'max' => 100
+                    ],
+                ]
+            ],
         ]);
         
         $inputFilter->add([
@@ -124,6 +133,15 @@ class EditarLaboratorioForm extends Form
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 5,
+                        'max' => 100
+                    ],
+                ]
             ],
         ]);
     }        

@@ -116,6 +116,15 @@ class CadastrarLaboratorioForm extends Form
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
             ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 5,
+                        'max' => 100
+                    ],
+                ]
+            ],
         ]);
         
         $inputFilter->add([
@@ -124,6 +133,15 @@ class CadastrarLaboratorioForm extends Form
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 5,
+                        'max' => 100
+                    ],
+                ]
             ],
         ]);
     }        

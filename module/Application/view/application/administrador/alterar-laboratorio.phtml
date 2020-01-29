@@ -2,15 +2,15 @@
 $this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Laboratório');
 
-$this->pageTitle()->setTitle("Editar Laboratório");
+$this->pageTitle()->setTitle("Alterar Laboratório");
 $this->pageTitle()->setSubTitle('Informações do laboratório.');
 
 $this->breadcrumbs()->setItems([
     'Consultar laboratórios' => $this->url('administrador', ['action' => 'consultar-laboratorios']),
-    'Editar Laboratório'     => ''
+    'Alterar Laboratório'     => ''
 ]);
 
-$this->breadcrumbs()->setActiveItem('Editar Laboratório');
+$this->breadcrumbs()->setActiveItem('Alterar Laboratório');
 
 $form->prepare();
 ?>

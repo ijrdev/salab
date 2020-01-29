@@ -5,26 +5,26 @@ namespace Application\Controller;
 use Application\Form\AvisoForm;
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
-use Application\Form\EditarLaboratorioForm;
-use Application\Form\EditarUsuarioForm;
+use Application\Form\AlterarLaboratorioForm;
+use Application\Form\AlterarUsuarioForm;
 use Application\Form\ExcluirLaboratorioForm;
 use Application\Form\ExcluirUsuarioForm;
 use Application\Form\PerfilForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
-use Laminas\Authentication\AuthenticationService;
+use Application\Model\SessionModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
 class AdministradorController extends AbstractActionController
 {
-    private $authService;
+    private $sessionModel;
     private $administradorModel;
     private $laboratoristaModel;
     
-    public function __construct(AuthenticationService $authService, AdministradorModel $administradorModel, LaboratoristaModel $laboratoristaModel)
+    public function __construct(SessionModel $sessionModel, AdministradorModel $administradorModel, LaboratoristaModel $laboratoristaModel)
     {
-        $this->authService = $authService;
+        $this->sessionModel = $sessionModel;
         $this->administradorModel = $administradorModel;
         $this->laboratoristaModel = $laboratoristaModel;
     }
@@ -111,11 +111,9 @@ class AdministradorController extends AbstractActionController
         $page   = $this->params()->fromQuery('page', 1);
         $search = $this->params()->fromQuery('search', null);
         
-        $usuario = $this->authService->getIdentity();
-        
         try
         {
-            $usuarios = $this->administradorModel->getAllUsers($page, $search, $usuario['id_usuario']);
+            $usuarios = $this->administradorModel->getAllUsers($page, $search, $this->sessionModel->getUsuario()['id_usuario']);
         } 
         catch(\Exception $ex)
         {
@@ -152,7 +150,7 @@ class AdministradorController extends AbstractActionController
         ]);
     }
     
-    public function editarUsuarioAction()
+    public function alterarUsuarioAction()
     {
         $id_usuario = (int) $this->params()->fromRoute('id', 0);
         
@@ -172,7 +170,7 @@ class AdministradorController extends AbstractActionController
             return;
         }
   
-        $form = new EditarUsuarioForm($this->administradorModel);
+        $form = new AlterarUsuarioForm($this->administradorModel);
 
         if($this->getRequest()->isPost()) 
         {
@@ -215,7 +213,7 @@ class AdministradorController extends AbstractActionController
         ]);
     }
     
-    public function editarLaboratorioAction()
+    public function alterarLaboratorioAction()
     {
         $id_laboratorio = (int) $this->params()->fromRoute('id', 0);
         
@@ -235,7 +233,7 @@ class AdministradorController extends AbstractActionController
             return;
         }
   
-        $form = new EditarLaboratorioForm();
+        $form = new AlterarLaboratorioForm();
 
         if($this->getRequest()->isPost()) 
         {
@@ -387,7 +385,7 @@ class AdministradorController extends AbstractActionController
     
     public function perfilAction()
     {
-        $usuario = $this->authService->getIdentity();
+        $usuario = $this->sessionModel->getUsuario();
         
         if(!isset($usuario) || empty($usuario))
         {
@@ -463,7 +461,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->aviso($form->getData(), $this->authService->getIdentity()['id_usuario']);
+                    $this->administradorModel->aviso($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Aviso| Operação realizada com sucesso!");
 

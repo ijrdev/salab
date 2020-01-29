@@ -4,6 +4,22 @@ $this->menu()->setActiveItem('Início');
 $this->pageTitle()->setTitle('Painel Administrativo');
 $this->pageTitle()->setSubTitle('Informações referentes a administração do sistema.');
 
+$array = [];
+
+//foreach($avisos as $value) 
+//{
+//    $array[] = $value;
+//    
+////    foreach($value['anexos_aviso'] as $value)
+////    {
+////        $array[] = $value;
+////    }
+//}
+//
+//echo "<pre>";
+//print_r($array);
+//exit;
+
 echo $this->partial('partials/box-elements', [
     'boxes' => 
     [
@@ -54,7 +70,7 @@ echo $this->partial('partials/box-elements', [
                         ?>
                         <div class="post">
                             <div class="user-block">
-                                <img class="img-circle" src="img/profile.png" alt="user image">
+                                <img class="img-fluid img-circle" src="<?= isset($aviso['foto_perfil']['arquivo']) ? 'data:' . $aviso['foto_perfil']['tipo'] . ';base64,' . base64_encode($aviso['foto_perfil']['arquivo']) : '/img/profile.png' ?>" title="Foto de Perfil" alt="Foto de Perfil" style="width: 40px; height: 40px !important;">
                                 <span class="username">
                                     <div class="text-primary"><?= $aviso['nome'] . ' ' . $aviso['sobrenome'] ?> - <span style="font-size: 14px;"><?= $aviso['email'] ?></span></div>
                                 </span>
@@ -65,7 +81,21 @@ echo $this->partial('partials/box-elements', [
                             </p>
 
                             <p>
-                                <a href="#" class="link-black text-sm"><i class="fas fa-link mr-1"></i> Demo File 1 v2</a>
+                                <div class="row">
+                                <?php
+                                foreach($aviso['anexos_aviso'] as $anexo) 
+                                {
+                                    
+                                ?>
+                                    <span class="ml-2">
+                                        <a href="" target="_blank">
+                                            <img class="img-fluid" src="<?= 'data:' . $anexo['tipo'] . ';base64,' . base64_encode($anexo['arquivo']) ?>" alt="Photo" style="width: 80px; height: 80px !important;">
+                                        </a>
+                                    </span>
+                                <?php
+                                }
+                                ?>
+                                </div>
                             </p>
                         </div>
                         <?php

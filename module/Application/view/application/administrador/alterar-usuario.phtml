@@ -4,15 +4,15 @@ $this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/ich
 $this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Usuário');
 
-$this->pageTitle()->setTitle("Editar Usuário");
+$this->pageTitle()->setTitle("Alterar Usuário");
 $this->pageTitle()->setSubTitle('Informações do usuário.');
 
 $this->breadcrumbs()->setItems([
     'Consultar Usuários' => $this->url('administrador', ['action' => 'consultar-usuarios']),
-    'Editar Usuário'     => ''
+    'Alterar Usuário'     => ''
 ]);
 
-$this->breadcrumbs()->setActiveItem('Editar Usuário');
+$this->breadcrumbs()->setActiveItem('Alterar Usuário');
 
 $form->prepare();
 ?>

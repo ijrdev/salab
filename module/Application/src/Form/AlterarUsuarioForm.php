@@ -5,7 +5,7 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class EditarUsuarioForm extends Form
+class AlterarUsuarioForm extends Form
 {
     private $administradorModel;
     
@@ -13,7 +13,7 @@ class EditarUsuarioForm extends Form
     {
         $this->administradorModel = $administradorModel;
         
-        parent::__construct('editar-usuario-form');
+        parent::__construct('alterar-usuario-form');
      
         $this->setAttribute('method', 'post');
                 

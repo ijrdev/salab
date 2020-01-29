@@ -70,7 +70,6 @@ class AdministradorModel
                 'email',
                 'id_grupo',
                 'dthr_cad',
-                'dthr_ult_acesso',
                 'dthr_ult_alteracao'
             ])
             ->where($where);
@@ -107,7 +106,6 @@ class AdministradorModel
                 'email',
                 'id_grupo',
                 'dthr_cad',
-                'dthr_ult_acesso',
                 'dthr_ult_alteracao'
             ])
             ->where(['id_usuario' => $id_usuario]);
@@ -181,7 +179,6 @@ class AdministradorModel
                     'nome'               => $post['nome'],
                     'sobrenome'          => $post['sobrenome'],
                     'senha'              => $newPassword,
-                    'id_grupo'           => $post['grupo'],
                     'dthr_ult_alteracao' => date('Y-m-d H:i:s')
                 ])
                 ->where(['id_usuario' => $id_usuario]);
@@ -216,7 +213,7 @@ class AdministradorModel
                             ->values([
                                 'id_usuario' => $id_usuario,
                                 'segmento'   => 'PRF',
-                                'nome'       => $fileName,
+                                'nome_anexo' => $fileName,
                                 'extensao'   => $ext,
                                 'tipo'       => $fileType,
                                 'tamanho'    => $fileSize,
@@ -238,7 +235,7 @@ class AdministradorModel
                             ->set([
                                 'id_usuario' => $id_usuario,
                                 'segmento'   => 'PRF',
-                                'nome'       => $fileName,
+                                'nome_anexo' => $fileName,
                                 'extensao'   => $ext,
                                 'tipo'       => $fileType,
                                 'tamanho'    => $fileSize,
@@ -294,7 +291,7 @@ class AdministradorModel
                             ->values([
                                 'id_usuario' => $id_usuario,
                                 'segmento'   => 'PRF',
-                                'nome'       => $fileName,
+                                'nome_anexo' => $fileName,
                                 'extensao'   => $ext,
                                 'tipo'       => $fileType,
                                 'tamanho'    => $fileSize,
@@ -316,7 +313,7 @@ class AdministradorModel
                             ->set([
                                 'id_usuario' => $id_usuario,
                                 'segmento'   => 'PRF',
-                                'nome'       => $fileName,
+                                'nome_anexo' => $fileName,
                                 'extensao'   => $ext,
                                 'tipo'       => $fileType,
                                 'tamanho'    => $fileSize,
@@ -372,7 +369,7 @@ class AdministradorModel
                     $insertAnexo = $sql->insert('tb_anexos')->values([
                         'id_usuario' => $id_usuario,
                         'segmento'   => 'ANX',
-                        'nome'       => $fileName,
+                        'nome_anexo' => $fileName,
                         'extensao'   => $ext,
                         'tipo'       => $fileType,
                         'tamanho'    => $fileSize,
@@ -399,11 +396,64 @@ class AdministradorModel
         
         $select = $sql
             ->select(['a' => 'tb_avisos'])
-            ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome',' email'], 'LEFT')
+            ->join(['u'   => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome',' email'])
             ->order('a.id_aviso DESC')
             ->limit(10);
         
-        return $sql->prepareStatementForSqlObject($select)->execute();
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $avisos = [];
+        
+        foreach($result as $value) 
+        {
+            $value['foto_perfil']  = $this->getFotoPerfil($value['id_usuario']);
+            
+            $value['anexos_aviso'] = $this->getAllAnexosAviso($value['id_aviso']);
+                
+            $avisos[] = $value;
+        }
+        
+        return $avisos;
+    }
+    
+    public function getFotoPerfil($id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->equalTo('a.id_usuario', $id_usuario)
+              ->AND
+              ->equalTo('a.segmento', 'PRF');
+        
+        $select = $sql
+            ->select(['a' => 'tb_anexos'])
+            ->where($where);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    public function getAllAnexosAviso($id_aviso)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->equalTo('aa.id_aviso', $id_aviso);
+        
+        $select = $sql
+            ->select(['aa' => 'tb_avisos_anexos'])
+            ->join(['an'  => 'tb_anexos'], 'aa.id_anexo = an.id_anexo', '*', 'LEFT')
+            ->where($where);
+        
+        $anexos_aviso = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $assist = [];
+        
+        foreach($anexos_aviso as $anexos) 
+        {
+            $assist[] = $anexos;
+        }
+        
+        return $assist;
     }
 }
 

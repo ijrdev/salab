@@ -44,7 +44,7 @@ class AuthAdapter implements AdapterInterface
         
         $select = $sql
             ->select(['u' => 'tb_usuarios'])
-            ->join(['g'   => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
+            ->join(['g' => 'tb_grupos'], 'u.id_grupo = g.id_grupo', 'grupo')
             ->where(['u.matricula' => $matricula]);
         
         $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -56,14 +56,29 @@ class AuthAdapter implements AdapterInterface
 
             if($bcrypt->verify($senha, $securePass))
             {
-                $update = $sql
-                    ->update('tb_usuarios')
-                    ->set(['dthr_ult_acesso' => date('Y-m-d H:i:s')])
-                    ->where(['matricula'     => $matricula]);
-
-                $sql->prepareStatementForSqlObject($update)->execute();
+                $where = new \Laminas\Db\Sql\Where();
+                $where->equalTo('id_usuario', $result['id_usuario'])
+                      ->AND
+                      ->equalTo('segmento', 'PRF');
                 
-                $this->sessionModel->setUsuario($result);
+                $select = $sql
+                    ->select('tb_anexos')
+                    ->where($where);
+                
+                $rs = $sql->prepareStatementForSqlObject($select)->execute()->current();
+                
+                if(!empty($rs))
+                {
+                    unset($result['senha']);
+                    
+                    $this->sessionModel->setUsuario(array_merge($result, $rs));
+                }
+                else
+                {
+                    unset($result['senha']);
+                    
+                    $this->sessionModel->setUsuario($result);
+                }
 
                 return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Login realizado com sucesso!']);
             } 

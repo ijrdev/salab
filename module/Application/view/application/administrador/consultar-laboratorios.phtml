@@ -33,7 +33,6 @@ $this->pageTitle()->setSubTitle('Verifique todos os laboratórios cadastrados no
                         <tr>
                             <th class="text-center" style="width: 10px;">Código</th>
                             <th class="text-center">Cadastro</th>
-                            <th class="text-center">Última Alteração</th>
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Tipo</th>
                             <th class="text-center">Descrição</th>
@@ -48,12 +47,11 @@ $this->pageTitle()->setSubTitle('Verifique todos os laboratórios cadastrados no
                             <tr>
                                 <td class="text-center align-middle"><?= $laboratorio['id_laboratorio'] ?></td>
                                 <td class="text-center align-middle"><?= date('d-m-Y', strtotime($laboratorio['dthr_cad'])) ?></td>
-                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($laboratorio['dthr_ult_alteracao'])) ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['lab'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['descricao'] ?></td>
                                 <td class="text-center align-middle">
-                                    <a href="<?= $this->url('administrador', ['action' => 'editar-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-primary"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'alterar-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-edit text-primary"></i></a>
                                     <a href="<?= $this->url('administrador', ['action' => 'excluir-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default m-1"><i class="fas fa-times text-danger"></i></a>
                                 </td>
                             </tr>
