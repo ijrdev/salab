@@ -1,7 +1,7 @@
 $(document).ready(function ()
 {
     $('#foto-perfil').hide();
-})
+});
 
 function fotoPerfil()
 {
@@ -21,4 +21,13 @@ function mudaFotoPerfil(e)
         
         reader.readAsDataURL(e.files[0]);
     }
+}
+
+function load(form)
+{
+    $('#buttons').children().hide();
+    
+    $('#buttons').append("<div class='fa-3x'><i class='fas fa-spinner fa-pulse text-primary' style='font-size: 30px;'></i></div>");
+    
+    $('#' + form).submit();
 }

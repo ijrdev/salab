@@ -6,6 +6,11 @@ $this->menu()->setActiveItem('Início');
 $this->pageTitle()->setTitle('Perfil');
 $this->pageTitle()->setSubTitle('Informações pessoais do usuário logado.');
 
+$form->get('salvar')->setAttributes([
+    'class'   => 'btn btn-sm btn-primary',
+    'onClick' => "load('perfil-form')"
+]);
+
 $form->prepare();
 ?>
 
@@ -55,7 +60,7 @@ $form->prepare();
                         <strong>Cadastro</strong> <span class="float-right"> <?= date('d-m-Y', strtotime($usuario['dthr_cad'])) ?> </span>
                     </li>
                     <li class="list-group-item">
-                        <strong>Último Acesso</strong> <span class="float-right"> <?= date('d-m-Y', strtotime($usuario['dthr_ult_acesso'])) ?> </span>
+                        <strong>Última Alteração</strong> <span class="float-right"> <?= date('d-m-Y', strtotime($usuario['dthr_ult_alteracao'])) ?> </span>
                     </li>
                 </ul>
             </div>
@@ -98,7 +103,7 @@ $form->prepare();
             </div>
 
             <div class="row">
-                <div class="col-sm-8 offset-2 text-right">
+                <div class="col-sm-8 offset-2 text-right" id="buttons">
                     <?= $this->formElement($form->get('voltar')); ?>
                     <?= $this->formElement($form->get('salvar')); ?>
                 </div>

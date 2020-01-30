@@ -130,13 +130,14 @@ class PerfilForm extends Form
         ]);
         
         $this->add([
-            'type'  => 'submit',
-            'name'  => 'salvar',
-            'attributes' => [                
-                'id'    => 'salvar',
-                'class' => 'btn btn-sm btn-primary',
-                'value' => 'Salvar'
+            'type'  => 'Button',
+            'name' => 'salvar',
+            'attributes' => [
+                'id' => 'salvar',
             ],
+            'options' => [
+                'label' => 'Salvar'
+            ]
         ]);
     }
 
@@ -178,7 +179,7 @@ class PerfilForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 3,
+                        'min' => 1,
                         'max' => 20
                     ],
                 ],

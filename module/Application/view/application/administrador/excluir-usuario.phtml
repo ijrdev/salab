@@ -16,16 +16,15 @@ $form->prepare();
 ?>
 
 <div class="row">
-    <div class="card card-danger card-outline col-12">
-        <div class="card-body">
-            <div class="col-12">
-                <h5><i class="fas fa-times text-danger"></i>  Você está prestes a realizar a exclusão de um usuário, tem certeza?</h5>
+    <div class="col-12">
+        <div class="callout callout-danger">
+            <h5><i class="fas fa-times text-danger"></i> Você irá realizar a exclusão de um usuário, tem certeza?</h5>
 
-                <div>
-                    <strong>Matrícula: </strong> <i> <?= $this->usuario['matricula'] ?> </i> <br>
-                    <strong>Usuário: </strong> <i> <?= $this->usuario['nome'] . ' ' . $this->usuario['sobrenome'] ?> </i>
-                </div>
+            <div>
+                <strong>Matrícula: </strong> <i> <?= $this->usuario['matricula'] ?> </i> <br>
+                <strong>Usuário: </strong> <i> <?= $this->usuario['nome'] . ' ' . $this->usuario['sobrenome'] ?> </i>
             </div>
+            
             <?= $this->form()->openTag($form); ?>
                 <div class="col-12 text-right">
                     <?= $this->formElement($form->get('voltar')); ?>

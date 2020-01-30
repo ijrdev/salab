@@ -38,6 +38,35 @@ class AdministradorController extends AbstractActionController
         ]);
     }
     
+    public function mostrarImagemAction()
+    {
+        $id_anexo = (int) $this->params()->fromRoute('id', 0);
+        
+        if(!$id_anexo)
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $anexo = $this->administradorModel->getAnexo($id_anexo);
+        
+        
+        
+        if(empty($anexo))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $viewModel = new ViewModel($anexo);
+        $viewModel->setTerminal(true);
+        $viewModel->setTemplate('templates/image');
+        
+        return $viewModel;
+    }
+    
     public function cadastrarUsuarioAction()
     {
         $form = new CadastrarUsuarioForm($this->administradorModel);
@@ -184,13 +213,13 @@ class AdministradorController extends AbstractActionController
                 {
                     $this->administradorModel->update($form->getData(), $id_usuario);
 
-                    $this->flashMessenger()->addSuccessMessage("Editar Usuário| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage("Alterar Usuário| Operação realizada com sucesso!");
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Editar Usuário| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage('Alterar Usuário| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
@@ -247,13 +276,13 @@ class AdministradorController extends AbstractActionController
                 {
                     $this->laboratoristaModel->update($form->getData(), $id_laboratorio);
 
-                    $this->flashMessenger()->addSuccessMessage("Editar Laboratório| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage("Alterar Laboratório| Operação realizada com sucesso!");
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Editar Laboratório| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage('Alterar Laboratório| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }

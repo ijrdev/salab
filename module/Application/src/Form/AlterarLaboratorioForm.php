@@ -73,13 +73,14 @@ class AlterarLaboratorioForm extends Form
         ]);
         
         $this->add([
-            'type'  => 'submit',
-            'name'  => 'salvar',
-            'attributes' => [                
-                'id'    => 'salvar',
-                'class' => 'btn btn-sm btn-primary',
-                'value' => 'Salvar'
+            'type'  => 'Button',
+            'name' => 'salvar',
+            'attributes' => [
+                'id' => 'salvar',
             ],
+            'options' => [
+                'label' => 'Salvar'
+            ]
         ]);
     }
 
@@ -120,7 +121,7 @@ class AlterarLaboratorioForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 5,
+                        'min' => 1,
                         'max' => 100
                     ],
                 ]
@@ -138,7 +139,7 @@ class AlterarLaboratorioForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 5,
+                        'min' => 1,
                         'max' => 100
                     ],
                 ]

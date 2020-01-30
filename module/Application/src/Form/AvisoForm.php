@@ -65,13 +65,14 @@ class AvisoForm extends Form
         ]);
         
         $this->add([
-            'type'  => 'submit',
-            'name'  => 'enviar',
-            'attributes' => [                
-                'id'    => 'enviar',
-                'class' => 'btn btn-sm btn-primary',
-                'value' => 'Enviar'
+            'type'  => 'Button',
+            'name' => 'enviar',
+            'attributes' => [
+                'id' => 'enviar',
             ],
+            'options' => [
+                'label' => 'Enviar'
+            ]
         ]);
     }
 
@@ -91,7 +92,7 @@ class AvisoForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 2,
+                        'min' => 1,
                         'max' => 350
                     ],
                 ]

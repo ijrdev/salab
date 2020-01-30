@@ -121,13 +121,14 @@ class AlterarUsuarioForm extends Form
         ]);
         
         $this->add([
-            'type'  => 'submit',
-            'name'  => 'salvar',
-            'attributes' => [                
-                'id'    => 'salvar',
-                'class' => 'btn btn-sm btn-primary',
-                'value' => 'Salvar'
+            'type'  => 'Button',
+            'name' => 'salvar',
+            'attributes' => [
+                'id' => 'salvar',
             ],
+            'options' => [
+                'label' => 'Salvar'
+            ]
         ]);
     }
 
@@ -147,7 +148,7 @@ class AlterarUsuarioForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 3,
+                        'min' => 1,
                         'max' => 20
                     ],
                 ],
@@ -165,7 +166,7 @@ class AlterarUsuarioForm extends Form
                 [
                     'name'    => 'StringLength',
                     'options' => [
-                        'min' => 3,
+                        'min' => 1,
                         'max' => 20
                     ],
                 ],

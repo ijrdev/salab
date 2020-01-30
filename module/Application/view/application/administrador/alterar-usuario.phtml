@@ -14,6 +14,11 @@ $this->breadcrumbs()->setItems([
 
 $this->breadcrumbs()->setActiveItem('Alterar Usuário');
 
+$form->get('salvar')->setAttributes([
+    'class'   => 'btn btn-sm btn-primary',
+    'onClick' => "load('alterar-usuario-form')"
+]);
+
 $form->prepare();
 ?>
 
@@ -55,7 +60,7 @@ $form->prepare();
             </div>
 
             <div class="row">
-                <div class="col-sm-8 offset-2 text-right">
+                <div class="col-sm-8 offset-2 text-right" id="buttons">
                     <?= $this->formElement($form->get('voltar')); ?>
                     <?= $this->formElement($form->get('salvar')); ?>
                 </div>

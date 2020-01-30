@@ -143,6 +143,83 @@ class AdministradorModel
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
+    public function getAllAvisos()
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql
+            ->select(['a' => 'tb_avisos'])
+            ->join(['u'   => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome',' email'])
+            ->order('a.id_aviso DESC')
+            ->limit(10);
+        
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $avisos = [];
+        
+        foreach($result as $value) 
+        {
+            $value['foto_perfil']  = $this->getFotoPerfil($value['id_usuario']);
+            
+            $value['anexos_aviso'] = $this->getAllAnexosAviso($value['id_aviso']);
+                
+            $avisos[] = $value;
+        }
+        
+        return $avisos;
+    }
+    
+    public function getFotoPerfil($id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->equalTo('a.id_usuario', $id_usuario)
+              ->AND
+              ->equalTo('a.segmento', 'PRF');
+        
+        $select = $sql
+            ->select(['a' => 'tb_anexos'])
+            ->where($where);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    public function getAllAnexosAviso($id_aviso)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->equalTo('aa.id_aviso', $id_aviso);
+        
+        $select = $sql
+            ->select(['aa' => 'tb_avisos_anexos'])
+            ->join(['an'  => 'tb_anexos'], 'aa.id_anexo = an.id_anexo', '*', 'LEFT')
+            ->where($where);
+        
+        $anexos_aviso = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $assist = [];
+        
+        foreach($anexos_aviso as $anexos) 
+        {
+            $assist[] = $anexos;
+        }
+        
+        return $assist;
+    }
+    
+    public function getAnexo($id_anexo)
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql
+            ->select('tb_anexos')
+            ->where(['id_anexo' => $id_anexo]);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
     public function update($post, $id_usuario)
     {
         $sql = new Sql($this->db);
@@ -388,72 +465,6 @@ class AdministradorModel
                 }
             }
         }
-    }
-    
-    public function getAllAvisos()
-    {
-        $sql = new Sql($this->db);
-        
-        $select = $sql
-            ->select(['a' => 'tb_avisos'])
-            ->join(['u'   => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome',' email'])
-            ->order('a.id_aviso DESC')
-            ->limit(10);
-        
-        $result = $sql->prepareStatementForSqlObject($select)->execute();
-        
-        $avisos = [];
-        
-        foreach($result as $value) 
-        {
-            $value['foto_perfil']  = $this->getFotoPerfil($value['id_usuario']);
-            
-            $value['anexos_aviso'] = $this->getAllAnexosAviso($value['id_aviso']);
-                
-            $avisos[] = $value;
-        }
-        
-        return $avisos;
-    }
-    
-    public function getFotoPerfil($id_usuario)
-    {
-        $sql = new Sql($this->db);
-        
-        $where = new Where();
-        $where->equalTo('a.id_usuario', $id_usuario)
-              ->AND
-              ->equalTo('a.segmento', 'PRF');
-        
-        $select = $sql
-            ->select(['a' => 'tb_anexos'])
-            ->where($where);
-        
-        return $sql->prepareStatementForSqlObject($select)->execute()->current();
-    }
-    
-    public function getAllAnexosAviso($id_aviso)
-    {
-        $sql = new Sql($this->db);
-        
-        $where = new Where();
-        $where->equalTo('aa.id_aviso', $id_aviso);
-        
-        $select = $sql
-            ->select(['aa' => 'tb_avisos_anexos'])
-            ->join(['an'  => 'tb_anexos'], 'aa.id_anexo = an.id_anexo', '*', 'LEFT')
-            ->where($where);
-        
-        $anexos_aviso = $sql->prepareStatementForSqlObject($select)->execute();
-        
-        $assist = [];
-        
-        foreach($anexos_aviso as $anexos) 
-        {
-            $assist[] = $anexos;
-        }
-        
-        return $assist;
     }
 }
 

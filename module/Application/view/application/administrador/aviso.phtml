@@ -6,6 +6,11 @@ $this->menu()->setActiveItem('Aviso');
 $this->pageTitle()->setTitle('Aviso');
 $this->pageTitle()->setSubTitle('Deixa algum aviso para os usuários do sistema.');
 
+$form->get('enviar')->setAttributes([
+    'class'   => 'btn btn-sm btn-primary',
+    'onClick' => "load('aviso-form')"
+]);
+
 $form->prepare();
 ?>
 
@@ -27,7 +32,7 @@ $form->prepare();
             </div>
 
             <div class="row">
-                <div class="col-sm-8 offset-2 text-right">
+                <div class="col-sm-8 offset-2 text-right" id="buttons">
                     <?= $this->formElement($form->get('voltar')); ?>
                     <?= $this->formElement($form->get('enviar')); ?>
                 </div>
