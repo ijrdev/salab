@@ -81,7 +81,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->add($form->getData());
+                    $this->administradorModel->add($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
@@ -115,7 +115,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->add($form->getData());
+                    $this->laboratoristaModel->add($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
@@ -211,7 +211,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->update($form->getData(), $id_usuario);
+                    $this->administradorModel->update($form->getData(), $id_usuario, $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Alterar Usuário| Operação realizada com sucesso!");
 
@@ -274,7 +274,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->update($form->getData(), $id_laboratorio);
+                    $this->laboratoristaModel->update($form->getData(), $id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Alterar Laboratório| Operação realizada com sucesso!");
 
@@ -338,7 +338,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->delete($id_usuario);
+                    $this->administradorModel->delete($id_usuario, $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Excluir Usuário| Operação realizada com sucesso!");
 
@@ -391,7 +391,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->delete($id_laboratorio);
+                    $this->laboratoristaModel->delete($id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Excluir Laboratório| Operação realizada com sucesso!");
 

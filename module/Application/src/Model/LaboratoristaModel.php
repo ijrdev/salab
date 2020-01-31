@@ -17,7 +17,7 @@ class LaboratoristaModel
        $this->db = $db->salab;
     }
     
-    public function add($post)
+    public function add($post, $id_usuario)
     {
         $sql = new Sql($this->db);
         
@@ -31,6 +31,18 @@ class LaboratoristaModel
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'add',
+                'script'     => $sql->buildSqlString($insert)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
     public function getAllLabors($page, $search)
@@ -83,7 +95,7 @@ class LaboratoristaModel
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
-    public function update($post, $id_laboratorio)
+    public function update($post, $id_laboratorio, $id_usuario)
     {
         $sql = new Sql($this->db);
 
@@ -97,9 +109,21 @@ class LaboratoristaModel
             ->where(['id_laboratorio' => $id_laboratorio]);
         
         $sql->prepareStatementForSqlObject($update)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'update',
+                'script'     => $sql->buildSqlString($update)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
-    public function delete($id_laboratorio)
+    public function delete($id_laboratorio, $id_usuario)
     {
         $sql = new Sql($this->db);
 
@@ -108,5 +132,17 @@ class LaboratoristaModel
             ->where(['id_laboratorio' => $id_laboratorio]);
         
         $sql->prepareStatementForSqlObject($delete)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'delete',
+                'script'     => $sql->buildSqlString($delete)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
 }

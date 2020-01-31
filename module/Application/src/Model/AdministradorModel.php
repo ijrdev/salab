@@ -18,7 +18,7 @@ class AdministradorModel
        $this->db = $db->salab;
     }
     
-    public function add($post)
+    public function add($post, $id_usuario)
     {
         $sql = new Sql($this->db);
         
@@ -38,6 +38,18 @@ class AdministradorModel
             ]);
         
         $sql->prepareStatementForSqlObject($insert)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'add',
+                'script'     => $sql->buildSqlString($insert)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
     public function getAllUsers($page, $search, $id_usuario)
@@ -220,7 +232,7 @@ class AdministradorModel
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
-    public function update($post, $id_usuario)
+    public function update($post, $id_usuario_update, $id_usuario)
     {
         $sql = new Sql($this->db);
         
@@ -236,9 +248,21 @@ class AdministradorModel
                 'id_grupo'           => $post['grupo'],
                 'dthr_ult_alteracao' => date('Y-m-d H:i:s')
             ])
-            ->where(['id_usuario' => $id_usuario]);
+            ->where(['id_usuario' => $id_usuario_update]);
         
         $sql->prepareStatementForSqlObject($update)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'update',
+                'script'     => $sql->buildSqlString($update)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
     public function updatePerfil($post, $id_usuario)
@@ -406,15 +430,27 @@ class AdministradorModel
         }
     }
     
-    public function delete($id_usuario)
+    public function delete($id_usuario_delete, $id_usuario)
     {
         $sql = new Sql($this->db);
         
         $delete = $sql
             ->delete('tb_usuarios')
-            ->where(['id_usuario' => $id_usuario]);
+            ->where(['id_usuario' => $id_usuario_delete]);
         
         $sql->prepareStatementForSqlObject($delete)->execute();
+        
+        $insertLog = $sql
+            ->insert('tb_logs')
+            ->values([
+                'id_usuario' => $id_usuario,
+                'dthr_log'   => date('Y-m-d H:i:s'),
+                'classe'     => __CLASS__,
+                'funcao'     => 'delete',
+                'script'     => $sql->buildSqlString($delete)
+            ]);
+        
+        $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
     public function aviso($post, $id_usuario)
