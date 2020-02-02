@@ -1,0 +1,77 @@
+<?php
+$this->menu()->setActiveItem('Laboratórios');
+
+$this->pageTitle()->setTitle('Laboratórios');
+$this->pageTitle()->setSubTitle('Todos os laboratórios do sistema.');  
+?>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary card-outline" style="font-size: 14px;">
+            <div class="card-header">
+                <h3 class="card-title"></h3>
+                
+                <div class="card-tools">
+                    <form action="<?= $this->url('laboratorista', ['action' => 'laboratorios']) ?>" method="get">
+                        <div class="input-group input-group-sm" style="width: 180px;">
+                            <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            <div class="input-group-append">
+                                <a href="<?= $this->url('laboratorista', ['action' => 'laboratorios']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 10px;">Código</th>
+                            <th class="text-center">Cadastro</th>
+                            <th class="text-center">Laboratório</th>
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Descrição</th>
+                            <th class="text-center" style="width: 10px;">M</th>
+                            <th class="text-center" style="width: 10px;">T</th>
+                            <th class="text-center" style="width: 10px;">N</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach($laboratorios as $laboratorio) 
+                            {
+                        ?>
+                            <tr>
+                                <td class="text-center align-middle"><?= $laboratorio['id_laboratorio'] ?></td>
+                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($laboratorio['dthr_cad'])) ?></td>
+                                <td class="text-center align-middle"><?= $laboratorio['lab'] ?></td>
+                                <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
+                                <td class="text-center align-middle"><?= $laboratorio['descricao'] ?></td>
+                                <td class="text-center align-middle">
+                                    <span class="badge badge-success" style="width: 10px; height: 10px; border-radius: 50%;"> </span>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <span class="badge badge-warning" style="width: 10px; height: 10px; border-radius: 50%;"> </span>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <span class="badge badge-danger" style="width: 10px; height: 10px; border-radius: 50%;"> </span>
+                                </td>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <?php echo $this->paginationControl($this->laboratorios, 'Sliding', 'partials/paginator', ['route' => 'laboratorista', 'params' => ['action' => 'laboratorios']]) ?>
+    </div>
+</div>

@@ -5,7 +5,7 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class PerfilForm extends Form
+class PerfilAdministradorForm extends Form
 {
     private $administradorModel;
     
@@ -13,7 +13,7 @@ class PerfilForm extends Form
     {
         $this->administradorModel = $administradorModel;
         
-        parent::__construct('perfil-form');
+        parent::__construct('perfil-administrador-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -113,19 +113,6 @@ class PerfilForm extends Form
             'options' => [
                 'label' => 'Nova Senha',
                 'icon'  => 'lock'
-            ]
-        ]);
-        
-        $this->add([
-            'type'  => 'Button',
-            'name'  => 'voltar',
-            'attributes' => [
-                'id'      => 'voltar',
-                'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador\''
-            ],
-            'options' => [
-                'label' => 'Voltar'
             ]
         ]);
         

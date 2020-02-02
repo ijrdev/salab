@@ -2,14 +2,14 @@
 
 namespace Application\Controller;
 
+use Application\Form\AlterarLaboratorioForm;
+use Application\Form\AlterarUsuarioForm;
 use Application\Form\AvisoForm;
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
-use Application\Form\AlterarLaboratorioForm;
-use Application\Form\AlterarUsuarioForm;
 use Application\Form\ExcluirLaboratorioForm;
 use Application\Form\ExcluirUsuarioForm;
-use Application\Form\PerfilForm;
+use Application\Form\PerfilAdministradorForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
 use Application\Model\SessionModel;
@@ -50,8 +50,6 @@ class AdministradorController extends AbstractActionController
         }
         
         $anexo = $this->administradorModel->getAnexo($id_anexo);
-        
-        
         
         if(empty($anexo))
         {
@@ -423,7 +421,7 @@ class AdministradorController extends AbstractActionController
             return;
         }
   
-        $form = new PerfilForm($this->administradorModel);
+        $form = new PerfilAdministradorForm($this->administradorModel);
         
         $request = $this->getRequest();
 
@@ -511,6 +509,13 @@ class AdministradorController extends AbstractActionController
         
         return new ViewModel([
             'form' => $form
+        ]);
+    }
+    
+    public function reservaAction()
+    {
+        return new ViewModel([
+            
         ]);
     }
 }

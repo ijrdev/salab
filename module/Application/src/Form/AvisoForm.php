@@ -53,19 +53,6 @@ class AvisoForm extends Form
         
         $this->add([
             'type'  => 'Button',
-            'name'  => 'voltar',
-            'attributes' => [
-                'id'      => 'voltar',
-                'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador\''
-            ],
-            'options' => [
-                'label' => 'Voltar'
-            ]
-        ]);
-        
-        $this->add([
-            'type'  => 'Button',
             'name' => 'enviar',
             'attributes' => [
                 'id' => 'enviar',

@@ -1,16 +1,57 @@
-PROFESSOR
+<?php
+$this->menu()->setActiveItem('Início');
+
+$this->pageTitle()->setTitle('Painel do Professor');
+$this->pageTitle()->setSubTitle('Realização de agendamento dos laboratórios.');
+?>
 
 <div class="row">
+    <div class="col-lg-12">
         <div class="card card-primary card-outline">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
+            <div class="card-header">
+                <h5 class="card-title"><i class="fas fa-columns"></i> Quadro de Avisos</h5>
+            </div>
+            <div class="card-body" style="height: 500px; overflow: auto;">
+               <div class="row">
+                    <div class="col-12">
+                        <?php
+                        foreach($avisos as $aviso) 
+                        {
+                        ?>
+                        <div class="post">
+                            <div class="user-block">
+                                <img class="img-fluid img-circle" src="<?= isset($aviso['foto_perfil']['arquivo']) ? 'data:' . $aviso['foto_perfil']['tipo'] . ';base64,' . base64_encode($aviso['foto_perfil']['arquivo']) : '/img/profile.png' ?>" title="Foto de Perfil" alt="Foto de Perfil" style="width: 40px; height: 40px !important;">
+                                <span class="username">
+                                    <div class="text-primary"><?= $aviso['nome'] . ' ' . $aviso['sobrenome'] ?> - <span style="font-size: 14px;"><?= $aviso['email'] ?></span></div>
+                                </span>
+                                <span class="description"><?= date('d-m-Y H:i:s', strtotime($aviso['dthr_aviso'])) ?></span>
+                            </div>
+                            <p>
+                                <?= $aviso['mensagem'] ?>
+                            </p>
 
-                <p class="card-text">
-                    Some quick example text to build on the card title and make up the bulk of the card's
-                    content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                            <p>
+                                <div class="row">
+                                <?php
+                                foreach($aviso['anexos_aviso'] as $anexo) 
+                                {
+                                ?>
+                                    <span class="ml-2">
+                                        <a href="<?= $this->url('professor', ['action' => 'mostrar-imagem', 'id' => $anexo['id_anexo']]) ?>" target="_blank">
+                                            <img class="img-fluid" src="<?= 'data:' . $anexo['tipo'] . ';base64,' . base64_encode($anexo['arquivo']) ?>" alt="Photo" style="width: 80px; height: 80px !important;">
+                                        </a>
+                                    </span>
+                                <?php
+                                }
+                                ?>
+                                </div>
+                            </p>
+                        </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

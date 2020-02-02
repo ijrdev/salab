@@ -30,8 +30,8 @@ switch(strtolower($attr['type']))
                         <span class="fas fa-<?= $options['icon'] ?>"></span>
                     </div>
                 </div>
+                <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
             </div>
-            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
         </div>
 
         <?php
@@ -62,7 +62,7 @@ switch(strtolower($attr['type']))
             foreach($elem->getValueOptions() as $key => $value)
                 {
                     ?>
-                        <div class="icheck-primary">
+                        <div class="icheck-primary" id="<?=$key?>">
                             <input type="radio" id="<?= $elemName . $key ?>" name="<?= $elemName ?>" value="<?php echo $key; ?>" class="<?= $attr['class'] ?>" <?php if($key == $values){ echo ' checked="checked"'; }?>>
                             <label style="font-weight: normal; font-size: 14px;" for="<?= $elemName . $key ?>"><?= $value ?></label>
                         </div>
@@ -84,6 +84,43 @@ switch(strtolower($attr['type']))
             <div class="input-group">
                 <input type="hidden" name="<?= $attr['name'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>" value="<?= isset($values) && !empty($values) ? $values : '' ?>" <?= isset($attr['readonly']) && !empty($attr['readonly']) ? ' readonly="readonly"' : '' ?>>
             </div>
+        </div>
+
+        <?php
+        
+        break;
+    
+    case 'select':
+        
+        ?>
+
+        <div class="form-group">
+            <label style="font-size: 14px;" for="<?=$attr['id']?>"><?=$label?></label>
+            <select id="<?=$attr['id']?>" name="<?=$attr['name']?>" class="<?=$attr['class']?>">
+            <?php
+            foreach($elem->getValueOptions() as $key => $value)
+            {
+            ?>
+                <option value="<?=$key?>"><?=$value?></option>
+            <?php
+            }
+            ?>
+            </select>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
+        </div>
+
+        <?php
+        
+        break;
+        
+    case 'date':
+        
+        ?>
+
+        <div class="form-group">
+            <label style="font-size: 14px;" for="<?=$attr['id']?>"><?=$label?></label>
+            <?=$this->formElement($elem)?>
+            <?= !empty($messages) ? "<div class=\"text-danger mb-2\" style=\"font-size: 12px; \">" . implode("<br/>", $messages) . "</div>" : ''?>
         </div>
 
         <?php

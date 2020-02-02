@@ -1,0 +1,60 @@
+<?php
+$this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css?version=' . rand(1, 10000)));
+$this->headScript()->appendFile($this->basePath('js/professor/agendar.js?version=' . rand(1, 10000)));
+
+$this->menu()->setActiveItem('Agendar');
+
+$this->pageTitle()->setTitle('Agendar');
+$this->pageTitle()->setSubTitle('Realize o agendamento do laboratório.'); 
+
+$form->get('agendar')->setAttributes([
+    'class'   => 'btn btn-sm btn-primary',
+    'onClick' => "agendarLoad('agendar-form')"
+]);
+
+$form->prepare();
+?>
+
+<div class="row">
+    <div class="card card-primary card-outline col-sm-8 offset-sm-2">
+        <div class="card-body">
+            <?= $this->form()->openTag($form); ?>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('laboratorio'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('data'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('horario'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <span id="message" class="text-danger mb-2" style="font-size: 12px;"></span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-2 text-right" id="buttons">
+                    <?= $this->formElement($form->get('agendar'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+        </div>
+            
+        <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+
+
+
