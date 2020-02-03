@@ -7,11 +7,12 @@
 
 namespace Application\Controller;
 
-use Application\Form\AgendarForm;
 use Application\Form\AvisoForm;
 use Application\Form\PerfilProfessorForm;
+use Application\Form\ReservarLaboratorioForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
+use Application\Model\ProfessorModel;
 use Application\Model\SessionModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
@@ -20,14 +21,16 @@ use Laminas\View\Model\ViewModel;
 class ProfessorController extends AbstractActionController
 {
     private $sessionModel;
-    private $laboratoristaModel;
     private $administradorModel;
+    private $laboratoristaModel;
+    private $professorModel;
     
-    public function __construct(SessionModel $sessionModel, LaboratoristaModel $laboratoristaModel, AdministradorModel $administradorModel) 
+    public function __construct(SessionModel $sessionModel, AdministradorModel $administradorModel, LaboratoristaModel $laboratoristaModel, ProfessorModel $professorModel) 
     {
         $this->sessionModel       = $sessionModel;
-        $this->laboratoristaModel = $laboratoristaModel;
         $this->administradorModel = $administradorModel;
+        $this->laboratoristaModel = $laboratoristaModel;
+        $this->professorModel     = $professorModel;
     }
     
     public function indexAction()
@@ -64,10 +67,25 @@ class ProfessorController extends AbstractActionController
         return $viewModel;
     }
     
-    public function minhasReservasAction()
+    public function meusAgendamentosAction()
     {
-        return new ViewModel([
+        $page   = $this->params()->fromQuery('page', 1);
+        $search = $this->params()->fromQuery('search', null);
+        
+        try
+        {
+            $agendamentos = $this->professorModel->getAllAgendamentos($page, $search, $this->sessionModel->getUsuario()['id_usuario']);
+        } 
+        catch(\Exception $ex)
+        {
+            $this->flashMessenger()->addErrorMessage('Meus Agendamentos| Ocorreu um problema ao realizar a operação.');
 
+            return $this->redirect()->toRoute('professor');
+        }
+
+        return new ViewModel([
+            'agendamentos' => $agendamentos,
+            'search'       => $search
         ]);
     }
     
@@ -117,23 +135,9 @@ class ProfessorController extends AbstractActionController
         }
     }
     
-    VERIFICAR O PROCEDIMENTO DE RESERVAR E AGENDAR
-    POIS A RESERVA ESTÁ VINCULADA AO LABORATÓRIO E O
-    AGENDAMENTO SE DÁ APÓS A RESERVA
-    
-    
-    CRIAR O AGENDAMENTO DO USUÁRIO APÓS RESERVAR O LABORATÓRIO(NOVA TABELA DE VÍNCULO).
-    
-    
-    
-    
-    
-    
-    
-    
-    public function agendarAction()
+    public function reservarLaboratorioAction()
     {
-        $form = new AgendarForm($this->laboratoristaModel);
+        $form = new ReservarLaboratorioForm($this->laboratoristaModel);
         
         if($this->getRequest()->isPost()) 
         {
@@ -145,7 +149,7 @@ class ProfessorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->agendar($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
+                    $this->laboratoristaModel->reservar($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Agendar| Operação realizada com sucesso!");
 

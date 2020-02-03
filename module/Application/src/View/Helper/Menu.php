@@ -49,22 +49,22 @@ class Menu extends AbstractHelper
                     break;
                 case 2:
                     $this->items = [
-                        'Início'       => '/laboratorista',
-                        'Reserva'      => '/laboratorista/reserva',
-                        'Laboratórios' => '/laboratorista/laboratorios',
-                        'Aviso'        => '/laboratorista/aviso',
-                        'Perfil'       => '/laboratorista/perfil',
-                        'Sair'         => '/logout'
+                        'Início'   => '/laboratorista',
+                        'Reserva'  => '/laboratorista/reserva',
+                        'Reservas' => '/laboratorista/reservas',
+                        'Aviso'    => '/laboratorista/aviso',
+                        'Perfil'   => '/laboratorista/perfil',
+                        'Sair'     => '/logout'
                     ];
                     break;
                 case 3:
                     $this->items = [
-                        'Início'          => '/professor',
-                        'Minhas Reservas' => '/professor/minhas-reservas',
-                        'Agendar'         => '/professor/agendar',
-                        'Aviso'           => '/professor/aviso',
-                        'Perfil'          => '/professor/perfil',
-                        'Sair'            => '/logout'
+                        'Início'               => '/professor',
+                        'Meus Agendamentos'    => '/professor/meus-agendamentos',
+                        'Reservar Laboratório' => '/professor/reservar-laboratorio',
+                        'Aviso'                => '/professor/aviso',
+                        'Perfil'               => '/professor/perfil',
+                        'Sair'                 => '/logout'
                     ];
                     break;
             }

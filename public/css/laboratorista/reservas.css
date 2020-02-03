@@ -1,0 +1,6 @@
+.card-body.p-0 .table tbody>tr>td:last-of-type, .card-body.p-0 .table tbody>tr>th:last-of-type, .card-body.p-0 .table thead>tr>td:last-of-type, .card-body.p-0 .table thead>tr>th:last-of-type {
+    padding-top: 4.8px !important;
+    padding-right: 24px !important;
+    padding-bottom: 4.8px !important;
+    padding-left: 4.8px !important;
+}

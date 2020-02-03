@@ -5,7 +5,7 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class AgendarForm extends Form
+class ReservarLaboratorioForm extends Form
 {
     private $laboratorioModel;
     
@@ -13,7 +13,7 @@ class AgendarForm extends Form
     {
         $this->laboratorioModel = $laboratorioModel;
         
-        parent::__construct('agendar-form');
+        parent::__construct('reservar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -65,14 +65,44 @@ class AgendarForm extends Form
             ],
         ]);
         
-        $this->add([
-            'type'  => 'Button',
-            'name' => 'agendar',
+        $this->add([            
+            'type'  => 'text',
+            'name'  => 'disciplina',
             'attributes' => [
-                'id' => 'agendar',
+                'id'    => 'disciplina',
+                'class' => 'form-control',
             ],
             'options' => [
-                'label' => 'Agendar'
+                'label'     => 'Disciplina',
+                'icon'      => 'book',
+            ]
+        ]);
+        
+        $this->add([            
+            'type'  => 'textarea',
+            'name'  => 'observacao',
+            'attributes' => [
+                'id'        => 'observacao',
+                'class'     => 'form-control',
+                'form'      => 'reservar-laboratorio-form',
+                'maxlength' => 200
+            ],
+            'options' => [
+                'label' => 'Observação',
+                'icon'  => 'comment',
+                'rows'  => 7,
+                'cols'  => 50
+            ]
+        ]);
+        
+        $this->add([
+            'type'  => 'Button',
+            'name' => 'reservar',
+            'attributes' => [
+                'id' => 'reservar',
+            ],
+            'options' => [
+                'label' => 'Reservar'
             ]
         ]);
     }
@@ -102,6 +132,42 @@ class AgendarForm extends Form
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'disciplina',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 50
+                    ],
+                ]
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'observacao',
+            'required' => false,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 200
+                    ],
+                ]
             ],
         ]);
     }        

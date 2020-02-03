@@ -1,6 +1,8 @@
 $(document).ready(function ()
 {
     $('#foto-perfil').hide();
+    
+    $('[data-toggle="tooltip"]').tooltip();
 });
 
 function fotoPerfil()

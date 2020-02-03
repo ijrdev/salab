@@ -62,10 +62,10 @@ class LaboratoristaController extends AbstractActionController
         return $viewModel;
     }
     
-    public function laboratoriosAction()
+    public function reservasAction()
     {
         $page   = $this->params()->fromQuery('page', 1);
-        $search = $this->params()->fromQuery('search', null);
+        $search = $this->params()->fromQuery('data', null);
         
         try
         {

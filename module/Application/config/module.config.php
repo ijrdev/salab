@@ -28,8 +28,10 @@ use Application\Model\Factory\AuthAdapterFactory;
 use Application\Model\Factory\AuthModelFactory;
 use Application\Model\Factory\AuthServiceFactory;
 use Application\Model\Factory\LaboratoristaModelFactory;
+use Application\Model\Factory\ProfessorModelFactory;
 use Application\Model\Factory\SessionModelFactory;
 use Application\Model\LaboratoristaModel;
+use Application\Model\ProfessorModel;
 use Application\Model\SessionModel;
 use Application\View\Helper\Breadcrumbs;
 use Application\View\Helper\Factory\MenuFactory;
@@ -139,6 +141,7 @@ return [
             Db::class                    => DbFactory::class,
             AdministradorModel::class    => AdministradorModelFactory::class,
             LaboratoristaModel::class    => LaboratoristaModelFactory::class,
+            ProfessorModel::class        => ProfessorModelFactory::class,
             AuthModel::class             => AuthModelFactory::class,
             AuthAdapter::class           => AuthAdapterFactory::class,
             SessionModel::class          => SessionModelFactory::class,

@@ -1,15 +1,15 @@
 <?php
 $this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css?version=' . rand(1, 10000)));
-$this->headScript()->appendFile($this->basePath('js/professor/agendar.js?version=' . rand(1, 10000)));
+$this->headScript()->appendFile($this->basePath('js/professor/reservar-laboratorio.js?version=' . rand(1, 10000)));
 
-$this->menu()->setActiveItem('Agendar');
+$this->menu()->setActiveItem('Reservar Laboratório');
 
-$this->pageTitle()->setTitle('Agendar');
-$this->pageTitle()->setSubTitle('Realize o agendamento do laboratório.'); 
+$this->pageTitle()->setTitle('Reservar Laboratório');
+$this->pageTitle()->setSubTitle('Realize o reserva de algum laboratório.'); 
 
-$form->get('agendar')->setAttributes([
+$form->get('reservar')->setAttributes([
     'class'   => 'btn btn-sm btn-primary',
-    'onClick' => "agendarLoad('agendar-form')"
+    'onClick' => "reservarLoad('reservar-laboratorio-form')"
 ]);
 
 $form->prepare();
@@ -29,24 +29,32 @@ $form->prepare();
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('data'), null, null, 'partials/form-elements'); ?>
+                    <span id="messageData" class="text-danger mb-2" style="font-size: 12px;"></span>
                 </div>
             </div>
-            
+
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('horario'), null, null, 'partials/form-elements'); ?>
+                    <span id="messageHorario" class="text-danger mb-2" style="font-size: 12px;"></span>
                 </div>
             </div>
             
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
-                    <span id="message" class="text-danger mb-2" style="font-size: 12px;"></span>
+                    <?= $this->formRow($form->get('disciplina'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('observacao'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
             
             <div class="row">
                 <div class="col-sm-8 offset-2 text-right" id="buttons">
-                    <?= $this->formElement($form->get('agendar'), null, null, 'partials/form-elements'); ?>
+                    <?= $this->formElement($form->get('reservar'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
         </div>

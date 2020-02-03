@@ -288,7 +288,7 @@ function formatDate()
     return [year, month, day].join('-');
 }
 
-function agendarLoad(form)
+function reservarLoad(form)
 {
     var dataEscolhida          = $("#data").val();
     var dataEscolhidaFormatada = dataEscolhida.replace(/-/g, '');
@@ -296,13 +296,21 @@ function agendarLoad(form)
     var dataAtual          = formatDate();
     var dataAtualFormatada = dataAtual.replace(/-/g, '');
     
+    $('#messageData').text('');
+    $('#messageHorario').text('');
+    
     if(dataEscolhidaFormatada < dataAtualFormatada)
     {
-        $('#message').text('Data escolhida inválida.');
+        $('#messageData').text('Data escolhida inválida.');
+    }
+    else if((dataEscolhidaFormatada - dataAtualFormatada > 14))
+    {
+        $('#messageData').text('Data de agendamento muito longa. Máximo de 14 dias.');
     }
     else
     {
-        $('#message').text('');
+        $('#messageData').text('');
+        $('#messageHorario').text('');
         
         if($("input[name='horario']:checked").val())
         {
@@ -323,7 +331,8 @@ function agendarLoad(form)
                 { 
                     if(data.checkReserva === false)
                     {
-                        $('#message').text('');
+                        $('#messageData').text('');
+                        $('#messageHorario').text('');
 
                         $('#buttons').children().hide();
 
@@ -333,7 +342,7 @@ function agendarLoad(form)
                     }
                     else
                     {
-                        $('#message').text('Horário escolhido se encontra agendado.');
+                        $('#messageHorario').text('Horário escolhido já se encontra reservado.');
                     }
                 },
                 error: (data) =>
@@ -347,7 +356,8 @@ function agendarLoad(form)
         }
         else
         {
-            $('#message').text('');
+            $('#messageData').text('');
+            $('#messageHorario').text('');
 
             $('#buttons').children().hide();
 

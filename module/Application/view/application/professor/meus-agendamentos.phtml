@@ -1,0 +1,99 @@
+<?php
+$this->menu()->setActiveItem('Meus Agendamentos');
+
+$this->pageTitle()->setTitle('Meus Agendamentos');
+$this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados.');
+?>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-primary card-outline" style="font-size: 14px;">
+            <div class="card-header">
+                <h3 class="card-title"></h3>
+
+                <div class="card-tools">
+                    <form action="<?= $this->url('professor', ['action' => 'meus-agendamentos']) ?>" method="get">
+                        <div class="input-group input-group-sm" style="width: 180px;">
+                            <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
+
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                            </div>
+                            <div class="input-group-append">
+                                <a href="<?= $this->url('professor', ['action' => 'meus-agendamentos']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Código</th>
+                            <th class="text-center">Data</th>
+                            <th class="text-center">Horário</th>
+                            <th class="text-center">Laboratório</th>
+                            <th class="text-center">Observação</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            foreach($agendamentos as $agendamento) 
+                            {
+                        ?>
+                            <tr>
+                                <td class="text-center align-middle"><?= $agendamento['id_agendamento'] ?></td>
+                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($agendamento['dt_reserva'])) ?></td>
+                                <td class="text-center align-middle">
+                                    <?php
+                                    switch($agendamento['horario'])
+                                    {
+                                        case 'manha':
+                                            echo 'Manhã - 07:00 às 12:00';
+                                            break;
+                                        case 'tarde':
+                                            echo 'Tarde - 13:00 às 17:00';
+                                            break;
+                                        case 'noite':
+                                            echo 'Noite - 18:00 às 22:00';
+                                            break;
+                                    }
+                                    ?>
+                                </td>
+                                <td class="text-center align-middle"><?= $agendamento['lab'] . ' - ' . $agendamento['tipo'] ?></td>
+                                <td class="text-center align-middle"><?= $agendamento['observacao'] ?></td>
+                                <td class="text-center align-middle">
+                                    <?= $agendamento['status'] == 'A' ? 
+                                        '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="top" title="Agendado"></i>' :
+                                        '<i class="fas fa-times-circle text-danger"  data-toggle="tooltip" data-placement="top" title="Agendamento Cancelado"></i>' 
+                                    ?>
+                                </td>
+                            </tr>
+                        <?php
+                            }
+                            
+                            if(count($agendamentos) == 0)
+                            {
+                        ?>
+                            <tr>
+                                <td colspan="12" class="text-center align-middle">
+                                    Nenhum agendamento encontrado.
+                                </td>
+                            </tr>
+                        <?php
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <?php echo $this->paginationControl($this->agendamentos, 'Sliding', 'partials/paginator', ['route' => 'professor', 'params' => ['action' => 'meus-agendamentos']]) ?>
+    </div>
+</div>
+

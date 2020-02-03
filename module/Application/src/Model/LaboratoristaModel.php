@@ -50,21 +50,19 @@ class LaboratoristaModel
         $sql = new Sql($this->db);
         
         $where = new Where();
-        
-        if(isset($search) && !empty($search))
-        {
-            $where->like('id_laboratorio', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('lab', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('tipo', '%' . strip_tags(trim($search)) . '%')
-              ->OR
-              ->like('descricao', '%' . strip_tags(trim($search)) . '%');
-        }
+        $where->equalTo('r.dt_reserva', isset($search) && !empty($search) ? strip_tags(trim($search)) : date('Y-m-d'));
         
         $select = $sql
-            ->select('tb_laboratorios')
-            ->where($where);
+            ->select(['l' => 'tb_laboratorios'])
+            ->columns([
+                'id_laboratorio',
+                'lab',
+                'tipo',
+                'descricao',
+            ])
+            ->join(['r' => 'tb_reservas'], 'l.id_laboratorio = r.id_laboratorio', ['dt_reserva', 'manha', 'tarde', 'noite'], 'LEFT')
+            ->where($where)
+            ->order('l.id_laboratorio ASC');
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);
@@ -158,7 +156,7 @@ class LaboratoristaModel
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
-    public function agendar($post, $id_usuario)
+    public function reservar($post, $id_usuario)
     {
         $sql = new Sql($this->db);
         
@@ -182,6 +180,18 @@ class LaboratoristaModel
                         ->where($where);
 
                     $sql->prepareStatementForSqlObject($update)->execute();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $reserva['id_reserva'],
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
                 case 'tarde':
                     $update = $sql
@@ -191,6 +201,18 @@ class LaboratoristaModel
                         ])
                         ->where($where);
                     $sql->prepareStatementForSqlObject($update)->execute();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $reserva['id_reserva'],
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
                 case 'noite':
                     $update = $sql
@@ -201,6 +223,18 @@ class LaboratoristaModel
                         ->where($where);
 
                     $sql->prepareStatementForSqlObject($update)->execute();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $reserva['id_reserva'],
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
             }
         }
@@ -217,7 +251,19 @@ class LaboratoristaModel
                             'manha' => 1
                         ]);
 
-                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $id_reserva,
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
                 case 'tarde':
                     $insert = $sql
@@ -228,7 +274,19 @@ class LaboratoristaModel
                             'tarde' => 1
                         ]);
 
-                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $id_reserva,
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
                 case 'noite':
                     $insert = $sql
@@ -239,7 +297,19 @@ class LaboratoristaModel
                             'noite' => 1
                         ]);
 
-                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
+                    
+                    $insertAgendamento = $sql
+                        ->insert('tb_agendamentos')
+                        ->values([
+                            'id_reserva' => $id_reserva,
+                            'id_usuario' => $id_usuario,
+                            'horario'    => $post['horario'],
+                            'disciplina' => $post['disciplina'],
+                            'observacao' => (isset($post['observacao']) && !empty($post['observacao']) ? $post['observacao'] : null)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
                     break;
             }
         }
