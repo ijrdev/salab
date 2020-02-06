@@ -1,12 +1,10 @@
 <?php
 $this->headLink()->prependStylesheet($this->basePath('css/laboratorista/reservas.css?version=' . rand(1, 10000)));
-$this->headScript()->appendFile($this->basePath('js/laboratorista/reservas.js?version=' . rand(1, 10000)));
 
 $this->menu()->setActiveItem('Reservas');
 
 $this->pageTitle()->setTitle('Reservas');
 $this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.');  
-
 ?>
 
 <div class="row">
@@ -18,7 +16,7 @@ $this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.
                 <div class="card-tools">
                     <form action="<?= $this->url('laboratorista', ['action' => 'reservas']) ?>" method="get">
                         <div class="input-group input-group-sm" style="width: 250px;">
-                            <input type="date" id="data" name="data" class="form-control float-right" value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
+                            <input type="date" id="data" name="data" class="form-control float-right" value="<?= isset($this->search) && !empty($this->search) ? $this->search : date('Y-m-d') ?>">
                             
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
@@ -34,14 +32,15 @@ $this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.
                 <table class="table table-sm">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 20px;">Código</th>
+                            <th class="text-center" style="width: 10px;">Código</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Tipo</th>
                             <th class="text-center">Descrição</th>
-                            <th class="text-center" style="width: 20px;">M</th>
-                            <th class="text-center" style="width: 20px;">T</th>
-                            <th class="text-center" style="width: 20px;">N</th>
+                            <th class="text-center">M</th>
+                            <th class="text-center">T</th>
+                            <th class="text-center">N</th>
+                            <th class="text-center" style="width: 10px;">Alterar</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -102,6 +101,9 @@ $this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.
                                             break;
                                     }
                                     ?>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href="<?= $this->url('laboratorista', ['action' => 'alterar-reserva', 'id' => $laboratorio['id_reserva']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-edit text-primary"></i></a>
                                 </td>
                             </tr>
                         <?php

@@ -1,0 +1,79 @@
+<?php
+$this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css?version=' . rand(1, 10000)));
+$this->headScript()->appendFile($this->basePath('js/laboratorista/alterar-reserva.js?version=' . rand(1, 10000)));
+
+$this->menu()->setActiveItem('Reservas');
+
+$this->pageTitle()->setTitle('Alterar Reserva');
+$this->pageTitle()->setSubTitle('Realize a alteração de uma reserva já realizada.');
+
+$this->breadcrumbs()->setItems([
+    'Reservas'        => $this->url('laboratorista', ['action' => 'reservas']),
+    'Alterar Reserva' => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Alterar Reserva');
+
+$form->get('salvar')->setAttributes([
+    'class'   => 'btn btn-sm btn-primary',
+    'onClick' => "load('alterar-reserva-form')"
+]);
+
+$form->prepare();
+?>
+
+<div class="row">
+    <div class="card card-primary card-outline col-sm-8 offset-sm-2">
+        <div class="card-body">
+            <?= $this->form()->openTag($form); ?>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('dt_reserva'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('lab'), null, null, 'partials/form-elements'); ?>
+                    <span id="messageData" class="text-danger mb-2" style="font-size: 12px;"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('tipo'), null, null, 'partials/form-elements'); ?>
+                    <span id="messageHorario" class="text-danger mb-2" style="font-size: 12px;"></span>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('horario'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('check_status'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('observacao'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-8 offset-2 text-right" id="buttons">
+                    <?= $this->formElement($form->get('voltar'), null, null, 'partials/form-elements'); ?>
+                    <?= $this->formElement($form->get('salvar'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+        </div>
+            
+        <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>

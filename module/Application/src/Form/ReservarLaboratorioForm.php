@@ -78,23 +78,6 @@ class ReservarLaboratorioForm extends Form
             ]
         ]);
         
-        $this->add([            
-            'type'  => 'textarea',
-            'name'  => 'observacao',
-            'attributes' => [
-                'id'        => 'observacao',
-                'class'     => 'form-control',
-                'form'      => 'reservar-laboratorio-form',
-                'maxlength' => 200
-            ],
-            'options' => [
-                'label' => 'Observação',
-                'icon'  => 'comment',
-                'rows'  => 7,
-                'cols'  => 50
-            ]
-        ]);
-        
         $this->add([
             'type'  => 'Button',
             'name' => 'reservar',
@@ -124,6 +107,14 @@ class ReservarLaboratorioForm extends Form
         $inputFilter->add([
             'name'     => 'data',
             'required' => true,
+            'validators' => [
+                [
+                    'name'    => 'Date',
+                    'options' => [
+                        'format' => "Y-m-d"
+                    ]
+                ],
+            ]
         ]);
         
         $inputFilter->add([
@@ -148,24 +139,6 @@ class ReservarLaboratorioForm extends Form
                     'options' => [
                         'min' => 1,
                         'max' => 50
-                    ],
-                ]
-            ],
-        ]);
-        
-        $inputFilter->add([
-            'name'     => 'observacao',
-            'required' => false,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-                ['name' => 'StripTags'],
-            ],
-            'validators' => [
-                [
-                    'name'    => 'StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 200
                     ],
                 ]
             ],

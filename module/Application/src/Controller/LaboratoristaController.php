@@ -7,6 +7,7 @@
 
 namespace Application\Controller;
 
+use Application\Form\AlterarReservaForm;
 use Application\Form\AvisoForm;
 use Application\Form\PerfilLaboratoristaForm;
 use Application\Model\AdministradorModel;
@@ -69,7 +70,7 @@ class LaboratoristaController extends AbstractActionController
         
         try
         {
-            $laboratorios = $this->laboratoristaModel->getAllLabors($page, $search);
+            $laboratorios = $this->laboratoristaModel->getAllLabors($page, $search, 'param');
         } 
         catch(\Exception $ex)
         {
@@ -81,6 +82,72 @@ class LaboratoristaController extends AbstractActionController
         return new ViewModel([
             'laboratorios' => $laboratorios,
             'search'       => $search
+        ]);
+    }
+    
+    public function alterarReservaAction()
+    {
+        $id_reserva = (int) $this->params()->fromRoute('id', 0);
+        
+        $reserva = $this->laboratoristaModel->getReserva($id_reserva);
+        
+//        echo "<pre>";
+//        print_r($reserva);
+//        exit;
+  
+        if(empty($reserva))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+
+        $form = new AlterarReservaForm();
+        
+        $request = $this->getRequest();
+
+        if($request->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {      
+                    echo "<pre>";
+                    print_r($form->getData());
+                    exit;
+
+                    $this->administradorModel->updatePerfil($form->getData(), $reserva['id_reserva']);
+
+                    $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'perfil']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Perfil| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'perfil']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
+            }
+        }
+        else
+        {
+            $lab = explode(' ', $reserva['lab']);
+            $reserva['lab'] = $lab[1];
+            
+            $form->setData($reserva);
+        }
+                
+        return new ViewModel([
+            'form'    => $form,
         ]);
     }
     

@@ -99,7 +99,7 @@ class ProfessorController extends AbstractActionController
 
             try 
             {
-                $reserva = $this->laboratoristaModel->getReserva($post['id_laboratorio'], $post['dt_reserva']);
+                $reserva = $this->laboratoristaModel->getLaboratorioReserva($post['id_laboratorio'], $post['dt_reserva']);
             }
             catch (\Exception $exc)
             {

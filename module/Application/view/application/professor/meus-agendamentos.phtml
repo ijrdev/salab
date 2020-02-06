@@ -65,9 +65,19 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
                                 <td class="text-center align-middle"><?= $agendamento['lab'] . ' - ' . $agendamento['tipo'] ?></td>
                                 <td class="text-center align-middle"><?= $agendamento['observacao'] ?></td>
                                 <td class="text-center align-middle">
-                                    <?= $agendamento['status'] == 'A' ? 
-                                        '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="top" title="Agendado"></i>' :
-                                        '<i class="fas fa-times-circle text-danger"  data-toggle="tooltip" data-placement="top" title="Agendamento Cancelado"></i>' 
+                                    <?php
+                                        switch($agendamento['status'])
+                                        {
+                                            case 'D':
+                                                echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Disponível"></i>';
+                                                break;
+                                            case 'O':
+                                                echo '<i class="fas fa-times-circle text-danger" data-toggle="tooltip" data-placement="left" title="Ocupado"></i>';
+                                                break;
+                                            case 'I':
+                                                echo '<i class="fas fa-door-closed text-warning"  data-toggle="tooltip" data-placement="left" title="Indisponível"></i>';
+                                                break;
+                                        }
                                     ?>
                                 </td>
                             </tr>
