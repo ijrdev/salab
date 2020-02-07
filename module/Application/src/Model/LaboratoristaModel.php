@@ -343,6 +343,90 @@ class LaboratoristaModel
         }
     }
     
+    public function alterarReserva($post, $id_reserva, $horario)
+    {
+        $sql = new Sql($this->db);
+        
+        switch($post['check_status']) 
+        {
+            case 'D':
+                $update = $sql
+                    ->update('tb_reservas')
+                    ->set([
+                        $horario => 1
+                    ])
+                    ->where(['id_reserva' => $id_reserva]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+                
+                $where = new Where();
+                $where->equalTo('id_reserva', $id_reserva)
+                      ->AND
+                      ->equalTo('horario', $horario);
+
+                $updateAgendamento = $sql
+                    ->update('tb_agendamentos')
+                    ->set([
+                        'status'     => $post['check_status'],
+                        'observacao' => $post['observacao']
+                    ])
+                    ->where($where);
+
+                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                break;
+            case 'O':
+                $update = $sql
+                    ->update('tb_reservas')
+                    ->set([
+                        $horario => 1
+                    ])
+                    ->where(['id_reserva' => $id_reserva]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+                
+                $where = new Where();
+                $where->equalTo('id_reserva', $id_reserva)
+                      ->AND
+                      ->equalTo('horario', $horario);
+
+                $updateAgendamento = $sql
+                    ->update('tb_agendamentos')
+                    ->set([
+                        'status'     => $post['check_status'],
+                        'observacao' => $post['observacao']
+                    ])
+                    ->where($where);
+
+                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                break;
+            case 'I':
+                $update = $sql
+                    ->update('tb_reservas')
+                    ->set([
+                        $horario => 2
+                    ])
+                    ->where(['id_reserva' => $id_reserva]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+                
+                $where = new Where();
+                $where->equalTo('id_reserva', $id_reserva)
+                      ->AND
+                      ->equalTo('horario', $horario);
+
+                $updateAgendamento = $sql
+                    ->update('tb_agendamentos')
+                    ->set([
+                        'status'     => $post['check_status'],
+                        'observacao' => $post['observacao']
+                    ])
+                    ->where($where);
+
+                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                break;
+        }
+    }
+    
     public function update($post, $id_laboratorio, $id_usuario)
     {
         $sql = new Sql($this->db);
@@ -374,6 +458,8 @@ class LaboratoristaModel
     public function delete($id_laboratorio, $id_usuario)
     {
         $sql = new Sql($this->db);
+        
+        $where = new Where();
 
         $delete = $sql
             ->delete('tb_laboratorios')

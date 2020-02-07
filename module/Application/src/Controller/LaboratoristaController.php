@@ -90,10 +90,6 @@ class LaboratoristaController extends AbstractActionController
         $id_reserva = (int) $this->params()->fromRoute('id', 0);
         
         $reserva = $this->laboratoristaModel->getReserva($id_reserva);
-        
-//        echo "<pre>";
-//        print_r($reserva);
-//        exit;
   
         if(empty($reserva))
         {
@@ -116,21 +112,17 @@ class LaboratoristaController extends AbstractActionController
             {
                 try 
                 {      
-                    echo "<pre>";
-                    print_r($form->getData());
-                    exit;
+                    $this->laboratoristaModel->alterarReserva($form->getData(), $reserva['id_reserva'], $reserva['horario']);
 
-                    $this->administradorModel->updatePerfil($form->getData(), $reserva['id_reserva']);
+                    $this->flashMessenger()->addSuccessMessage("Alterar Reserva| Operação realizada com sucesso!");
 
-                    $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
-
-                    return $this->redirect()->toRoute('laboratorista', ['action' => 'perfil']);
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'reservas']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Perfil| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage('Alterar Reserva| Ocorreu um problema ao realizar a operação.');
 
-                    return $this->redirect()->toRoute('laboratorista', ['action' => 'perfil']);
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'reservas']);
                 }
             }
             else
@@ -140,9 +132,9 @@ class LaboratoristaController extends AbstractActionController
         }
         else
         {
-            $lab = explode(' ', $reserva['lab']);
+            $lab            = explode(' ', $reserva['lab']);
             $reserva['lab'] = $lab[1];
-            
+                        
             $form->setData($reserva);
         }
                 
