@@ -11,7 +11,7 @@ $(document).ready(function()
         $('#horario').val('Noite - 18:00 às 22:00');
     }
     
-    $('#check_statusD').css('color', 'green');
-    $('#check_statusO').css('color', 'red');
-    $('#check_statusI').css('color', 'orange');
+    $('#D label').css('color', 'green');
+    $('#O label').css('color', 'red');
+    $('#I label').css('color', 'orange');
 });

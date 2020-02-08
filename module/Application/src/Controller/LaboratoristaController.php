@@ -9,6 +9,7 @@ namespace Application\Controller;
 
 use Application\Form\AlterarReservaForm;
 use Application\Form\AvisoForm;
+use Application\Form\OcuparLaboratorioForm;
 use Application\Form\PerfilLaboratoristaForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
@@ -61,6 +62,102 @@ class LaboratoristaController extends AbstractActionController
         $viewModel->setTemplate('templates/image');
         
         return $viewModel;
+    }
+    
+    public function laboratoriosAction()
+    {
+        $page   = $this->params()->fromQuery('page', 1);
+        $search = $this->params()->fromQuery('search', null);
+        
+        try
+        {
+            $laboratorios = $this->laboratoristaModel->getAllLabors($page, $search);
+        } 
+        catch(\Exception $ex)
+        {
+            $this->flashMessenger()->addErrorMessage('Laboratórios| Ocorreu um problema ao realizar a operação.');
+
+            return $this->redirect()->toRoute('laboratorista');
+        }
+
+        return new ViewModel([
+            'laboratorios' => $laboratorios,
+            'search'       => $search
+        ]);
+    }
+    
+    public function ocuparLaboratorioAction()
+    {
+        /* PROCEDIMENTO QUE SERÁ FEITO NO SETDATA DO FORM OCUPAR LABORATÓRIO
+     * REALIZAR A VERIFICAÇÃO SE HÁ RESERVA DAQUELE LABORATÓRIO NO DIA ESCOLHIDO.
+     * CASO SIM - NÃO DEIXAR, POIS TERÁ QUE FAZER O PROCEDIMENTO NA RESERVA
+     * CASO NÃO - DEIXAR REALIZAR A OCUPAÇÃO. */
+        ASDAS
+
+        $id_laboratorio = (int) $this->params()->fromRoute('id', 0);
+        
+        if(!$id_laboratorio)
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $laboratorio = $this->laboratoristaModel->getLabor($id_laboratorio);
+        
+        if(!isset($laboratorio) || empty($laboratorio))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+  
+        $form = new OcuparLaboratorioForm();
+
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    echo "<pre>";
+                    print_r($form->getData());
+                    exit;
+                    
+                    $this->laboratoristaModel->ocuparLaboratorio($form->getData(), $id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
+
+                    $this->flashMessenger()->addSuccessMessage("Ocupar Laboratório| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'ocupar-laboratorio']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Ocupar Laboratório| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'ocupar-laboratorio']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
+            }
+        }
+        else
+        {
+            $lab = explode(' ', $laboratorio['lab']);
+            $laboratorio['lab'] = $lab[1];
+            
+            $form->setData($laboratorio);
+        }
+
+        return new ViewModel([
+            'form'        => $form,
+            'laboratorio' => $laboratorio
+        ]);
     }
     
     public function reservasAction()

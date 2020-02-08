@@ -5,40 +5,44 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class AlterarReservaForm extends Form
+class OcuparLaboratorioForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('alterar-reserva-form');
+        parent::__construct('ocupar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
         $this->addElements();
-        $this->addInputFilter();          
-    }
+    }    
+    
+/*    public function setData($data) 
+    {
+        if(!empty($data['faturado']) && $data['faturado'] == 'S')
+        {
+            $this->faturado = true;
+        }
+        
+        if(!empty($data['pago']) && $data['pago'] == 'S')
+        {
+            $this->pago = true;
+        }
+        
+        parent::setData($data);
+        
+        $this->addInputFilter();
+    } 
+ */
 
     protected function addElements() 
     {
         $this->add([            
-            'type'  => 'date',
-            'name'  => 'dt_reserva',
-            'attributes' => [
-                'id'        => 'dt_reserva',
-                'class'     => 'form-control',
-                'readonly'  => 'readonly'
-            ],
-            'options' => [
-                'label' => 'Data'
-            ]
-        ]);
-        
-        $this->add([            
             'type'  => 'text',
             'name'  => 'lab',
             'attributes' => [
-                'id'          => 'lab',
-                'class'       => 'form-control',
-                'readonly' => 'readonly'
+                'id'       => 'lab',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
             ],
             'options' => [
                 'label'     => 'Laboratório',
@@ -51,9 +55,9 @@ class AlterarReservaForm extends Form
             'type'  => 'text',
             'name'  => 'tipo',
             'attributes' => [
-                'id'    => 'tipo',
-                'class' => 'form-control',
-                'readonly' => 'readonly'
+                'id'       => 'tipo',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
             ],
             'options' => [
                 'label' => 'Tipo',
@@ -62,51 +66,48 @@ class AlterarReservaForm extends Form
         ]);
         
         $this->add([            
-            'type'  => 'text',
-            'name'  => 'horario',
+            'type'  => 'date',
+            'name'  => 'data',
             'attributes' => [
-                'id'    => 'horario',
-                'class'    => 'form-control',
-                'readonly' => 'readonly'
+                'id'        => 'data',
+                'class'     => 'form-control',
             ],
             'options' => [
-                'label' => 'Horário',
-                'icon'  => 'clock'
+                'label' => 'Data'
             ]
         ]);
         
         $this->add([
             'type'  => 'radio',
-            'name'  => 'check_status',
+            'name'  => 'horario',
             'attributes' => [
-                'id'    => 'check_status',
+                'id'    => 'horario',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Horários',
+                'value_options' => [
+                    'manha' => '08:00 ás 12:00',
+                    'tarde' => '13:00 ás 17:00',
+                    'noite' => '18:00 ás 22:00'
+                ],
+            ],
+        ]);
+        
+        $this->add([
+            'type'  => 'radio',
+            'name'  => 'status',
+            'attributes' => [
+                'id'    => 'status',
                 'class' => 'form-control',
             ],
             'options' => [
                 'label' => 'Status',
                 'value_options' => [
                     'D' => 'Disponível',
-                    'O' => 'Ocupado',
                     'I' => 'Indisponível'
                 ],
             ],
-        ]);
-        
-        $this->add([            
-            'type'  => 'textarea',
-            'name'  => 'observacao',
-            'attributes' => [
-                'id'          => 'observacao',
-                'class'       => 'form-control',
-                'form'        => 'alterar-reserva-form',
-                'maxlength'   => 100,
-            ],
-            'options' => [
-                'label' => 'Observação',
-                'icon'  => 'comment',
-                'rows'  => 7,
-                'cols'  => 50
-            ]
         ]);
         
         $this->add([
@@ -115,7 +116,7 @@ class AlterarReservaForm extends Form
             'attributes' => [
                 'id'      => 'voltar',
                 'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/laboratorista\/reservas\''
+                'onclick' => 'window.location=\'/laboratorista/\laboratorios\''
             ],
             'options' => [
                 'label' => 'Voltar'
@@ -138,19 +139,6 @@ class AlterarReservaForm extends Form
     {
         $inputFilter = new InputFilter();        
         $this->setInputFilter($inputFilter);
-        
-        $inputFilter->add([
-            'name'     => 'dt_reserva',
-            'required' => false,
-            'validators' => [
-                [
-                    'name'    => 'Date',
-                    'options' => [
-                        'format' => "Y-m-d"
-                    ]
-                ],
-            ]
-        ]);
         
         $inputFilter->add([
             'name'     => 'lab',
@@ -192,38 +180,33 @@ class AlterarReservaForm extends Form
         ]);
         
         $inputFilter->add([
-            'name'     => 'horario',
-            'required' => false,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-                ['name' => 'StripTags'],
-            ],
-        ]);
-        
-        $inputFilter->add([
-            'name'     => 'check_status',
+            'name'     => 'data',
             'required' => true,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-                ['name' => 'StripTags'],
-            ],
-        ]);
-        
-        $inputFilter->add([
-            'name'     => 'observacao',
-            'required' => true,
-            'filters'  => [
-                ['name' => 'StringTrim'],
-                ['name' => 'StripTags'],
-            ],
             'validators' => [
                 [
-                    'name'    => 'StringLength',
+                    'name'    => 'Date',
                     'options' => [
-                        'min' => 1,
-                        'max' => 100
-                    ],
-                ]
+                        'format' => "Y-m-d"
+                    ]
+                ],
+            ]
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'horario',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'status',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
             ],
         ]);
     }        

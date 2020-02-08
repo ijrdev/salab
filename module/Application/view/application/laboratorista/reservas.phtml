@@ -5,7 +5,7 @@ $this->headScript()->appendFile($this->basePath('js/laboratorista/reservas.js?ve
 $this->menu()->setActiveItem('Reservas');
 
 $this->pageTitle()->setTitle('Reservas');
-$this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.');  
+$this->pageTitle()->setSubTitle('Todas os reservas realizadas dos laboratórios.');  
 ?>
 
 <div class="row">
@@ -30,77 +30,62 @@ $this->pageTitle()->setSubTitle('Todos os reservas realizadas dos laboratórios.
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
-                <table class="table table-sm">
+                <table class="table table-sm" style="font-size: 12px;">
                     <thead>
                         <tr>
                             <th class="text-center" style="width: 10px;">Código</th>
+                            <th class="text-center">Usuário</th>
                             <th class="text-center">Data</th>
+                            <th class="text-center">Horário</th>
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Tipo</th>
-                            <th class="text-center">Descrição</th>
-                            <th class="text-center">M</th>
-                            <th class="text-center">T</th>
-                            <th class="text-center">N</th>
+                            <th class="text-center">Observacao</th>
+                            <th class="text-center">Status</th>
                             <th class="text-center" style="width: 10px;">Alterar</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                            foreach($laboratorios as $laboratorio) 
+                            foreach($laboratorios as $laboratorio)
                             {
                         ?>
                             <tr>
-                                <td class="text-center align-middle"><?= $laboratorio['id_laboratorio'] ?></td>
+                                <td class="text-center align-middle"><?= $laboratorio['id_reserva'] ?></td>
+                                <td class="text-center align-middle"><?= $laboratorio['nome'] . ' ' . $laboratorio['sobrenome'] ?></td>
                                 <td class="text-center align-middle"><?= date('d-m-Y', strtotime($laboratorio['dt_reserva'])) ?></td>
+                                <td class="text-center align-middle">
+                                    <?php
+                                    switch($laboratorio['horario'])
+                                    {
+                                        case 'manha':
+                                            echo 'Manhã - 08:00 às 12:00';
+                                            break;
+                                        case 'tarde':
+                                            echo 'Tarde - 13:00 às 17:00';
+                                            break;
+                                        case 'noite':
+                                            echo 'Noite - 18:00 às 22:00';
+                                            break;
+                                    }
+                                    ?>
+                                </td>
                                 <td class="text-center align-middle"><?= $laboratorio['lab'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
-                                <td class="text-center align-middle"><?= $laboratorio['descricao'] ?></td>
+                                <td class="text-center align-middle" style="font-size: 12px;"><?= $laboratorio['observacao'] ?></td>
                                 <td class="text-center align-middle">
                                     <?php
-                                    switch($laboratorio['manha'])
-                                    {
-                                        case '0':
-                                            echo "<span class='badge badge-success' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Disponível'> </span>";
-                                            break;
-                                        case '1':
-                                            echo "<span class='badge badge-danger' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Ocupado'> </span>";
-                                            break;
-                                        case '2':
-                                            echo "<span class='badge badge-warning' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Indisponível'> </span>";
-                                            break;
-                                    }
-                                    ?>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <?php
-                                    switch($laboratorio['tarde'])
-                                    {
-                                        case '0':
-                                            echo "<span class='badge badge-success' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Disponível'> </span>";
-                                            break;
-                                        case '1':
-                                            echo "<span class='badge badge-danger' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Ocupado'> </span>";
-                                            break;
-                                        case '2':
-                                            echo "<span class='badge badge-warning' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Indisponível'> </span>";
-                                            break;
-                                    }
-                                    ?>
-                                </td>
-                                <td class="text-center align-middle" style="padding-left: 0rem;">
-                                    <?php
-                                    switch($laboratorio['noite'])
-                                    {
-                                        case '0':
-                                            echo "<span class='badge badge-success' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Disponível'> </span>";
-                                            break;
-                                        case '1':
-                                            echo "<span class='badge badge-danger' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Ocupado'> </span>";
-                                            break;
-                                        case '2':
-                                            echo "<span class='badge badge-warning' style='width: 10px; height: 10px; border-radius: 50%;' data-toggle='tooltip' data-placement='left' title='Indisponível'> </span>";
-                                            break;
-                                    }
+                                        switch($laboratorio['status'])
+                                        {
+                                            case 'D':
+                                                echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Disponível"></i>';
+                                                break;
+                                            case 'O':
+                                                echo '<i class="fas fa-times-circle text-danger" data-toggle="tooltip" data-placement="left" title="Ocupado"></i>';
+                                                break;
+                                            case 'I':
+                                                echo '<i class="fas fa-door-closed text-warning"  data-toggle="tooltip" data-placement="left" title="Indisponível"></i>';
+                                                break;
+                                        }
                                     ?>
                                 </td>
                                 <td class="text-center align-middle">

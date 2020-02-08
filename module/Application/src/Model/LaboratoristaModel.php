@@ -62,12 +62,13 @@ class LaboratoristaModel
                     'id_laboratorio',
                     'lab',
                     'tipo',
-                    'descricao',
                 ])
-                ->join(['r' => 'tb_reservas'], 'l.id_laboratorio = r.id_laboratorio', ['id_reserva', 'dt_reserva', 'manha', 'tarde', 'noite'], 'LEFT')
+                ->join(['r' => 'tb_reservas'], 'l.id_laboratorio = r.id_laboratorio', ['id_reserva', 'dt_reserva'])
+                ->join(['a' => 'tb_agendamentos'], 'r.id_reserva = a.id_reserva', ['id_usuario', 'horario', 'observacao', 'status'])
+                ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome', 'id_grupo'])
                 ->where($where)
-                ->order('l.id_laboratorio ASC');
-
+                ->order('r.id_reserva DESC');
+  
             $pag_adapter = new DbSelect($select, $sql);
             $paginator   = new Paginator($pag_adapter);
 
@@ -77,7 +78,16 @@ class LaboratoristaModel
             return $paginator;
         }
         
-        $select = $sql->select('tb_laboratorios');
+        $where = new Where();
+        $where->like('lab', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('tipo', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('descricao', '%' . strip_tags(trim($search)) . '%');
+        
+        $select = $sql
+            ->select('tb_laboratorios')
+            ->where($where);
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);

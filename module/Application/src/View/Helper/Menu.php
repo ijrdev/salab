@@ -49,12 +49,12 @@ class Menu extends AbstractHelper
                     break;
                 case 2:
                     $this->items = [
-                        'Início'   => '/laboratorista',
-                        'Reserva'  => '/laboratorista/reserva',
-                        'Reservas' => '/laboratorista/reservas',
-                        'Aviso'    => '/laboratorista/aviso',
-                        'Perfil'   => '/laboratorista/perfil',
-                        'Sair'     => '/logout'
+                        'Início'       => '/laboratorista',
+                        'Laboratórios' => '/laboratorista/laboratorios',
+                        'Reservas'     => '/laboratorista/reservas',
+                        'Aviso'        => '/laboratorista/aviso',
+                        'Perfil'       => '/laboratorista/perfil',
+                        'Sair'         => '/logout'
                     ];
                     break;
                 case 3:
