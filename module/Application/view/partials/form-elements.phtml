@@ -82,7 +82,7 @@ switch(strtolower($attr['type']))
 
         <div class="form-group">
             <div class="input-group">
-                <input type="hidden" name="<?= $attr['name'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>" value="<?= isset($values) && !empty($values) ? $values : '' ?>" <?= isset($attr['readonly']) && !empty($attr['readonly']) ? ' readonly="readonly"' : '' ?>>
+                <input type="hidden" id="<?= $attr['id'] ?>" name="<?= $attr['name'] ?>" class="<?= $attr['class'] ?> <?= !empty($messages) ? 'is-invalid' : '' ?>" value="<?= isset($values) && !empty($values) ? $values : '' ?>" <?= isset($attr['readonly']) && !empty($attr['readonly']) ? ' readonly="readonly"' : '' ?>>
             </div>
         </div>
 

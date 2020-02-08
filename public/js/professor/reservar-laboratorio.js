@@ -88,7 +88,7 @@ $(document).ready(function()
             },
             error: (data) =>
             {
-                console.warn(data);
+                console.warn(data.responseText);
             },
             complete: () =>
             {
@@ -178,7 +178,7 @@ $(document).ready(function()
             },
             error: (data) =>
             {
-                console.warn(data);
+                console.warn(data.responseText);
             },
             complete: () =>
             {
@@ -265,7 +265,7 @@ $(document).ready(function()
         },
         error: (data) =>
         {
-            console.warn(data);
+            console.warn(data.responseText);
         },
         complete: () =>
         {
@@ -347,7 +347,7 @@ function reservarLoad(form)
                 },
                 error: (data) =>
                 {
-                    console.warn(data);
+                    console.warn(data.responseText);
                 },
                 complete: () =>
                 {

@@ -5,11 +5,18 @@ $this->headScript()->appendFile($this->basePath('js/laboratorista/ocupar-laborat
 $this->menu()->setActiveItem('Laboratórios');
 
 $this->pageTitle()->setTitle('Ocupar Laboratório');
-$this->pageTitle()->setSubTitle('Realize a ocupação de algum laboratório.'); 
+$this->pageTitle()->setSubTitle('Realize a ocupação do laboratório.'); 
+
+$this->breadcrumbs()->setItems([
+    'Laboratórios'       => $this->url('laboratorista', ['action' => 'laboratorios']),
+    'Ocupar Laboratório' => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Ocupar Laboratório');
 
 $form->get('salvar')->setAttributes([
     'class'   => 'btn btn-sm btn-primary',
-    'onClick' => "load('ocupar-laboratorio-form')"
+    'onClick' => "ocuparLaboratorioLoad('ocupar-laboratorio-form')"
 ]);
 
 $form->prepare();
@@ -19,6 +26,12 @@ $form->prepare();
     <div class="card card-primary card-outline col-sm-8 offset-sm-2">
         <div class="card-body">
             <?= $this->form()->openTag($form); ?>
+            <div class="row">
+                <div class="col-sm-8 offset-sm-2">
+                    <?= $this->formRow($form->get('id_laboratorio'), null, null, 'partials/form-elements'); ?>
+                </div>
+            </div>
+            
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('lab'), null, null, 'partials/form-elements'); ?>
@@ -34,6 +47,7 @@ $form->prepare();
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('data'), null, null, 'partials/form-elements'); ?>
+                    <span id="messageData" class="text-danger mb-2" style="font-size: 12px;"></span>
                 </div>
             </div>
 

@@ -43,9 +43,10 @@ class ProfessorModel
                 'id_agendamento',
                 'horario',
                 'observacao',
-                'status'
+                'status',
+                'dthr_agendamento'
             ])
-            ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio', 'dt_reserva'])
+            ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio'])
             ->join(['l' => 'tb_laboratorios'], 'l.id_laboratorio = r.id_laboratorio', ['lab', 'tipo'])
             ->where($where)
             ->order('a.id_agendamento DESC');

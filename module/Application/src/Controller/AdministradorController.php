@@ -32,9 +32,11 @@ class AdministradorController extends AbstractActionController
     public function indexAction()
     {
         return new ViewModel([
+            'avisos'       => $this->administradorModel->getAllAvisos(),
+            'agendamentos' => $this->laboratoristaModel->getCountAllAgendamentos(),
+            'countAvisos'  => $this->administradorModel->getCountAllAvisos(),
             'usuarios'     => $this->administradorModel->getCountAllUsers(),
-            'laboratorios' => $this->laboratoristaModel->getCountAlLabors(),
-            'avisos'       => $this->administradorModel->getAllAvisos()
+            'laboratorios' => $this->laboratoristaModel->getCountAllLabors(),
         ]);
     }
     
@@ -63,6 +65,30 @@ class AdministradorController extends AbstractActionController
         $viewModel->setTemplate('templates/image');
         
         return $viewModel;
+    }
+    
+    public function agendamentosAction()
+    {
+        $page   = $this->params()->fromQuery('page', 1);
+        $search = $this->params()->fromQuery('search', null);
+        $data   = $this->params()->fromQuery('data', null);
+        
+        try
+        {
+            $agendamentos = $this->administradorModel->getAgendamentos($page, $search, $data);
+        } 
+        catch(\Exception $ex)
+        {
+            $this->flashMessenger()->addErrorMessage('Agendamentos| Ocorreu um problema ao realizar a operação.');
+
+            return $this->redirect()->toRoute('administrador');
+        }
+
+        return new ViewModel([
+            'agendamentos' => $agendamentos,
+            'search'       => $search,
+            'data'         => $data
+        ]);  
     }
     
     public function cadastrarUsuarioAction()

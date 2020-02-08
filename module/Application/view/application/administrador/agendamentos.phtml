@@ -1,9 +1,10 @@
 <?php
-$this->menu()->setActiveItem('Meus Agendamentos');
+$this->menu()->setActiveItem('Agendamentos');
 
-$this->pageTitle()->setTitle('Meus Agendamentos');
-$this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados.');
+$this->pageTitle()->setTitle('Agendamentos');
+$this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
 ?>
+
 
 <div class="row">
     <div class="col-12">
@@ -12,18 +13,33 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
                 <h3 class="card-title"></h3>
 
                 <div class="card-tools">
-                    <form action="<?= $this->url('professor', ['action' => 'meus-agendamentos']) ?>" method="get">
-                        <div class="input-group input-group-sm" style="width: 180px;">
-                            <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
+                    <div class="row">
+                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get">
+                            <div class="input-group input-group-sm" style="width: 180px; margin-right: 10px;">
+                                <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
 
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                                <div class="input-group-append">
+                                    <a href="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                                </div>
                             </div>
-                            <div class="input-group-append">
-                                <a href="<?= $this->url('professor', ['action' => 'meus-agendamentos']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                        </form>
+                        
+                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get">
+                            <div class="input-group input-group-sm" style="width: 250px;">
+                                <input type="date" id="data" name="data" class="form-control" value="<?= isset($this->data) && !empty($this->data) ? $this->data : '' ?>">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                </div>
+                                <div class="input-group-append">
+                                    <a href="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" class="btn btn-default"><i class="fas fa-times"></i></a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -34,7 +50,6 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
                             <th class="text-center">Data</th>
                             <th class="text-center">Horário</th>
                             <th class="text-center">Laboratório</th>
-                            <th class="text-center">Observação</th>
                             <th class="text-center">Status</th>
                         </tr>
                     </thead>
@@ -63,7 +78,6 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
                                     ?>
                                 </td>
                                 <td class="text-center align-middle"><?= $agendamento['lab'] . ' - ' . $agendamento['tipo'] ?></td>
-                                <td class="text-center align-middle"><?= $agendamento['observacao'] ?></td>
                                 <td class="text-center align-middle">
                                     <?php
                                         switch($agendamento['status'])
@@ -103,7 +117,6 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
 </div>
 <div class="row">
     <div class="col-12">
-        <?php echo $this->paginationControl($this->agendamentos, 'Sliding', 'partials/paginator', ['route' => 'professor', 'params' => ['action' => 'meus-agendamentos']]) ?>
+        <?php echo $this->paginationControl($this->agendamentos, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'agendamentos']]) ?>
     </div>
 </div>
-

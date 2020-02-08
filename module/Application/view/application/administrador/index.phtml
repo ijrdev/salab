@@ -9,15 +9,15 @@ echo $this->partial('partials/box-elements', [
     [
         [
             'background' => '#3d9970',
-            'count'      => 10,
-            'text'       => 'Reservas',
+            'count'      => $this->agendamentos,
+            'text'       => 'Agendamentos (Mês Atual)',
             'icon'       => 'calendar',
-            'link'       => $this->url('administrador', ['action' => 'reservas'])
+            'link'       => $this->url('administrador', ['action' => 'agendamentos'])
         ],
         [
             'background' => '#d49b00',
-            'count'      => count($avisos),
-            'text'       => 'Avisos',
+            'count'      => $this->countAvisos,
+            'text'       => 'Avisos (Mês Atual)',
             'icon'       => 'exclamation',
             'link'       => $this->url('administrador')
         ],

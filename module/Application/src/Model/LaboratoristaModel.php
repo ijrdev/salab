@@ -37,9 +37,9 @@ class LaboratoristaModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'add',
-                'script'     => $sql->buildSqlString($insert)
+                'class'     => __CLASS__,
+                'action'     => 'add',
+                'sql'     => $sql->buildSqlString($insert)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();
@@ -127,13 +127,139 @@ class LaboratoristaModel
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
     }
     
-    public function getCountAlLabors()
+    public function getCountAllLabors()
     {
         $sql = new Sql($this->db);
         
         $select = $sql->select('tb_laboratorios');
         
         return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
+    public function getCountAllAgendamentos()
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->between('dthr_agendamento', date('Y-m-01') . ' 00:00:00', date('Y-m-31') . ' 23:59:59');
+        
+        $select = $sql
+            ->select('tb_agendamentos')
+            ->where($where);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
+    public function ocuparLaboratorio($post, $id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $reserva = $this->getLaboratorioReserva($post['id_laboratorio'], $post['data']);
+        
+        if(isset($reserva) && !empty($reserva))
+        {
+            $where = new Where();
+            $where->equalTo('id_laboratorio', $reserva['id_laboratorio'])
+                  ->AND
+                  ->equalTo('dt_reserva', $reserva['dt_reserva']);
+            
+            switch($post['horario'])
+            {
+                case 'manha':
+                    $update = $sql
+                        ->update('tb_reservas')
+                        ->set([
+                            'manha' => $post['status']
+                        ])
+                        ->where($where);
+
+                    $sql->prepareStatementForSqlObject($update)->execute();
+                    break;
+                case 'tarde':
+                    $update = $sql
+                        ->update('tb_reservas')
+                        ->set([
+                            'tarde' => $post['status']
+                        ])
+                        ->where($where);
+
+                    $sql->prepareStatementForSqlObject($update)->execute();
+                    break;
+                case 'noite':
+                    $update = $sql
+                        ->update('tb_reservas')
+                        ->set([
+                            'noite' => $post['status']
+                        ])
+                        ->where($where);
+
+                    $sql->prepareStatementForSqlObject($update)->execute();
+                    break;
+            }
+            
+            $insertLog = $sql
+                ->insert('tb_logs')
+                ->values([
+                    'id_usuario' => $id_usuario,
+                    'dthr_log'   => date('Y-m-d H:i:s'),
+                    'class'     => __CLASS__,
+                    'action'     => 'ocupar-laboratorio',
+                    'sql'     => $sql->buildSqlString($update)
+                ]);
+
+            $sql->prepareStatementForSqlObject($insertLog)->execute();
+        }
+        else
+        {
+            switch($post['horario'])
+            {
+                case 'manha':
+                    $insert = $sql
+                        ->insert('tb_reservas')
+                        ->values([
+                            'id_laboratorio' => $post['id_laboratorio'],
+                            'dt_reserva'     => $post['data'],
+                            'manha'          => $post['status']
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    break;
+                case 'tarde':
+                    $insert = $sql
+                        ->insert('tb_reservas')
+                        ->values([
+                            'id_laboratorio' => $post['id_laboratorio'],
+                            'dt_reserva'     => $post['data'],
+                            'tarde'          => $post['status']
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    break;
+                case 'noite':
+                    $insert = $sql
+                        ->insert('tb_reservas')
+                        ->values([
+                            'id_laboratorio' => $post['id_laboratorio'],
+                            'dt_reserva'     => $post['data'],
+                            'noite'          => $post['status']
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insert)->execute();
+                    break;
+            }
+            
+            $insertLog = $sql
+                ->insert('tb_logs')
+                ->values([
+                    'id_usuario' => $id_usuario,
+                    'dthr_log'   => date('Y-m-d H:i:s'),
+                    'class'     => __CLASS__,
+                    'action'     => 'ocupar-laboratorio',
+                    'sql'     => $sql->buildSqlString($insert)
+                ]);
+
+            $sql->prepareStatementForSqlObject($insertLog)->execute();
+        }
     }
     
     // Pega a reserva do laboratório do dia e turno já setado para alterar.
@@ -166,6 +292,22 @@ class LaboratoristaModel
         
         $select = $sql
             ->select('tb_reservas')
+            ->where($where);
+            
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    public function checkAgendamento($id_reserva, $horario)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->equalTo('id_reserva', $id_reserva)
+              ->AND
+              ->equalTo('horario', $horario);
+        
+        $select = $sql
+            ->select('tb_agendamentos')
             ->where($where);
             
         return $sql->prepareStatementForSqlObject($select)->execute()->current();
@@ -225,16 +367,43 @@ class LaboratoristaModel
 
                     $sql->prepareStatementForSqlObject($update)->execute();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($update)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $reserva['id_reserva'],
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $reserva['id_reserva'],
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
                 case 'tarde':
                     $update = $sql
@@ -245,16 +414,43 @@ class LaboratoristaModel
                         ->where($where);
                     $sql->prepareStatementForSqlObject($update)->execute();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($update)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $reserva['id_reserva'],
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $reserva['id_reserva'],
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
                 case 'noite':
                     $update = $sql
@@ -266,16 +462,43 @@ class LaboratoristaModel
 
                     $sql->prepareStatementForSqlObject($update)->execute();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($update)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $reserva['id_reserva'],
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $reserva['id_reserva'],
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
             }
         }
@@ -294,16 +517,43 @@ class LaboratoristaModel
 
                     $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insert)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $id_reserva,
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $id_reserva,
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
                 case 'tarde':
                     $insert = $sql
@@ -316,16 +566,43 @@ class LaboratoristaModel
 
                     $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insert)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $id_reserva,
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $id_reserva,
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
                 case 'noite':
                     $insert = $sql
@@ -338,22 +615,49 @@ class LaboratoristaModel
 
                     $id_reserva = $sql->prepareStatementForSqlObject($insert)->execute()->getGeneratedValue();
                     
+                    $insertLog = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insert)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLog)->execute();
+                    
+                    // ---------------------------------------------------------
+                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
-                            'id_reserva' => $id_reserva,
-                            'id_usuario' => $id_usuario,
-                            'horario'    => $post['horario'],
-                            'disciplina' => $post['disciplina'],
+                            'id_reserva'       => $id_reserva,
+                            'id_usuario'       => $id_usuario,
+                            'horario'          => $post['horario'],
+                            'disciplina'       => $post['disciplina'],
+                            'dthr_agendamento' => date('Y-m-d H:i:s')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
+                    
+                    $insertLogAgendamento = $sql
+                        ->insert('tb_logs')
+                        ->values([
+                            'id_usuario' => $id_usuario,
+                            'dthr_log'   => date('Y-m-d H:i:s'),
+                            'class'     => __CLASS__,
+                            'action'     => 'reservar',
+                            'sql'     => $sql->buildSqlString($insertAgendamento)
+                        ]);
+
+                    $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                     break;
             }
         }
     }
     
-    public function alterarReserva($post, $id_reserva, $horario)
+    public function alterarReserva($post, $id_reserva, $horario, $id_usuario)
     {
         $sql = new Sql($this->db);
         
@@ -369,6 +673,20 @@ class LaboratoristaModel
 
                 $sql->prepareStatementForSqlObject($update)->execute();
                 
+                $insertLog = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($update)
+                    ]);
+
+                $sql->prepareStatementForSqlObject($insertLog)->execute();
+                
+                // -------------------------------------------------------------
+                
                 $where = new Where();
                 $where->equalTo('id_reserva', $id_reserva)
                       ->AND
@@ -383,6 +701,18 @@ class LaboratoristaModel
                     ->where($where);
 
                 $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                
+                $insertLogAgendamento = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($updateAgendamento)
+                    ]);
+
+                $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                 break;
             case 'O':
                 $update = $sql
@@ -394,30 +724,19 @@ class LaboratoristaModel
 
                 $sql->prepareStatementForSqlObject($update)->execute();
                 
-                $where = new Where();
-                $where->equalTo('id_reserva', $id_reserva)
-                      ->AND
-                      ->equalTo('horario', $horario);
+                $insertLog = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($update)
+                    ]);
 
-                $updateAgendamento = $sql
-                    ->update('tb_agendamentos')
-                    ->set([
-                        'status'     => $post['check_status'],
-                        'observacao' => $post['observacao']
-                    ])
-                    ->where($where);
-
-                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
-                break;
-            case 'I':
-                $update = $sql
-                    ->update('tb_reservas')
-                    ->set([
-                        $horario => 2
-                    ])
-                    ->where(['id_reserva' => $id_reserva]);
-
-                $sql->prepareStatementForSqlObject($update)->execute();
+                $sql->prepareStatementForSqlObject($insertLog)->execute();
+                
+                // -------------------------------------------------------------
                 
                 $where = new Where();
                 $where->equalTo('id_reserva', $id_reserva)
@@ -433,6 +752,69 @@ class LaboratoristaModel
                     ->where($where);
 
                 $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                
+                $insertLogAgendamento = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($updateAgendamento)
+                    ]);
+
+                $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
+                break;
+            case 'I':
+                $update = $sql
+                    ->update('tb_reservas')
+                    ->set([
+                        $horario => 2
+                    ])
+                    ->where(['id_reserva' => $id_reserva]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+                
+                $insertLog = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($update)
+                    ]);
+
+                $sql->prepareStatementForSqlObject($insertLog)->execute();
+                
+                // -------------------------------------------------------------
+                
+                $where = new Where();
+                $where->equalTo('id_reserva', $id_reserva)
+                      ->AND
+                      ->equalTo('horario', $horario);
+
+                $updateAgendamento = $sql
+                    ->update('tb_agendamentos')
+                    ->set([
+                        'status'     => $post['check_status'],
+                        'observacao' => $post['observacao']
+                    ])
+                    ->where($where);
+
+                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
+                
+                $insertLogAgendamento = $sql
+                    ->insert('tb_logs')
+                    ->values([
+                        'id_usuario' => $id_usuario,
+                        'dthr_log'   => date('Y-m-d H:i:s'),
+                        'class'     => __CLASS__,
+                        'action'     => 'alterar-reserva',
+                        'sql'     => $sql->buildSqlString($updateAgendamento)
+                    ]);
+
+                $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
                 break;
         }
     }
@@ -457,9 +839,9 @@ class LaboratoristaModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'update',
-                'script'     => $sql->buildSqlString($update)
+                'class'     => __CLASS__,
+                'action'     => 'update',
+                'sql'     => $sql->buildSqlString($update)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();
@@ -482,9 +864,9 @@ class LaboratoristaModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'delete',
-                'script'     => $sql->buildSqlString($delete)
+                'class'     => __CLASS__,
+                'action'     => 'delete',
+                'sql'     => $sql->buildSqlString($delete)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();

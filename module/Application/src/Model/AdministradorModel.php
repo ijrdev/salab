@@ -44,9 +44,9 @@ class AdministradorModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'add',
-                'script'     => $sql->buildSqlString($insert)
+                'class'     => __CLASS__,
+                'action'     => 'add',
+                'sql'     => $sql->buildSqlString($insert)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();
@@ -85,6 +85,53 @@ class AdministradorModel
                 'dthr_ult_alteracao'
             ])
             ->where($where);
+        
+        $pag_adapter = new DbSelect($select, $sql);
+        $paginator   = new Paginator($pag_adapter);
+
+        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setCurrentPageNumber($page);
+        
+        return $paginator;
+    }
+    
+    // Lista os agendamentos realizados para o administrador.
+    public function getAgendamentos($page, $search, $data)
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+                
+        if(isset($search) && !empty($search))
+        {
+            $where->like('a.id_agendamento', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('a.horario', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('l.lab', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('l.tipo', '%' . strip_tags(trim($search)) . '%')
+                ->OR
+                ->like('a.status', '%' . strip_tags(trim($search)) . '%');
+        }
+        
+        if(isset($data) && !empty($data))
+        {
+            $where->between('dthr_agendamento', trim($data) . ' 00:00:00', trim($data) . ' 23:59:59');
+        }
+        
+        $select = $sql
+            ->select(['a' => 'tb_agendamentos'])
+            ->columns([
+                'id_agendamento',
+                'horario',
+                'status',
+                'dthr_agendamento'
+            ])
+            ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio'])
+            ->join(['l' => 'tb_laboratorios'], 'l.id_laboratorio = r.id_laboratorio', ['lab', 'tipo'])
+            ->where($where)
+            ->order('a.id_agendamento DESC');
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);
@@ -181,6 +228,20 @@ class AdministradorModel
         return $avisos;
     }
     
+    public function getCountAllAvisos()
+    {
+        $sql = new Sql($this->db);
+        
+        $where = new Where();
+        $where->between('dthr_aviso', date('Y-m-01') . ' 00:00:00', date('Y-m-31') . ' 23:59:59');
+        
+        $select = $sql
+            ->select('tb_avisos')
+            ->where($where);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
     public function getFotoPerfil($id_usuario)
     {
         $sql = new Sql($this->db);
@@ -257,9 +318,9 @@ class AdministradorModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'update',
-                'script'     => $sql->buildSqlString($update)
+                'class'     => __CLASS__,
+                'action'     => 'update',
+                'sql'     => $sql->buildSqlString($update)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();
@@ -445,9 +506,9 @@ class AdministradorModel
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'classe'     => __CLASS__,
-                'funcao'     => 'delete',
-                'script'     => $sql->buildSqlString($delete)
+                'class'     => __CLASS__,
+                'action'     => 'delete',
+                'sql'     => $sql->buildSqlString($delete)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();

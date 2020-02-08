@@ -7,35 +7,73 @@ use Laminas\InputFilter\InputFilter;
 
 class OcuparLaboratorioForm extends Form
 {
-    public function __construct()
+    private $laboratoristaModel;
+    private $checkReserva;
+    private $checkAgendamento;
+    
+    public function __construct(\Application\Model\LaboratoristaModel $laboratoristaModel)
     {
+        $this->laboratoristaModel = $laboratoristaModel;
+        
         parent::__construct('ocupar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
         $this->addElements();
+        $this->addInputFilter();
     }    
     
-/*    public function setData($data) 
+    public function setData($data)
     {
-        if(!empty($data['faturado']) && $data['faturado'] == 'S')
+        if(isset($data['id_laboratorio']) && isset($data['data']) && isset($data['horario']))
         {
-            $this->faturado = true;
+            $reserva = $this->laboratoristaModel->checkReserva($data['id_laboratorio'], $data['data'], $data['horario']);
+            
+            
+            
+            if(!empty($reserva))
+            {
+                $array_status = [
+                    'manha' => $reserva['manha'],
+                    'tarde' => $reserva['tarde'],
+                    'noite' => $reserva['noite']
+                ];
+
+                foreach($array_status as $key => $value)
+                {
+                    if($key == $data['horario'] && $value == 1)
+                    {
+                        $this->checkReserva = true;
+                    }
+                }
+                
+                $agendamento = $this->laboratoristaModel->checkAgendamento($reserva['id_reserva'], $data['horario']);
+                
+                if(!empty($agendamento))
+                {
+                    if($agendamento['status'] === 'I')
+                    {
+                        $this->checkAgendamento = true;
+                    }
+                }
+            }
         }
-        
-        if(!empty($data['pago']) && $data['pago'] == 'S')
-        {
-            $this->pago = true;
-        }
-        
+
         parent::setData($data);
-        
-        $this->addInputFilter();
     } 
- */
 
     protected function addElements() 
     {
+        $this->add([            
+            'type'  => 'hidden',
+            'name'  => 'id_laboratorio',
+            'attributes' => [
+                'id'       => 'id_laboratorio',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
+            ],
+        ]);
+        
         $this->add([            
             'type'  => 'text',
             'name'  => 'lab',
@@ -104,8 +142,8 @@ class OcuparLaboratorioForm extends Form
             'options' => [
                 'label' => 'Status',
                 'value_options' => [
-                    'D' => 'Disponível',
-                    'I' => 'Indisponível'
+                    0 => 'Disponível',
+                    2 => 'Indisponível'
                 ],
             ],
         ]);
@@ -139,6 +177,11 @@ class OcuparLaboratorioForm extends Form
     {
         $inputFilter = new InputFilter();        
         $this->setInputFilter($inputFilter);
+        
+        $inputFilter->add([
+            'name'     => 'id_laboratorio',
+            'required' => true,
+        ]);
         
         $inputFilter->add([
             'name'     => 'lab',
@@ -199,6 +242,23 @@ class OcuparLaboratorioForm extends Form
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
             ],
+            'validators' => [
+                [
+                    'name'    => 'Callback',
+                    'options' => [
+                        'message'  => 'Não é possível escolher esse horário pois já se encontra ocupado.',
+                        'callback' => function() 
+                        {
+                            if(!empty($this->checkReserva) && $this->checkReserva)
+                            {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    ]
+                ],
+            ]
         ]);
         
         $inputFilter->add([
@@ -208,6 +268,23 @@ class OcuparLaboratorioForm extends Form
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],
             ],
+            'validators' => [
+                [
+                    'name'    => 'Callback',
+                    'options' => [
+                        'message'  => 'Não é possível mudar o status pois há um agendamento e a reserva já foi alterada.',
+                        'callback' => function() 
+                        {
+                            if(!empty($this->checkAgendamento) && $this->checkAgendamento)
+                            {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    ]
+                ],
+            ]
         ]);
     }        
 }

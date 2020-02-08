@@ -15,6 +15,7 @@ use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
 use Application\Model\SessionModel;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
 
 class LaboratoristaController extends AbstractActionController
@@ -88,12 +89,6 @@ class LaboratoristaController extends AbstractActionController
     
     public function ocuparLaboratorioAction()
     {
-        /* PROCEDIMENTO QUE SERÁ FEITO NO SETDATA DO FORM OCUPAR LABORATÓRIO
-     * REALIZAR A VERIFICAÇÃO SE HÁ RESERVA DAQUELE LABORATÓRIO NO DIA ESCOLHIDO.
-     * CASO SIM - NÃO DEIXAR, POIS TERÁ QUE FAZER O PROCEDIMENTO NA RESERVA
-     * CASO NÃO - DEIXAR REALIZAR A OCUPAÇÃO. */
-        ASDAS
-
         $id_laboratorio = (int) $this->params()->fromRoute('id', 0);
         
         if(!$id_laboratorio)
@@ -104,7 +99,7 @@ class LaboratoristaController extends AbstractActionController
         }
         
         $laboratorio = $this->laboratoristaModel->getLabor($id_laboratorio);
-        
+                
         if(!isset($laboratorio) || empty($laboratorio))
         {
             $this->getResponse()->setStatusCode(404);
@@ -112,7 +107,7 @@ class LaboratoristaController extends AbstractActionController
             return;
         }
   
-        $form = new OcuparLaboratorioForm();
+        $form = new OcuparLaboratorioForm($this->laboratoristaModel);
 
         if($this->getRequest()->isPost()) 
         {
@@ -124,21 +119,17 @@ class LaboratoristaController extends AbstractActionController
             {
                 try 
                 {
-                    echo "<pre>";
-                    print_r($form->getData());
-                    exit;
-                    
-                    $this->laboratoristaModel->ocuparLaboratorio($form->getData(), $id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
+                    $this->laboratoristaModel->ocuparLaboratorio($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Ocupar Laboratório| Operação realizada com sucesso!");
 
-                    return $this->redirect()->toRoute('laboratorista', ['action' => 'ocupar-laboratorio']);
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'laboratorios']);
                 }
                 catch (\Exception $exc)
                 {
                     $this->flashMessenger()->addErrorMessage('Ocupar Laboratório| Ocorreu um problema ao realizar a operação.');
 
-                    return $this->redirect()->toRoute('laboratorista', ['action' => 'ocupar-laboratorio']);
+                    return $this->redirect()->toRoute('laboratorista', ['action' => 'laboratorios']);
                 }
             }
             else
@@ -148,7 +139,7 @@ class LaboratoristaController extends AbstractActionController
         }
         else
         {
-            $lab = explode(' ', $laboratorio['lab']);
+            $lab                = explode(' ', $laboratorio['lab']);
             $laboratorio['lab'] = $lab[1];
             
             $form->setData($laboratorio);
@@ -158,6 +149,29 @@ class LaboratoristaController extends AbstractActionController
             'form'        => $form,
             'laboratorio' => $laboratorio
         ]);
+    }
+    
+    public function getReservaAction()
+    {
+        $request = $this->getRequest();
+        
+        if($request->isPost() && $request->isXmlHttpRequest())
+        {
+            $post = $request->getPost();
+
+            try 
+            {
+                $reserva = $this->laboratoristaModel->getLaboratorioReserva($post['id_laboratorio'], $post['dt_reserva']);
+            }
+            catch (\Exception $exc)
+            {
+                $reserva = $exc->getMessage();
+            }
+            
+            return new JsonModel([
+                'reserva' => $reserva
+            ]);
+        }
     }
     
     public function reservasAction()
@@ -209,7 +223,7 @@ class LaboratoristaController extends AbstractActionController
             {
                 try 
                 {      
-                    $this->laboratoristaModel->alterarReserva($form->getData(), $reserva['id_reserva'], $reserva['horario']);
+                    $this->laboratoristaModel->alterarReserva($form->getData(), $reserva['id_reserva'], $reserva['horario'], $this->sessionModel->getUsuario()['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Alterar Reserva| Operação realizada com sucesso!");
 
