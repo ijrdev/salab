@@ -9,6 +9,8 @@ use Laminas\Db\Sql\Where;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Paginator;
 
+date_default_timezone_set('America/Sao_Paulo');
+
 class AdministradorModel
 {
     private $db;

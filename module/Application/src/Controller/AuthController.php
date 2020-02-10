@@ -22,6 +22,20 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
+        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO.
+
+        COLOCAR O LAYOUT DE ERRO DO TEMPLATE.
+
+        REALIZAR ALGUMAS REVISOES.
+
+        ÍCONE DA ABA.
+
+        TESTES EM DISPOSITIVO MÓVEL.
+
+        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
+
+        VERIFICAR ESSA QUESTAO DE DOS MODOS DE PRODUCAO E DESENVOLVIMENTO.
+        
         $this->layout('layout/login');
         
         $form = new LoginForm();

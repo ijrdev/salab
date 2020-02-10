@@ -12,6 +12,11 @@ $this->breadcrumbs()->setItems([
 
 $this->breadcrumbs()->setActiveItem('Excluir Laboratório');
 
+$form->get('excluir')->setAttributes([
+    'class'   => 'btn btn-sm btn-danger',
+    'onClick' => "load('excluir-laboratorio-form')"
+]);
+
 $form->prepare();
 ?>
 
@@ -27,7 +32,7 @@ $form->prepare();
             </div>
             
             <?= $this->form()->openTag($form); ?>
-                <div class="col-12 text-right">
+                <div class="col-12 text-right" id="buttons">
                     <?= $this->formElement($form->get('voltar')); ?>
                     <?= $this->formElement($form->get('excluir')); ?>
                 </div>

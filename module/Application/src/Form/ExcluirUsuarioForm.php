@@ -31,13 +31,14 @@ class ExcluirUsuarioForm extends Form
         ]);
         
         $this->add([
-            'type'  => 'submit',
-            'name'  => 'excluir',
-            'attributes' => [                
-                'id'    => 'excluir',
-                'class' => 'btn btn-sm btn-danger',
-                'value' => 'Excluir'
+            'type'  => 'Button',
+            'name' => 'excluir',
+            'attributes' => [
+                'id' => 'excluir',
             ],
+            'options' => [
+                'label' => 'Excluir'
+            ]
         ]);
     }
 }

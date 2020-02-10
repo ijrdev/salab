@@ -53,6 +53,10 @@ $form->prepare();
                 </div>
             </div>
             
+            <?php
+                if(date('Ymd' , strtotime($reserva['dt_reserva'])) >= date('Ymd'))
+                {
+            ?>
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">
                     <?= $this->formRow($form->get('check_status'), null, null, 'partials/form-elements'); ?>
@@ -71,6 +75,9 @@ $form->prepare();
                     <?= $this->formElement($form->get('salvar'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
+            <?php
+                }
+            ?>
         </div>
             
         <?= $this->form()->closeTag(); ?>

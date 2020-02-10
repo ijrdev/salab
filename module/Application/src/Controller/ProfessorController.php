@@ -8,6 +8,7 @@
 namespace Application\Controller;
 
 use Application\Form\AvisoForm;
+use Application\Form\CancelarAgendamentoForm;
 use Application\Form\PerfilProfessorForm;
 use Application\Form\ReservarLaboratorioForm;
 use Application\Model\AdministradorModel;
@@ -86,6 +87,59 @@ class ProfessorController extends AbstractActionController
         return new ViewModel([
             'agendamentos' => $agendamentos,
             'search'       => $search
+        ]);
+    }
+    
+    public function cancelarAgendamentoAction()
+    {
+        $id_agendamento = (int) $this->params()->fromRoute('id', 0);
+        
+        if(!$id_agendamento)
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $agendamento = $this->laboratoristaModel->getAgendamento($id_agendamento);
+        
+        if(!isset($agendamento) || empty($agendamento))
+        {
+            $this->getResponse()->setStatusCode(404);
+            
+            return;
+        }
+        
+        $form = new CancelarAgendamentoForm();
+        
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                try 
+                {
+                    $this->laboratoristaModel->cancelarAgendamento($id_agendamento, $agendamento['id_reserva'], $agendamento['horario'], $this->sessionModel->getUsuario()['id_usuario']);
+
+                    $this->flashMessenger()->addSuccessMessage("Cancelar Agendamento| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('professor', ['action' => 'meus-agendamentos']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Cancelar Agendamento| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('professor', ['action' => 'meus-agendamentos']);
+                }
+            }
+        }
+        
+        return new ViewModel([
+            'form'        => $form,
+            'agendamento' => $agendamento
         ]);
     }
     

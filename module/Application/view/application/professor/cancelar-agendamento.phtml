@@ -1,0 +1,56 @@
+<?php
+$this->menu()->setActiveItem('Meus Agendamentos');
+
+$this->pageTitle()->setTitle("Cancelar Agendamento");
+$this->pageTitle()->setSubTitle('Realize o cancelamento do agendamento realizado.');
+
+$this->breadcrumbs()->setItems([
+    'Meus Agendamentos'    => $this->url('professor', ['action' => 'meus-agendamentos']),
+    'Cancelar Agendamento' => ''
+]);
+
+$this->breadcrumbs()->setActiveItem('Cancelar Agendamento');
+
+$form->get('cancelar')->setAttributes([
+    'class'   => 'btn btn-sm btn-danger',
+    'onClick' => "load('cancelar-agendamento-form')"
+]);
+
+$form->prepare();
+?>
+
+<div class="row">
+    <div class="col-12">
+        <div class="callout callout-danger">
+            <h5><i class="fas fa-times text-danger"></i> Você está prestes a realizar o cancelamento do agendamento, tem certeza?</h5>
+
+            <div>
+                <strong>Disciplina: </strong> <i> <?= $agendamento['disciplina'] ?> </i> <br>
+                <strong>Horário: </strong> 
+                <i> 
+                    <?php 
+                    switch($agendamento['horario'])
+                    { 
+                        case 'manha': 
+                            echo 'Manhã - 08:00 às 12:00'; 
+                            break;
+                        case 'tarde': 
+                            echo 'Tarde - 13:00 às 17:00'; 
+                            break;
+                        case 'noite': 
+                            echo 'Noite - 18:00 às 22:00'; 
+                            break;
+                    } ?> 
+                </i> <br>
+                <strong>Data: </strong> <i> <?= date('d-m-Y', strtotime($agendamento['dthr_agendamento'])) ?> </i> <br>
+            </div>
+            
+            <?= $this->form()->openTag($form); ?>
+                <div class="col-12 text-right" id="buttons">
+                    <?= $this->formElement($form->get('voltar')); ?>
+                    <?= $this->formElement($form->get('cancelar')); ?>
+                </div>
+            <?= $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>

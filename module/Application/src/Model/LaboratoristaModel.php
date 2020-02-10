@@ -8,6 +8,8 @@ use Laminas\Db\Sql\Where;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Paginator;
 
+date_default_timezone_set('America/Sao_Paulo');
+
 class LaboratoristaModel
 {
     private $db;
@@ -54,7 +56,15 @@ class LaboratoristaModel
         if(!empty($param) && $param === 'param')
         {
             $where = new Where();
-            $where->equalTo('r.dt_reserva', isset($search) && !empty($search) ? strip_tags(trim($search)) : date('Y-m-d'));
+            
+            if(isset($search) && !empty($search))
+            {
+                $where->equalTo('r.dt_reserva', strip_tags(trim($search)));
+            }
+            else
+            {
+                $where->equalTo('r.dt_reserva', date('Y-m-d'));
+            }
 
             $select = $sql
                 ->select(['l' => 'tb_laboratorios'])
@@ -79,6 +89,7 @@ class LaboratoristaModel
         }
         
         $where = new Where();
+        
         $where->like('lab', '%' . strip_tags(trim($search)) . '%')
                 ->OR
                 ->like('tipo', '%' . strip_tags(trim($search)) . '%')
@@ -148,6 +159,59 @@ class LaboratoristaModel
             ->where($where);
         
         return $sql->prepareStatementForSqlObject($select)->execute()->count();
+    }
+    
+    public function getAgendamento($id_agendamento)
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql
+            ->select('tb_agendamentos')
+            ->where(['id_agendamento' => $id_agendamento]);
+        
+        return $sql->prepareStatementForSqlObject($select)->execute()->current();
+    }
+    
+    public function cancelarAgendamento($id_agendamento, $id_reserva, $horario, $id_usuario)
+    {
+        $sql = new Sql($this->db);
+        
+        $select = $sql
+            ->select('tb_reservas')
+            ->where(['id_reserva' => $id_reserva]);
+        
+        $reserva = $sql->prepareStatementForSqlObject($select)->execute()->current();
+        
+        if(isset($reserva) && !empty($reserva))
+        {
+            if($reserva[$horario] == 1)
+            {
+                $update = $sql
+                    ->update('tb_reservas')
+                    ->set([$horario => 0])
+                    ->where(['id_reserva' => $reserva['id_reserva']]);
+
+                $sql->prepareStatementForSqlObject($update)->execute();
+            }
+
+            $delete = $sql
+                ->delete('tb_agendamentos')
+                ->where(['id_agendamento' => $id_agendamento]);
+
+            $sql->prepareStatementForSqlObject($delete)->execute();
+            
+            $insertLog = $sql
+                ->insert('tb_logs')
+                ->values([
+                    'id_usuario' => $id_usuario,
+                    'dthr_log'   => date('Y-m-d H:i:s'),
+                    'class'     => __CLASS__,
+                    'action'     => 'cancelar-agendamento',
+                    'sql'     => $sql->buildSqlString($delete)
+                ]);
+
+            $sql->prepareStatementForSqlObject($insertLog)->execute();
+        }
     }
     
     public function ocuparLaboratorio($post, $id_usuario)
@@ -664,57 +728,6 @@ class LaboratoristaModel
         switch($post['check_status']) 
         {
             case 'D':
-                $update = $sql
-                    ->update('tb_reservas')
-                    ->set([
-                        $horario => 1
-                    ])
-                    ->where(['id_reserva' => $id_reserva]);
-
-                $sql->prepareStatementForSqlObject($update)->execute();
-                
-                $insertLog = $sql
-                    ->insert('tb_logs')
-                    ->values([
-                        'id_usuario' => $id_usuario,
-                        'dthr_log'   => date('Y-m-d H:i:s'),
-                        'class'     => __CLASS__,
-                        'action'     => 'alterar-reserva',
-                        'sql'     => $sql->buildSqlString($update)
-                    ]);
-
-                $sql->prepareStatementForSqlObject($insertLog)->execute();
-                
-                // -------------------------------------------------------------
-                
-                $where = new Where();
-                $where->equalTo('id_reserva', $id_reserva)
-                      ->AND
-                      ->equalTo('horario', $horario);
-
-                $updateAgendamento = $sql
-                    ->update('tb_agendamentos')
-                    ->set([
-                        'status'     => $post['check_status'],
-                        'observacao' => $post['observacao']
-                    ])
-                    ->where($where);
-
-                $sql->prepareStatementForSqlObject($updateAgendamento)->execute();
-                
-                $insertLogAgendamento = $sql
-                    ->insert('tb_logs')
-                    ->values([
-                        'id_usuario' => $id_usuario,
-                        'dthr_log'   => date('Y-m-d H:i:s'),
-                        'class'     => __CLASS__,
-                        'action'     => 'alterar-reserva',
-                        'sql'     => $sql->buildSqlString($updateAgendamento)
-                    ]);
-
-                $sql->prepareStatementForSqlObject($insertLogAgendamento)->execute();
-                break;
-            case 'O':
                 $update = $sql
                     ->update('tb_reservas')
                     ->set([

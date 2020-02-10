@@ -4,11 +4,11 @@ namespace Application\Form;
 
 use Laminas\Form\Form;
 
-class ExcluirLaboratorioForm extends Form
+class CancelarAgendamentoForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('excluir-laboratorio-form');
+        parent::__construct('cancelar-agendamento-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -23,7 +23,7 @@ class ExcluirLaboratorioForm extends Form
             'attributes' => [
                 'id'      => 'voltar',
                 'class'   => 'btn btn-sm btn-default',
-                'onclick' => 'window.location=\'/administrador/\consultar-laboratorios\''
+                'onclick' => 'window.location=\'/professor/\meus-agendamentos\''
             ],
             'options' => [
                 'label' => 'Voltar'
@@ -32,12 +32,12 @@ class ExcluirLaboratorioForm extends Form
         
         $this->add([
             'type'  => 'Button',
-            'name' => 'excluir',
+            'name' => 'cancelar',
             'attributes' => [
-                'id' => 'excluir',
+                'id' => 'cancelar',
             ],
             'options' => [
-                'label' => 'Excluir'
+                'label' => 'Cancelar'
             ]
         ]);
     }

@@ -251,6 +251,7 @@ class LaboratoristaController extends AbstractActionController
                 
         return new ViewModel([
             'form'    => $form,
+            'reserva' => $reserva,
         ]);
     }
     

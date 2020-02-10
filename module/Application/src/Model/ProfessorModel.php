@@ -8,6 +8,8 @@ use Laminas\Db\Sql\Where;
 use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Paginator;
 
+date_default_timezone_set('America/Sao_Paulo');
+
 class ProfessorModel
 {
     private $db;
@@ -42,6 +44,7 @@ class ProfessorModel
             ->columns([
                 'id_agendamento',
                 'horario',
+                'disciplina',
                 'observacao',
                 'status',
                 'dthr_agendamento'

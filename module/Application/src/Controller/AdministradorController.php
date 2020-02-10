@@ -113,7 +113,7 @@ class AdministradorController extends AbstractActionController
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage($exc->getMessage());
+                    $this->flashMessenger()->addErrorMessage('Cadastrar Usuário| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador');
                 }
@@ -147,7 +147,7 @@ class AdministradorController extends AbstractActionController
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage($exc->getMessage());
+                    $this->flashMessenger()->addErrorMessage('Cadastrar Usuários| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador');
                 }
@@ -370,7 +370,7 @@ class AdministradorController extends AbstractActionController
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Excluir Usuário| Ocorreu um problema ao realizar a operação. ' . $exc->getMessage());
+                    $this->flashMessenger()->addErrorMessage('Excluir Usuário| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
