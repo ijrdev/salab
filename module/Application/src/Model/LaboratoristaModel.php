@@ -75,7 +75,7 @@ class LaboratoristaModel
                 ])
                 ->join(['r' => 'tb_reservas'], 'l.id_laboratorio = r.id_laboratorio', ['id_reserva', 'dt_reserva'])
                 ->join(['a' => 'tb_agendamentos'], 'r.id_reserva = a.id_reserva', ['id_usuario', 'horario', 'observacao', 'status'])
-                ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome', 'id_grupo'])
+                ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome'])
                 ->where($where)
                 ->order('r.id_reserva DESC');
   

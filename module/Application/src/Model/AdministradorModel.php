@@ -132,6 +132,7 @@ class AdministradorModel
             ])
             ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio'])
             ->join(['l' => 'tb_laboratorios'], 'l.id_laboratorio = r.id_laboratorio', ['lab', 'tipo'])
+            ->join(['u' => 'tb_usuarios'], 'a.id_usuario = u.id_usuario', ['nome', 'sobrenome'])
             ->where($where)
             ->order('a.id_agendamento DESC');
         

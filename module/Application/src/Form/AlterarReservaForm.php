@@ -86,7 +86,6 @@ class AlterarReservaForm extends Form
                 'label' => 'Status',
                 'value_options' => [
                     'D' => 'Disponível',
-                    'O' => 'Ocupado',
                     'I' => 'Indisponível'
                 ],
             ],

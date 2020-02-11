@@ -10,12 +10,9 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
     <div class="col-12">
         <div class="card card-primary card-outline" style="font-size: 14px;">
             <div class="card-header">
-                <h3 class="card-title"></h3>
-
-                <div class="card-tools">
-                    <div class="row">
-                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get">
-                            <div class="input-group input-group-sm" style="width: 180px; margin-right: 10px;">
+                    <div class="row float-right">
+                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get" class="m-1">
+                            <div class="input-group input-group-sm">
                                 <input type="text" name="search" class="form-control float-right" placeholder="Pesquise..." value="<?= isset($this->search) && !empty($this->search) ? $this->search : '' ?>">
 
                                 <div class="input-group-append">
@@ -27,8 +24,8 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
                             </div>
                         </form>
                         
-                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get">
-                            <div class="input-group input-group-sm" style="width: 250px;">
+                        <form action="<?= $this->url('administrador', ['action' => 'agendamentos']) ?>" method="get" class="m-1">
+                            <div class="input-group input-group-sm">
                                 <input type="date" id="data" name="data" class="form-control" value="<?= isset($this->data) && !empty($this->data) ? $this->data : '' ?>">
 
                                 <div class="input-group-append">
@@ -40,13 +37,13 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
                             </div>
                         </form>
                     </div>
-                </div>
             </div>
             <div class="card-body table-responsive p-0">
                 <table class="table table-sm" style="font-size: 12px;">
                     <thead>
                         <tr>
                             <th class="text-center">Código</th>
+                            <th class="text-center">Usuário</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Horário</th>
                             <th class="text-center">Laboratório</th>
@@ -60,6 +57,7 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
                         ?>
                             <tr>
                                 <td class="text-center align-middle"><?= $agendamento['id_agendamento'] ?></td>
+                                <td class="text-center align-middle"><?= $agendamento['nome'] . ' ' . $agendamento['sobrenome'] ?></td>
                                 <td class="text-center align-middle"><?= date('d-m-Y', strtotime($agendamento['dthr_agendamento'])) ?></td>
                                 <td class="text-center align-middle">
                                     <?php

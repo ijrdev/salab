@@ -22,19 +22,18 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO.
-
-        COLOCAR O LAYOUT DE ERRO DO TEMPLATE.
-
+        AJEITAR OS BOXES DO INDEX ADM
+        
         REALIZAR ALGUMAS REVISOES.
 
-        ÍCONE DA ABA.
-
+        EMAIL.
+        
         TESTES EM DISPOSITIVO MÓVEL.
-
+        
         ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
-
-        VERIFICAR ESSA QUESTAO DE DOS MODOS DE PRODUCAO E DESENVOLVIMENTO.
+        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)
+        
+        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO. (config/autoload/development.local.php)
         
         $this->layout('layout/login');
         
