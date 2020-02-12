@@ -218,7 +218,7 @@ class LaboratoristaModel
     {
         $sql = new Sql($this->db);
         
-        $reserva = $this->getLaboratorioReserva($post['id_laboratorio'], $post['data']);
+        $reserva = $this->getLaboratorioReservas($post['id_laboratorio'], $post['data']);
         
         if(isset($reserva) && !empty($reserva))
         {
@@ -345,7 +345,7 @@ class LaboratoristaModel
     }
     
     // Pega todas as reservas do laboratório na data espeficada.
-    public function getLaboratorioReserva($id_laboratorio, $dt_reserva)
+    public function getLaboratorioReservas($id_laboratorio, $dt_reserva)
     {
         $sql = new Sql($this->db);
         
@@ -410,7 +410,7 @@ class LaboratoristaModel
     {
         $sql = new Sql($this->db);
         
-        $reserva = $this->getLaboratorioReserva($post['laboratorio'], $post['data']);
+        $reserva = $this->getLaboratorioReservas($post['laboratorio'], $post['data']);
         
         if(isset($reserva) && !empty($reserva))
         {

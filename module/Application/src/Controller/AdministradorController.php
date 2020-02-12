@@ -75,7 +75,7 @@ class AdministradorController extends AbstractActionController
         
         try
         {
-            $agendamentos = $this->administradorModel->getAgendamentos($page, $search, $data);
+            $agendamentos = $this->administradorModel->getAllAgendamentos($page, $search, $data);
         } 
         catch(\Exception $ex)
         {
@@ -464,7 +464,7 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {                    
-                    $this->administradorModel->updatePerfil($form->getData(), $usuario['id_usuario']);
+                    $this->administradorModel->perfil($form->getData(), $usuario['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
 
@@ -535,13 +535,6 @@ class AdministradorController extends AbstractActionController
         
         return new ViewModel([
             'form' => $form
-        ]);
-    }
-    
-    public function reservaAction()
-    {
-        return new ViewModel([
-            
         ]);
     }
 }

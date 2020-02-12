@@ -22,13 +22,13 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-        AJEITAR OS BOXES DO INDEX ADM
-        
-        REALIZAR ALGUMAS REVISOES.
-
         EMAIL.
         
         TESTES EM DISPOSITIVO MÓVEL.
+   
+        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA.
+                  
+        ÚLTIMO TESTE COMPLETO.
         
         ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
         VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)

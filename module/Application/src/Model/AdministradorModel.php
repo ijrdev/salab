@@ -97,8 +97,7 @@ class AdministradorModel
         return $paginator;
     }
     
-    // Lista os agendamentos realizados para o administrador.
-    public function getAgendamentos($page, $search, $data)
+    public function getAllAgendamentos($page, $search, $data)
     {
         $sql = new Sql($this->db);
         
@@ -329,7 +328,7 @@ class AdministradorModel
         $sql->prepareStatementForSqlObject($insertLog)->execute();
     }
     
-    public function updatePerfil($post, $id_usuario)
+    public function perfil($post, $id_usuario)
     {
         $sql = new Sql($this->db);
         

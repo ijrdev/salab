@@ -10,14 +10,16 @@ echo $this->partial('partials/box-elements', [
         [
             'background' => '#3d9970',
             'count'      => $this->agendamentos,
-            'text'       => 'Agendamentos (Mês Atual)',
+            'text'       => 'Agendamentos',
+            'sub-text'   => '(Mês Atual)',
             'icon'       => 'calendar',
             'link'       => $this->url('administrador', ['action' => 'agendamentos'])
         ],
         [
             'background' => '#d49b00',
             'count'      => $this->countAvisos,
-            'text'       => 'Avisos (Mês Atual)',
+            'text'       => 'Avisos',
+            'sub-text'   => '(Mês Atual)',
             'icon'       => 'exclamation',
             'link'       => $this->url('administrador')
         ],
@@ -25,6 +27,7 @@ echo $this->partial('partials/box-elements', [
             'background' => '#02a7d9',
             'count'      => $this->usuarios,
             'text'       => 'Usuários',
+            'sub-text'   => '',
             'icon'       => 'users',
             'link'       => $this->url('administrador', ['action' => 'consultar-usuarios'])
         ],
@@ -32,6 +35,7 @@ echo $this->partial('partials/box-elements', [
             'background' => '#bdbdbd',
             'count'      => $this->laboratorios,
             'text'       => 'Laboratórios',
+            'sub-text'   => '',
             'icon'       => 'flask',
             'link'       => $this->url('administrador', ['action' => 'consultar-laboratorios'])
         ]

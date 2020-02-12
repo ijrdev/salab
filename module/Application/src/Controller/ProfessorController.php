@@ -1,9 +1,4 @@
 <?php
-/**
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
 namespace Application\Controller;
 
@@ -153,7 +148,7 @@ class ProfessorController extends AbstractActionController
 
             try 
             {
-                $reserva = $this->laboratoristaModel->getLaboratorioReserva($post['id_laboratorio'], $post['dt_reserva']);
+                $reserva = $this->laboratoristaModel->getLaboratorioReservas($post['id_laboratorio'], $post['dt_reserva']);
             }
             catch (\Exception $exc)
             {

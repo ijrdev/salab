@@ -13,7 +13,8 @@ if(isset($this->boxes) && !empty($this->boxes))
                 <div class="inner">
                     <h3><?= $box['count'] ?></h3>
 
-                    <p><?= $box['text'] ?></p>
+                    <span><?= $box['text'] ?> <br> <?= isset($box['sub-text']) && !empty($box['sub-text']) ? "<span style='font-size: 14px;'> {$box['sub-text']} </span>" : '<br>' ?></span>
+                    
                 </div>
                 <div class="icon">
                     <i class="fas fa-<?= $box['icon'] ?>"></i>
