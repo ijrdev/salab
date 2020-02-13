@@ -63,7 +63,7 @@ class Module
         {
             
             // Redirect the user to the "Login" page.
-            return $controller->redirect()->toRoute('login');
+            return $controller->redirect()->toRoute('auth');
         }
         
         if($controllerName != "Application\Controller\AuthController")
@@ -75,7 +75,7 @@ class Module
             {
                 if($usuario['grupo'] != $controllerName)
                 {
-                    return $controller->redirect()->toRoute('login');
+                    return $controller->redirect()->toRoute('auth');
                 }
             }
         }

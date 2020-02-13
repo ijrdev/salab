@@ -25,11 +25,12 @@ function mudaFotoPerfil(e)
     }
 }
 
-function load(form)
+function load(form, cor = 'text-primary')
 {
     $('#buttons').children().hide();
     
-    $('#buttons').append("<div class='fa-3x'><i class='fas fa-spinner fa-pulse text-primary' style='font-size: 30px;'></i></div>");
+    $('#buttons').append("<span><i class='fas fa-spinner fa-pulse' style='font-size: 30px;'></i></span>");
+    $('#buttons span i').addClass(cor);
     
     $('#' + form).submit();
 }

@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
  && apt-get install -y curl apache2 \
  && apt-get install -y php libapache2-mod-php \
- && apt-get install -y php-mbstring php-intl php-mysql \
+ && apt-get install -y php-mbstring php-intl php-mysql php-gmp php-bcmath\
  && a2enmod rewrite \
  && a2enmod headers \
  && ln -s /var/www/html /html

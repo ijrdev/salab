@@ -5,11 +5,11 @@ namespace Application\Form;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 
-class LoginForm extends Form
+class RecuperarSenhaForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('login-form');
+        parent::__construct('recuperar-senha-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -34,27 +34,27 @@ class LoginForm extends Form
         ]);
         
         $this->add([            
-            'type' => 'password',
-            'name' => 'senha',
+            'type'  => 'text',
+            'name'  => 'email',
             'attributes' => [
-                'id'           => 'senha',
-                'class'        => 'form-control',
-                'autocomplete' => 'off',
-                'placeholder'  => 'Senha'
+                'id'    => 'email',
+                'class' => 'form-control',
+                'autocomplete' => 'on',
+                'placeholder'  => 'Email'
             ],
             'options' => [
-                'icon'  => 'lock'
+                'icon'  => 'envelope'
             ]
         ]);
         
         $this->add([
             'type'  => 'Button',
-            'name' => 'entrar',
+            'name' => 'enviar',
             'attributes' => [
-                'id' => 'entrar',
+                'id' => 'enviar',
             ],
             'options' => [
-                'label' => 'Entrar'
+                'label' => 'Enviar'
             ]
         ]);
     }
@@ -79,7 +79,7 @@ class LoginForm extends Form
         ]);     
         
         $inputFilter->add([
-            'name'     => 'senha',
+            'name'     => 'email',
             'required' => true,
             'filters'  => [
                 ['name' => 'StringTrim'],
@@ -87,13 +87,9 @@ class LoginForm extends Form
             ],
             'validators' => [
                 [
-                    'name'    => 'StringLength',
-                    'options' => [
-                        'min' => 6,
-                        'max' => 6
-                    ],
-                ]
-            ],
+                    'name' => 'EmailAddress'
+                ],
+            ]
         ]);
     }        
 }

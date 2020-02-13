@@ -28,7 +28,8 @@
         "laminas/laminas-crypt": "^3.3",
         "laminas/laminas-mvc-i18n": "^1.1",
         "laminas/laminas-mvc-plugin-flashmessenger": "^1.2",
-        "laminas/laminas-paginator": "^2.8"
+        "laminas/laminas-paginator": "^2.8",
+        "hashids/hashids": "^4.0"
     },
     "autoload": {
         "psr-4": {

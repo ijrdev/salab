@@ -73,7 +73,6 @@ echo $this->partial('partials/box-elements', [
                                 <?php
                                 foreach($aviso['anexos_aviso'] as $anexo) 
                                 {
-                                    
                                 ?>
                                     <span class="ml-2">
                                         <a href="<?= $this->url('administrador', ['action' => 'mostrar-imagem', 'id' => $anexo['id_anexo']]) ?>" target="_blank">

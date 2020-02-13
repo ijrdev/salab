@@ -31,6 +31,11 @@ class AuthModel
         return $result;
     }
 
+    public function forgotPassword()
+    {
+        // NÃO SE ESQUECER DE APÓS VERIFICAR OS DADOS LANÇAR EXCESSÕES NOS ERROS.
+    }
+    
     public function logout()
     {
         if($this->authService->getIdentity() != null)

@@ -10,6 +10,7 @@ use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
 use Application\Model\ProfessorModel;
 use Application\Model\SessionModel;
+use Hashids\Hashids;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
@@ -38,16 +39,19 @@ class ProfessorController extends AbstractActionController
     
     public function mostrarImagemAction()
     {
-        $id_anexo = (int) $this->params()->fromRoute('id', 0);
+        $hash = $this->params()->fromRoute('id', 0);
         
-        if(!$id_anexo)
+        $decodeHash = new Hashids('id', 10);
+        $decode     = $decodeHash->decode($hash);
+        
+        if(empty($decode))
         {
             $this->getResponse()->setStatusCode(404);
             
             return;
         }
         
-        $anexo = $this->administradorModel->getAnexo($id_anexo);
+        $anexo = $this->administradorModel->getAnexo($decode[0]);
         
         if(empty($anexo))
         {

@@ -44,7 +44,7 @@ class Menu extends AbstractHelper
                         ],
                         'Aviso'  => '/administrador/aviso',
                         'Perfil' => '/administrador/perfil',
-                        'Sair'   => '/logout',
+                        'Sair'   => '/auth/logout',
                     ];
                     break;
                 case 2:
@@ -54,7 +54,7 @@ class Menu extends AbstractHelper
                         'Reservas'     => '/laboratorista/reservas',
                         'Aviso'        => '/laboratorista/aviso',
                         'Perfil'       => '/laboratorista/perfil',
-                        'Sair'         => '/logout'
+                        'Sair'         => '/auth/logout'
                     ];
                     break;
                 case 3:
@@ -64,7 +64,7 @@ class Menu extends AbstractHelper
                         'Reservar Laboratório' => '/professor/reservar-laboratorio',
                         'Aviso'                => '/professor/aviso',
                         'Perfil'               => '/professor/perfil',
-                        'Sair'                 => '/logout'
+                        'Sair'                 => '/auth/logout'
                     ];
                     break;
             }

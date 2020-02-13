@@ -1,9 +1,9 @@
 <?php
-$this->headLink()->appendStylesheet($this->basePath('/css/auth/login.css?version=' . mt_rand(1, 10000)));
+$this->headLink()->appendStylesheet($this->basePath('/css/auth/recuperar-senha.css?version=' . mt_rand(1, 10000)));
 
-$form->get('entrar')->setAttributes([
+$form->get('enviar')->setAttributes([
     'class'   => 'btn btn-sm btn-primary',
-    'onClick' => "load('login-form')"
+    'onClick' => "load('recuperar-senha-form')"
 ]);
 
 $form->prepare();
@@ -13,11 +13,11 @@ $form->prepare();
     <div class="mt-2">
         Sistema de Agendamento de Laboratórios
     </div>
-</div> 
+</div>
 
 <div class="card">
     <div class="card-body">
-        <p class="login-box-msg">Realize o login para iniciar a sessão.</p>
+        <p class="login-box-msg">Informe seus dados para recuperar sua senha.</p>
         
         <?= $this->form()->openTag($form); ?>
             <div class="row">
@@ -28,18 +28,21 @@ $form->prepare();
 
             <div class="row">
                 <div class="col-12">
-                    <?= $this->formRow($form->get('senha'), null, null, 'partials/form-elements'); ?>
+                    <?= $this->formRow($form->get('email'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-8">
-                    <a href="<?= $this->url('auth', ['action' => 'recuperar-senha']) ?>">Esqueceu sua senha?</a>
+                <div class="col-8" style="font-size: 12px;">
+                    Uma senha provisória será enviada para seu Email. Para alterá-la acesse seu perfil no menu após realizar o acesso.
                 </div>
                 <div class="col-4 text-right" id="buttons">
-                    <?= $this->formElement($form->get('entrar')); ?>
+                    <?= $this->formElement($form->get('enviar')); ?>
                 </div>
             </div>
         <?= $this->form()->closeTag(); ?>
+        <div class="text-right">
+            <a href="<?= $this->url('auth') ?>">Realizar o Login</a>
+        </div>
     </div>
 </div>

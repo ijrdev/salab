@@ -3,6 +3,7 @@
 namespace Application\Model;
 
 use Application\Adapter\Db;
+use Hashids\Hashids;
 use Laminas\Crypt\Password\Bcrypt;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
@@ -205,7 +206,7 @@ class AdministradorModel
     }
     
     public function getAllAvisos()
-    {
+    {       
         $sql = new Sql($this->db);
         
         $select = $sql
@@ -223,7 +224,7 @@ class AdministradorModel
             $value['foto_perfil']  = $this->getFotoPerfil($value['id_usuario']);
             
             $value['anexos_aviso'] = $this->getAllAnexosAviso($value['id_aviso']);
-                
+
             $avisos[] = $value;
         }
         
@@ -262,6 +263,8 @@ class AdministradorModel
     
     public function getAllAnexosAviso($id_aviso)
     {
+        $hashid = new Hashids('id', 10);
+        
         $sql = new Sql($this->db);
         
         $where = new Where();
@@ -274,14 +277,25 @@ class AdministradorModel
         
         $anexos_aviso = $sql->prepareStatementForSqlObject($select)->execute();
         
-        $assist = [];
+        $assist     = [];
+        $arr_anexos = [];
         
-        foreach($anexos_aviso as $anexos) 
+        foreach($anexos_aviso as $anexo) 
         {
-            $assist[] = $anexos;
+            $assist[] = $anexo;
         }
         
-        return $assist;
+        if(!empty($assist))
+        {
+            foreach($assist as $value) 
+            {
+                $value['id_anexo'] = $hashid->encode($value['id_anexo'], date('YmdHis'));
+                
+                $arr_anexos[] = $value;
+            }
+        }
+        
+        return $arr_anexos;
     }
     
     public function getAnexo($id_anexo)

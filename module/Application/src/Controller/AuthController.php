@@ -22,18 +22,18 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-        EMAIL.
-        
-        TESTES EM DISPOSITIVO MÓVEL.
-   
-        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA.
-                  
-        ÚLTIMO TESTE COMPLETO.
-        
-        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
-        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)
-        
-        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO. (config/autoload/development.local.php)
+//        EMAIL.
+//        
+//        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA.
+//   
+//        TESTES EM DISPOSITIVO MÓVEL.
+//                  
+//        ÚLTIMO TESTE COMPLETO.
+//        
+//        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
+//        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)
+//        
+//        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO. (config/autoload/development.local.php)
         
         $this->layout('layout/login');
         
@@ -85,8 +85,54 @@ class AuthController extends AbstractActionController
                 {
                     $this->flashMessenger()->addErrorMessage("Acesso| Ocorreu um erro ao realizar o acesso.");
 
-                    return $this->redirect()->toRoute('login');
+                    return $this->redirect()->toRoute('auth');
                 }
+            }
+        }
+        
+        return new ViewModel([
+            'form' => $form
+        ]);
+    }
+    
+    public function recuperarSenhaAction()
+    {
+        $this->layout('layout/recuperar-senha');
+        
+        $form = new \Application\Form\RecuperarSenhaForm();
+        
+        if($this->getRequest()->isPost()) 
+        {
+            $post = $this->params()->fromPost();
+
+            $form->setData($post);
+
+            if($form->isValid()) 
+            {
+                echo "<pre>";
+                print_r($form->getData());
+                exit;
+                
+//                VER O PROCEDIMENTO ABAIXO PARA LANÇAR AS EXCESSÕES REFERENTES AO EMAIL ENVIADO E AO ERRO.
+                
+                try 
+                {
+                    $this->authModel->forgotPassword($form->getData());
+
+                    $this->flashMessenger()->addSuccessMessage("Recuperar Senha| Operação realizada com sucesso!");
+
+                    return $this->redirect()->toRoute('auth', ['action' => 'login']);
+                }
+                catch (\Exception $exc)
+                {
+                    $this->flashMessenger()->addErrorMessage('Recuperar Senha| Ocorreu um problema ao realizar a operação.');
+
+                    return $this->redirect()->toRoute('auth', ['action' => 'login']);
+                }
+            }
+            else
+            {
+                $form->setData($post);
             }
         }
         
@@ -99,6 +145,6 @@ class AuthController extends AbstractActionController
     {
         $this->authModel->logout();
         
-        return $this->redirect()->toRoute('login');
+        return $this->redirect()->toRoute('auth');
     }
 }

@@ -56,23 +56,13 @@ return [
                     ],
                 ],
             ],
-            'login' => [
-                'type'    => Literal::class,
+            'auth' => [
+                'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/login',
+                    'route'    => '/auth[/:action]',
                     'defaults' => [
                         'controller' => AuthController::class,
                         'action'     => 'login',
-                    ],
-                ],
-            ],
-            'logout' => [
-                'type'    => Literal::class,
-                'options' => [
-                    'route'    => '/logout',
-                    'defaults' => [
-                        'controller' => AuthController::class,
-                        'action'     => 'logout',
                     ],
                 ],
             ],

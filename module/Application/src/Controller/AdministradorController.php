@@ -13,6 +13,7 @@ use Application\Form\PerfilAdministradorForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
 use Application\Model\SessionModel;
+use Hashids\Hashids;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
@@ -24,7 +25,7 @@ class AdministradorController extends AbstractActionController
     
     public function __construct(SessionModel $sessionModel, AdministradorModel $administradorModel, LaboratoristaModel $laboratoristaModel)
     {
-        $this->sessionModel = $sessionModel;
+        $this->sessionModel       = $sessionModel;
         $this->administradorModel = $administradorModel;
         $this->laboratoristaModel = $laboratoristaModel;
     }
@@ -42,16 +43,19 @@ class AdministradorController extends AbstractActionController
     
     public function mostrarImagemAction()
     {
-        $id_anexo = (int) $this->params()->fromRoute('id', 0);
+        $hash = $this->params()->fromRoute('id', 0);
         
-        if(!$id_anexo)
+        $decodeHash = new Hashids('id', 10);
+        $decode     = $decodeHash->decode($hash);
+        
+        if(empty($decode))
         {
             $this->getResponse()->setStatusCode(404);
             
             return;
         }
         
-        $anexo = $this->administradorModel->getAnexo($id_anexo);
+        $anexo = $this->administradorModel->getAnexo($decode[0]);
         
         if(empty($anexo))
         {
