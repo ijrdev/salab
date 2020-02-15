@@ -2,6 +2,7 @@
 
 namespace Application\Model\Factory;
 
+use Application\Adapter\Db;
 use Application\Model\AuthModel;
 use Interop\Container\ContainerInterface;
 use Laminas\Authentication\AuthenticationService;
@@ -24,8 +25,9 @@ class AuthModelFactory implements FactoryInterface
             $config = [];
         }
         
-        $request = $container->get('Request');
+        $db                 = $container->get(Db::class);
+        $administradorModel = $container->get(\Application\Model\AdministradorModel::class);
         
-        return new AuthModel($authService, $config, $request);
+        return new AuthModel($authService, $config, $db, $administradorModel);
     }
 }

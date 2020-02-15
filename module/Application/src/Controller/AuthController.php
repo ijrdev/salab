@@ -109,25 +109,19 @@ class AuthController extends AbstractActionController
 
             if($form->isValid()) 
             {
-                echo "<pre>";
-                print_r($form->getData());
-                exit;
-                
-//                VER O PROCEDIMENTO ABAIXO PARA LANÇAR AS EXCESSÕES REFERENTES AO EMAIL ENVIADO E AO ERRO.
-                
                 try 
                 {
                     $this->authModel->forgotPassword($form->getData());
 
-                    $this->flashMessenger()->addSuccessMessage("Recuperar Senha| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage('Recuperar Senha| Operação realizada com sucesso!');
 
-                    return $this->redirect()->toRoute('auth', ['action' => 'login']);
+                    return $this->redirect()->toRoute('auth', ['action' => 'recuperar-senha']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Recuperar Senha| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage('Recuperar Senha| ' . $exc->getMessage());
 
-                    return $this->redirect()->toRoute('auth', ['action' => 'login']);
+                    return $this->redirect()->toRoute('auth', ['action' => 'recuperar-senha']);
                 }
             }
             else

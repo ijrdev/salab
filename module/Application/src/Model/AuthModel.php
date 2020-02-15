@@ -2,23 +2,31 @@
 
 namespace Application\Model;
 
+use Application\Adapter\Db;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Db\Sql\Sql;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp;
+use Laminas\Mail\Transport\SmtpOptions;
 
 class AuthModel
 {
     private $authService;
     private $config;
-    private $request;
+    private $db;
+    private $administradorModel;
     
     public function __construct(
             AuthenticationService $authService,
             $config  = [],
-            $request = []
+            Db $db,
+            AdministradorModel $administradorModel
     )
     {
-        $this->authService = $authService;
-        $this->config      = $config;
-        $this->request     = $request;
+        $this->authService        = $authService;
+        $this->config             = $config;
+        $this->db                 = $db->salab;
+        $this->administradorModel = $administradorModel;
     }
 
     public function login($matricula, $senha)
@@ -31,9 +39,66 @@ class AuthModel
         return $result;
     }
 
-    public function forgotPassword()
+    public function forgotPassword($post)
     {
-        // NÃO SE ESQUECER DE APÓS VERIFICAR OS DADOS LANÇAR EXCESSÕES NOS ERROS.
+        $sql = new Sql($this->db);
+        
+        $matricula = $this->administradorModel->getMatricula($post['matricula']);
+        
+        if(empty($matricula))
+        {
+            throw new \Exception('Matrícula não pertence a nenhum usuário do sistema.');
+        }
+        
+        $email = $this->administradorModel->getEmail($post['email']);
+        
+        if(empty($email))
+        {
+            throw new \Exception('Email não está cadastrado no sistema.');
+        }
+        
+        $where = new \Laminas\Db\Sql\Where();
+        $where->equalTo('matricula', $matricula['matricula'])
+              ->AND
+              ->equalTo('email', $email['email']);
+        
+        $select = $sql
+            ->select('tb_usuarios')
+            ->where($where);
+        
+        $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
+        
+        if(empty($result))
+        {
+            throw new \Exception('Matrícula e Email não conferem.');
+        }
+        
+        try 
+        {
+            $mail = new Message();
+            $mail->addFrom('projetosalab2020@gmail.com', 'SALAB');
+            $mail->addTo($email['email']);
+            $mail->setSubject('foiii.');
+            $mail->setBody('KKKKKK');
+            $mail->setEncoding("UTF-8");
+
+            $mail->getHeaders()->addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');
+
+            $options   = new SmtpOptions([
+                
+               // Setar aqui os dados vindo do config.
+                
+                //$this->config['smtp_accounts']['gmail']
+            ]);
+            
+            $transport = new Smtp();
+            $transport->setOptions($options);
+            $transport->send($mail);
+        } 
+        catch (\Exception $ex) 
+        {
+            throw new \Exception('Erro ao enviar o email, tente novamente mais tarde.' . $ex->getMessage());
+        }
     }
     
     public function logout()
