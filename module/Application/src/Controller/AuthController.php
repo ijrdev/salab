@@ -22,9 +22,7 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-//        EMAIL.
-//        
-//        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA.
+//        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA. (VETOR)
 //   
 //        TESTES EM DISPOSITIVO MÓVEL.
 //                  
@@ -115,7 +113,7 @@ class AuthController extends AbstractActionController
 
                     $this->flashMessenger()->addSuccessMessage('Recuperar Senha| Operação realizada com sucesso!');
 
-                    return $this->redirect()->toRoute('auth', ['action' => 'recuperar-senha']);
+                    return $this->redirect()->toRoute('auth', ['action' => 'login']);
                 }
                 catch (\Exception $exc)
                 {

@@ -4,7 +4,9 @@ namespace Application\Model;
 
 use Application\Adapter\Db;
 use Laminas\Authentication\AuthenticationService;
+use Laminas\Crypt\Password\Bcrypt;
 use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Smtp;
 use Laminas\Mail\Transport\SmtpOptions;
@@ -57,14 +59,14 @@ class AuthModel
             throw new \Exception('Email não está cadastrado no sistema.');
         }
         
-        $where = new \Laminas\Db\Sql\Where();
-        $where->equalTo('matricula', $matricula['matricula'])
+        $whereSelect = new Where();
+        $whereSelect->equalTo('matricula', $matricula['matricula'])
               ->AND
               ->equalTo('email', $email['email']);
         
         $select = $sql
             ->select('tb_usuarios')
-            ->where($where);
+            ->where($whereSelect);
         
         $result = $sql->prepareStatementForSqlObject($select)->execute()->current();
         
@@ -75,22 +77,61 @@ class AuthModel
         
         try 
         {
-            $mail = new Message();
+            $nova_senha = mt_rand(100000, 999999);
+            
+            $bcrypt      = new Bcrypt();
+            $newPassword = $bcrypt->create($nova_senha);
+
+            $whereUpdate = new Where();
+            $whereUpdate->equalTo('matricula', $matricula['matricula'])
+                        ->AND
+                        ->equalTo('email', $email['email']);
+
+            $update = $sql
+                ->update('tb_usuarios')
+                ->set([
+                    'senha' => $newPassword,
+                ])
+                ->where($whereUpdate);
+
+            $sql->prepareStatementForSqlObject($update)->execute();
+            
+            // Responsável por juntar o corpo do email com arquivos/imagens/anexos...
+//            $mimePart       = new Part($this->templateEmail($nova_senha));
+//            $mimePart->type = 'text/html';
+                
+//            $mimePartAnexo       = new Part(fopen($file, 'r'));
+//            $mimePartAnexo->type = self::getContentType($file);
+//            $mimePartAnexo->filename = end($filename);
+//            $mimePartAnexo->disposition = (\Laminas\Mime\Mime::DISPOSITION_ATTACHMENT);
+            
+            // Responsável por pegar o corpo da mensagem e juntar com anexos, caso contenha no email.
+//            $mimeMessage = new Message();
+//            $mimeMessage->setParts($mimePart);
+            
+            // Configuração para enviar email via Gmail.
+            // OBS: Habilitar a permissão de acesso/envio de email no Gmail.
+            $mail = new Message;
             $mail->addFrom('projetosalab2020@gmail.com', 'SALAB');
             $mail->addTo($email['email']);
-            $mail->setSubject('foiii.');
-            $mail->setBody('KKKKKK');
+            $mail->setSubject("Recuperação de senha.");
+            $mail->setBody($this->templateEmail($nova_senha));
             $mail->setEncoding("UTF-8");
 
-            $mail->getHeaders()->addHeaderLine('X-API-Key', 'FOO-BAR-BAZ-BAT');
+            $mail->getHeaders()->addHeaderLine('Content-Type', 'text/html');
 
-            $options   = new SmtpOptions([
-                
-               // Setar aqui os dados vindo do config.
-                
-                //$this->config['smtp_accounts']['gmail']
+            $options = new SmtpOptions([
+                'host' => $this->config['smtp_accounts']['gmail']['host'],
+                'port' => $this->config['smtp_accounts']['gmail']['port'],
+                'connection_class'  => $this->config['smtp_accounts']['gmail']['connection_class'],
+                'connection_config' => [
+                    'username' => $this->config['smtp_accounts']['gmail']['connection_config']['username'],
+                    'password' => $this->config['smtp_accounts']['gmail']['connection_config']['password'],
+                    'ssl'      => $this->config['smtp_accounts']['gmail']['connection_config']['ssl']
+                ]
             ]);
             
+            // Responsável por receber/setar as configurações e enviar o email.
             $transport = new Smtp();
             $transport->setOptions($options);
             $transport->send($mail);
@@ -99,6 +140,21 @@ class AuthModel
         {
             throw new \Exception('Erro ao enviar o email, tente novamente mais tarde.' . $ex->getMessage());
         }
+    }
+    
+    public function templateEmail($nova_senha)
+    {
+        $template = "<html>
+                        <div>
+                            <h3>SALAB - Sistema de Agendamento de Laboratórios</h3>
+
+                            <p>Sua nova senha é: $nova_senha.</p>
+
+                            <p> <strong>OBS: </strong> Para alterá-la acesse seu perfil no menu após realizar o acesso. </p>
+                        </div>
+                    </html>";
+
+        return $template;
     }
     
     public function logout()
