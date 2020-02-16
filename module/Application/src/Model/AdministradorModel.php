@@ -87,7 +87,8 @@ class AdministradorModel
                 'dthr_cad',
                 'dthr_ult_alteracao'
             ])
-            ->where($where);
+            ->where($where)
+            ->order('id_usuario DESC');
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);
@@ -126,6 +127,7 @@ class AdministradorModel
             ->select(['a' => 'tb_agendamentos'])
             ->columns([
                 'id_agendamento',
+                'disciplina',
                 'horario',
                 'status',
                 'dthr_agendamento'

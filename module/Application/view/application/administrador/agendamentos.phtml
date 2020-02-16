@@ -46,6 +46,7 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
                             <th class="text-center">Usuário</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Horário</th>
+                            <th class="text-center">Disciplina</th>
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Status</th>
                         </tr>
@@ -75,6 +76,7 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
                                     }
                                     ?>
                                 </td>
+                                <td class="text-center align-middle"><?= $agendamento['disciplina'] ?></td>
                                 <td class="text-center align-middle"><?= $agendamento['lab'] . ' - ' . $agendamento['tipo'] ?></td>
                                 <td class="text-center align-middle">
                                     <?php

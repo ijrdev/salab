@@ -51,8 +51,8 @@ $this->pageTitle()->setSubTitle('Verifique todos os laboratórios cadastrados no
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['descricao'] ?></td>
                                 <td class="text-center align-middle">
-                                    <a href="<?= $this->url('administrador', ['action' => 'alterar-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-edit text-primary"></i></a>
-                                    <a href="<?= $this->url('administrador', ['action' => 'excluir-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-times text-danger"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'alterar-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-pen fa-sm text-primary"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'excluir-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-times-circle fa-sm text-danger"></i></a>
                                 </td>
                             </tr>
                         <?php

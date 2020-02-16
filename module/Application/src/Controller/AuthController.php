@@ -22,11 +22,8 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-//        VER UM LOGO LEGAL DA APLICAÇÃO E O ÍCONE DA ABA. (VETOR)
-//   
-//        TESTES EM DISPOSITIVO MÓVEL.
-//                  
 //        ÚLTIMO TESTE COMPLETO.
+//        ALTERAR EMAIL E MATRICULA DO USUARIO *
 //        
 //        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
 //        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)

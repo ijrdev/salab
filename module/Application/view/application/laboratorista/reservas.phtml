@@ -37,6 +37,7 @@ $this->pageTitle()->setSubTitle('Todas os reservas realizadas dos laboratórios.
                             <th class="text-center">Usuário</th>
                             <th class="text-center">Data</th>
                             <th class="text-center">Horário</th>
+                            <th class="text-center">Disciplina</th>
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Tipo</th>
                             <th class="text-center">Observacao</th>
@@ -69,6 +70,7 @@ $this->pageTitle()->setSubTitle('Todas os reservas realizadas dos laboratórios.
                                     }
                                     ?>
                                 </td>
+                                <td class="text-center align-middle"><?= $laboratorio['disciplina'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['lab'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
                                 <td class="text-center align-middle" style="font-size: 12px;"><?= $laboratorio['observacao'] ?></td>
@@ -77,7 +79,7 @@ $this->pageTitle()->setSubTitle('Todas os reservas realizadas dos laboratórios.
                                         switch($laboratorio['status'])
                                         {
                                             case 'D':
-                                                echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Disponível"></i>';
+                                                echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Agendado"></i>';
                                                 break;
                                             case 'I':
                                                 echo '<i class="fas fa-door-closed text-warning"  data-toggle="tooltip" data-placement="left" title="Indisponível"></i>';
