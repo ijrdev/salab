@@ -46,6 +46,19 @@ $form->prepare();
                     <?= $this->formRow($form->get('grupo'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
+            
+            <?php
+            if($usuario['situacao'] === 'I')
+            {
+            ?>
+                <div class="row">
+                    <div class="col-sm-8 offset-sm-2">
+                        <?= $this->formRow($form->get('ativar'), null, null, 'partials/form-elements'); ?>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
 
             <div class="row">
                 <div class="col-sm-8 offset-sm-2">

@@ -51,40 +51,47 @@ class AuthAdapter implements AdapterInterface
         
         if(!empty($result))
         {
-            $bcrypt     = new Bcrypt();
-            $securePass = $result['senha'];
-
-            if($bcrypt->verify($senha, $securePass))
+            if($result['situacao'] === 'A')
             {
-                $where = new \Laminas\Db\Sql\Where();
-                $where->equalTo('id_usuario', $result['id_usuario'])
-                      ->AND
-                      ->equalTo('segmento', 'PRF');
-                
-                $select = $sql
-                    ->select('tb_anexos')
-                    ->where($where);
-                
-                $rs = $sql->prepareStatementForSqlObject($select)->execute()->current();
-                
-                if(!empty($rs))
+                $bcrypt     = new Bcrypt();
+                $securePass = $result['senha'];
+
+                if($bcrypt->verify($senha, $securePass))
                 {
-                    unset($result['senha']);
-                    
-                    $this->sessionModel->setUsuario(array_merge($result, $rs));
-                }
+                    $where = new \Laminas\Db\Sql\Where();
+                    $where->equalTo('id_usuario', $result['id_usuario'])
+                          ->AND
+                          ->equalTo('segmento', 'PRF');
+
+                    $select = $sql
+                        ->select('tb_anexos')
+                        ->where($where);
+
+                    $rs = $sql->prepareStatementForSqlObject($select)->execute()->current();
+
+                    if(!empty($rs))
+                    {
+                        unset($result['senha']);
+
+                        $this->sessionModel->setUsuario(array_merge($result, $rs));
+                    }
+                    else
+                    {
+                        unset($result['senha']);
+
+                        $this->sessionModel->setUsuario($result);
+                    }
+
+                    return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Login realizado com sucesso!']);
+                } 
                 else
                 {
-                    unset($result['senha']);
-                    
-                    $this->sessionModel->setUsuario($result);
+                    return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Senha incorreta.']);
                 }
-
-                return new Result(Result::SUCCESS, $this->sessionModel->getUsuario(), ['Login realizado com sucesso!']);
-            } 
+            }
             else
             {
-                return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Senha incorreta.']);
+                return new Result(Result::FAILURE_CREDENTIAL_INVALID, null, ['Usuário encontra-se inativo.']);
             }
         }
         else

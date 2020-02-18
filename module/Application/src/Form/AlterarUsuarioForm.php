@@ -80,6 +80,21 @@ class AlterarUsuarioForm extends Form
             ],
         ]);
         
+        $this->add([
+            'type'  => 'radio',
+            'name'  => 'ativar',
+            'attributes' => [
+                'id'    => 'ativar',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Situação Usuário',
+                'value_options' => [
+                    'A' => 'Ativar',
+                ],
+            ],
+        ]);
+        
         $this->add([            
             'type'  => 'text',
             'name'  => 'email',
@@ -273,6 +288,15 @@ class AlterarUsuarioForm extends Form
         $inputFilter->add([
             'name'     => 'grupo',
             'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'ativar',
+            'required' => false,
             'filters'  => [
                 ['name' => 'StringTrim'],
                 ['name' => 'StripTags'],

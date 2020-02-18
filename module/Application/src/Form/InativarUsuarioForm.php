@@ -4,11 +4,11 @@ namespace Application\Form;
 
 use Laminas\Form\Form;
 
-class ExcluirUsuarioForm extends Form
+class InativarUsuarioForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('excluir-usuario-form');
+        parent::__construct('inativar-usuario-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -32,12 +32,12 @@ class ExcluirUsuarioForm extends Form
         
         $this->add([
             'type'  => 'Button',
-            'name' => 'excluir',
+            'name' => 'inativar',
             'attributes' => [
-                'id' => 'excluir',
+                'id' => 'inativar',
             ],
             'options' => [
-                'label' => 'Excluir'
+                'label' => 'Inativar'
             ]
         ]);
     }

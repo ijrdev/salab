@@ -47,7 +47,7 @@ $this->pageTitle()->setSubTitle('Visualize todos os seus agendamentos realizados
                         ?>
                             <tr>
                                 <td class="text-center align-middle"><?= $agendamento['id_agendamento'] ?></td>
-                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($agendamento['dthr_agendamento'])) ?></td>
+                                <td class="text-center align-middle"><?= date('d-m-Y', strtotime($agendamento['dt_agendamento'])) ?></td>
                                 <td class="text-center align-middle">
                                     <?php
                                     switch($agendamento['horario'])

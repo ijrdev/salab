@@ -85,10 +85,11 @@ class AdministradorModel
                 'email',
                 'id_grupo',
                 'dthr_cad',
-                'dthr_ult_alteracao'
+                'dthr_ult_alteracao',
+                'situacao'
             ])
             ->where($where)
-            ->order('id_usuario DESC');
+            ->order('situacao');
         
         $pag_adapter = new DbSelect($select, $sql);
         $paginator   = new Paginator($pag_adapter);
@@ -120,7 +121,7 @@ class AdministradorModel
         
         if(isset($data) && !empty($data))
         {
-            $where->between('dthr_agendamento', trim($data) . ' 00:00:00', trim($data) . ' 23:59:59');
+            $where->equalTo('dt_agendamento', trim($data));
         }
         
         $select = $sql
@@ -130,7 +131,7 @@ class AdministradorModel
                 'disciplina',
                 'horario',
                 'status',
-                'dthr_agendamento'
+                'dt_agendamento'
             ])
             ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio'])
             ->join(['l' => 'tb_laboratorios'], 'l.id_laboratorio = r.id_laboratorio', ['lab', 'tipo'])
@@ -170,7 +171,8 @@ class AdministradorModel
                 'email',
                 'id_grupo',
                 'dthr_cad',
-                'dthr_ult_alteracao'
+                'dthr_ult_alteracao',
+                'situacao'
             ])
             ->where(['id_usuario' => $id_usuario]);
         
@@ -315,21 +317,43 @@ class AdministradorModel
     {
         $sql = new Sql($this->db);
         
-        $bcrypt      = new Bcrypt();
-        $newPassword = $bcrypt->create($post['nova-senha']); 
+        if(isset($post['ativar']) && !empty($post['ativar']))
+        {
+            $bcrypt      = new Bcrypt();
+            $newPassword = $bcrypt->create($post['nova-senha']); 
 
-        $update = $sql
-            ->update('tb_usuarios')
-            ->set([
-                'nome'               => $post['nome'],
-                'sobrenome'          => $post['sobrenome'],
-                'senha'              => $newPassword,
-                'id_grupo'           => $post['grupo'],
-                'dthr_ult_alteracao' => date('Y-m-d H:i:s')
-            ])
-            ->where(['id_usuario' => $id_usuario_update]);
-        
-        $sql->prepareStatementForSqlObject($update)->execute();
+            $update = $sql
+                ->update('tb_usuarios')
+                ->set([
+                    'nome'               => $post['nome'],
+                    'sobrenome'          => $post['sobrenome'],
+                    'senha'              => $newPassword,
+                    'id_grupo'           => $post['grupo'],
+                    'dthr_ult_alteracao' => date('Y-m-d H:i:s'),
+                    'situacao'           => $post['ativar']
+                ])
+                ->where(['id_usuario' => $id_usuario_update]);
+
+            $sql->prepareStatementForSqlObject($update)->execute();
+        }
+        else
+        {
+            $bcrypt      = new Bcrypt();
+            $newPassword = $bcrypt->create($post['nova-senha']); 
+
+            $update = $sql
+                ->update('tb_usuarios')
+                ->set([
+                    'nome'               => $post['nome'],
+                    'sobrenome'          => $post['sobrenome'],
+                    'senha'              => $newPassword,
+                    'id_grupo'           => $post['grupo'],
+                    'dthr_ult_alteracao' => date('Y-m-d H:i:s'),
+                ])
+                ->where(['id_usuario' => $id_usuario_update]);
+
+            $sql->prepareStatementForSqlObject($update)->execute();
+        }
         
         $insertLog = $sql
             ->insert('tb_logs')
@@ -509,24 +533,57 @@ class AdministradorModel
         }
     }
     
-    public function delete($id_usuario_delete, $id_usuario)
+    public function inativar($id_usuario_inativar, $id_usuario)
     {
         $sql = new Sql($this->db);
         
-        $delete = $sql
-            ->delete('tb_usuarios')
-            ->where(['id_usuario' => $id_usuario_delete]);
+        $inativarUsuario = $sql
+            ->update('tb_usuarios')
+            ->set([
+                'situacao' => 'I'
+            ])
+            ->where(['id_usuario' => $id_usuario_inativar]);
         
-        $sql->prepareStatementForSqlObject($delete)->execute();
+        $sql->prepareStatementForSqlObject($inativarUsuario)->execute();
+        
+        $where = new Where();
+        $where->equalTo('id_usuario', $id_usuario_inativar)
+              ->AND
+              ->greaterThanOrEqualTo('dt_agendamento', date('Y-m-d'));
+        
+        $select = $sql
+            ->select('tb_agendamentos')
+            ->columns(['id_agendamento', 'id_reserva', 'horario'])
+            ->where($where);
+        
+        $rs = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        foreach($rs as $value) 
+        {
+            $cancelarReserva = $sql
+                ->update('tb_reservas')
+                ->set([
+                    $value['horario'] => 0
+                ])
+                ->where(['id_reserva' => $value['id_reserva']]);
+        
+            $sql->prepareStatementForSqlObject($cancelarReserva)->execute();
+            
+            $deleteAgendamentos = $sql
+                ->delete('tb_agendamentos')
+                ->where(['id_agendamento' => $value['id_agendamento']]);
+        
+            $sql->prepareStatementForSqlObject($deleteAgendamentos)->execute();
+        }
         
         $insertLog = $sql
             ->insert('tb_logs')
             ->values([
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
-                'class'     => __CLASS__,
-                'action'     => 'delete',
-                'sql'     => $sql->buildSqlString($delete)
+                'class'      => __CLASS__,
+                'action'     => 'inativar',
+                'sql'        => $sql->buildSqlString($inativarUsuario)
             ]);
         
         $sql->prepareStatementForSqlObject($insertLog)->execute();

@@ -23,12 +23,21 @@ class AuthController extends AbstractActionController
     public function loginAction()
     {
 //        ÚLTIMO TESTE COMPLETO.
-//        ALTERAR EMAIL E MATRICULA DO USUARIO *
 //        
 //        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
 //        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)
 //        
 //        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO. (config/autoload/development.local.php)
+        
+        /* Melhorias
+         * 
+         * Retirar opção de excluir o usuário e sim inativá-lo. Verificar agendamentos OK
+         * Ao excluir laboratório verificar se há agendamentos... Realizar cancelamento dos mesmo.
+         * Alterar ícone do status do agendamento para algum que mostre que já foi realizado quando passar a data.
+         * 
+         * 
+         * 
+         */
         
         $this->layout('layout/login');
         

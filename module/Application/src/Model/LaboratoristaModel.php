@@ -153,7 +153,7 @@ class LaboratoristaModel
         $sql = new Sql($this->db);
         
         $where = new Where();
-        $where->between('dthr_agendamento', date('Y-m-01') . ' 00:00:00', date('Y-m-31') . ' 23:59:59');
+        $where->between('dt_agendamento', date('Y-m-01'), date('Y-m-31'));
         
         $select = $sql
             ->select('tb_agendamentos')
@@ -453,7 +453,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
@@ -500,7 +500,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
@@ -548,7 +548,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
@@ -603,7 +603,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
@@ -652,7 +652,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();
@@ -701,7 +701,7 @@ class LaboratoristaModel
                             'id_usuario'       => $id_usuario,
                             'horario'          => $post['horario'],
                             'disciplina'       => $post['disciplina'],
-                            'dthr_agendamento' => date('Y-m-d H:i:s')
+                            'dt_agendamento'   => date('Y-m-d')
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertAgendamento)->execute();

@@ -36,6 +36,7 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                             <th class="text-center">Matrícula</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Grupo</th>
+                            <th class="text-center">Situação</th>
                             <th class="text-center" style="width: 95px;">Ações</th>
                         </tr>
                     </thead>
@@ -66,8 +67,21 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                                 ?>
                                 </td>
                                 <td class="text-center align-middle">
+                                    <?php
+                                        switch($usuario['situacao'])
+                                        {
+                                            case 'A':
+                                                echo '<i class="fas fa-bell text-success" data-toggle="tooltip" data-placement="left" title="Ativo"></i>';
+                                                break;
+                                            case 'I':
+                                                echo '<i class="fas fa-bell-slash text-danger" data-toggle="tooltip" data-placement="left" title="Inativo"></i>';
+                                                break;
+                                        }
+                                    ?>
+                                </td>
+                                <td class="text-center align-middle">
                                     <a href="<?= $this->url('administrador', ['action' => 'alterar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-pen fa-sm text-primary"></i></a>
-                                    <a href="<?= $this->url('administrador', ['action' => 'excluir-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-times-circle fa-sm text-danger"></i></a>
+                                    <a href="<?= $this->url('administrador', ['action' => 'inativar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-times-circle fa-sm text-danger"></i></a>
                                 </td>
                             </tr>
                         <?php

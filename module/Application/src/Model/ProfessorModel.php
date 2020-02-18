@@ -47,7 +47,7 @@ class ProfessorModel
                 'disciplina',
                 'observacao',
                 'status',
-                'dthr_agendamento'
+                'dt_agendamento'
             ])
             ->join(['r' => 'tb_reservas'], 'a.id_reserva = r.id_reserva', ['id_laboratorio'])
             ->join(['l' => 'tb_laboratorios'], 'l.id_laboratorio = r.id_laboratorio', ['lab', 'tipo'])

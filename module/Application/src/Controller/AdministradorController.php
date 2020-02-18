@@ -8,7 +8,7 @@ use Application\Form\AvisoForm;
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
 use Application\Form\ExcluirLaboratorioForm;
-use Application\Form\ExcluirUsuarioForm;
+use Application\Form\InativarUsuarioForm;
 use Application\Form\PerfilAdministradorForm;
 use Application\Model\AdministradorModel;
 use Application\Model\LaboratoristaModel;
@@ -334,7 +334,7 @@ class AdministradorController extends AbstractActionController
         ]);
     }
     
-    public function excluirUsuarioAction()
+    public function inativarUsuarioAction()
     {
         $id_usuario = (int) $this->params()->fromRoute('id', 0);
         
@@ -354,7 +354,7 @@ class AdministradorController extends AbstractActionController
             return;
         }
         
-        $form = new ExcluirUsuarioForm();
+        $form = new InativarUsuarioForm();
         
         if($this->getRequest()->isPost()) 
         {
@@ -366,15 +366,15 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->administradorModel->delete($id_usuario, $this->sessionModel->getUsuario()['id_usuario']);
+                    $this->administradorModel->inativar($id_usuario, $this->sessionModel->getUsuario()['id_usuario']);
 
-                    $this->flashMessenger()->addSuccessMessage("Excluir Usuário| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage("Inativar Usuário| Operação realizada com sucesso!");
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Excluir Usuário| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage($exc->getMessage());
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
