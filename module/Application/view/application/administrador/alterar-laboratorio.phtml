@@ -1,4 +1,6 @@
 <?php
+$this->headLink()->prependStylesheet($this->basePath('AdminLTE-3.0.1/plugins/icheck-bootstrap/icheck-bootstrap.min.css?version=' . rand(1, 10000)));
+
 $this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Laboratório');
 
@@ -41,6 +43,19 @@ $form->prepare();
                     <?= $this->formRow($form->get('descricao'), null, null, 'partials/form-elements'); ?>
                 </div>
             </div>
+            
+            <?php
+            if($laboratorio['situacao'] === 'I')
+            {
+            ?>
+                <div class="row">
+                    <div class="col-sm-8 offset-sm-2">
+                        <?= $this->formRow($form->get('ativar'), null, null, 'partials/form-elements'); ?>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
 
             <div class="row">
                 <div class="col-sm-8 offset-2 text-right" id="buttons">

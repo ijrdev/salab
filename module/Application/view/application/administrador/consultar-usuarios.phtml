@@ -81,7 +81,14 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="<?= $this->url('administrador', ['action' => 'alterar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-pen fa-sm text-primary"></i></a>
+                                    <?php
+                                    if($usuario['situacao'] === 'A')
+                                    {
+                                    ?>
                                     <a href="<?= $this->url('administrador', ['action' => 'inativar-usuario', 'id' => $usuario['id_usuario']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-times-circle fa-sm text-danger"></i></a>
+                                    <?php
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                         <?php

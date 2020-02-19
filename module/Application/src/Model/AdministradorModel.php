@@ -48,7 +48,7 @@ class AdministradorModel
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
                 'class'     => __CLASS__,
-                'action'     => 'add',
+                'action'     => 'cadastrar-usuario',
                 'sql'     => $sql->buildSqlString($insert)
             ]);
         
@@ -361,7 +361,7 @@ class AdministradorModel
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
                 'class'     => __CLASS__,
-                'action'     => 'update',
+                'action'     => 'alterar-usuario',
                 'sql'     => $sql->buildSqlString($update)
             ]);
         
@@ -582,7 +582,7 @@ class AdministradorModel
                 'id_usuario' => $id_usuario,
                 'dthr_log'   => date('Y-m-d H:i:s'),
                 'class'      => __CLASS__,
-                'action'     => 'inativar',
+                'action'     => 'inativar-usuario',
                 'sql'        => $sql->buildSqlString($inativarUsuario)
             ]);
         

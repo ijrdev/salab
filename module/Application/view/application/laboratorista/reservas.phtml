@@ -75,17 +75,17 @@ $this->pageTitle()->setSubTitle('Todas os reservas realizadas dos laboratórios.
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
                                 <td class="text-center align-middle" style="font-size: 12px;"><?= $laboratorio['observacao'] ?></td>
                                 <td class="text-center align-middle">
-                                    <?php
-                                        switch($laboratorio['status'])
-                                        {
-                                            case 'D':
-                                                echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Agendado"></i>';
-                                                break;
-                                            case 'I':
-                                                echo '<i class="fas fa-door-closed text-warning"  data-toggle="tooltip" data-placement="left" title="Indisponível"></i>';
-                                                break;
-                                        }
-                                    ?>
+                                <?php
+                                switch($laboratorio['status'])
+                                {
+                                    case 'D':
+                                        echo '<i class="fas fa-check-circle text-success" data-toggle="tooltip" data-placement="left" title="Agendado"></i>';
+                                        break;
+                                    case 'I':
+                                        echo '<i class="fas fa-door-closed text-warning"  data-toggle="tooltip" data-placement="left" title="Indisponível"></i>';
+                                        break;
+                                }
+                                ?>
                                 </td>
                                 <td class="text-center align-middle">
                                     <a href="<?= $this->url('laboratorista', ['action' => 'alterar-reserva', 'id' => $laboratorio['id_reserva']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-edit text-primary"></i></a>

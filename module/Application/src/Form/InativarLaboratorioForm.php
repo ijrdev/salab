@@ -4,11 +4,11 @@ namespace Application\Form;
 
 use Laminas\Form\Form;
 
-class ExcluirLaboratorioForm extends Form
+class InativarLaboratorioForm extends Form
 {
     public function __construct()
     {
-        parent::__construct('excluir-laboratorio-form');
+        parent::__construct('inativar-laboratorio-form');
      
         $this->setAttribute('method', 'post');
                 
@@ -32,12 +32,12 @@ class ExcluirLaboratorioForm extends Form
         
         $this->add([
             'type'  => 'Button',
-            'name' => 'excluir',
+            'name' => 'inativar',
             'attributes' => [
-                'id' => 'excluir',
+                'id' => 'inativar',
             ],
             'options' => [
-                'label' => 'Excluir'
+                'label' => 'Inativar'
             ]
         ]);
     }

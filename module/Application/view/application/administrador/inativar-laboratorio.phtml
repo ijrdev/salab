@@ -2,19 +2,19 @@
 $this->menu()->setActiveItem('Consultar');
 $this->menu()->setActiveSubItem('Laboratório');
 
-$this->pageTitle()->setTitle("Excluir Laboratório");
-$this->pageTitle()->setSubTitle('Excluir laboratório cadastrado.');
+$this->pageTitle()->setTitle("Inativar Laboratório");
+$this->pageTitle()->setSubTitle('Inativar laboratório cadastrado.');
 
 $this->breadcrumbs()->setItems([
     'Consultar Laboratórios' => $this->url('administrador', ['action' => 'consultar-laboratorios']),
-    'Excluir Laboratório'    => ''
+    'Inativar Laboratório'   => ''
 ]);
 
-$this->breadcrumbs()->setActiveItem('Excluir Laboratório');
+$this->breadcrumbs()->setActiveItem('Inativar Laboratório');
 
-$form->get('excluir')->setAttributes([
+$form->get('inativar')->setAttributes([
     'class'   => 'btn btn-sm btn-danger',
-    'onClick' => "load('excluir-laboratorio-form', 'text-danger')"
+    'onClick' => "load('inativar-laboratorio-form', 'text-danger')"
 ]);
 
 $form->prepare();
@@ -23,7 +23,7 @@ $form->prepare();
 <div class="row">
     <div class="col-12">
         <div class="callout callout-danger">
-            <h5><i class="fas fa-times-circle fa-sm text-danger"></i> Você irá realizar a exclusão de um laboratório, tem certeza?</h5>
+            <h5><i class="fas fa-times-circle fa-sm text-danger"></i> Você irá realizar a inativação de um laboratório, tem certeza?</h5>
 
             <div>
                 <strong>Laboratório: </strong> <i> <?= $this->laboratorio['lab'] ?> </i> <br>
@@ -34,7 +34,7 @@ $form->prepare();
             <?= $this->form()->openTag($form); ?>
                 <div class="col-12 text-right" id="buttons">
                     <?= $this->formElement($form->get('voltar')); ?>
-                    <?= $this->formElement($form->get('excluir')); ?>
+                    <?= $this->formElement($form->get('inativar')); ?>
                 </div>
             <?= $this->form()->closeTag(); ?>
         </div>

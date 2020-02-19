@@ -1,11 +1,11 @@
 <?php
+$this->headScript()->appendFile($this->basePath('js/administrador/agendamentos.js?version=' . rand(1, 10000)));
+
 $this->menu()->setActiveItem('Agendamentos');
 
 $this->pageTitle()->setTitle('Agendamentos');
 $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
 ?>
-
-
 <div class="row">
     <div class="col-12">
         <div class="card card-primary card-outline" style="font-size: 14px;">

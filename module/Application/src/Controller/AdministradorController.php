@@ -7,7 +7,7 @@ use Application\Form\AlterarUsuarioForm;
 use Application\Form\AvisoForm;
 use Application\Form\CadastrarLaboratorioForm;
 use Application\Form\CadastrarUsuarioForm;
-use Application\Form\ExcluirLaboratorioForm;
+use Application\Form\InativarLaboratorioForm;
 use Application\Form\InativarUsuarioForm;
 use Application\Form\PerfilAdministradorForm;
 use Application\Model\AdministradorModel;
@@ -374,7 +374,7 @@ class AdministradorController extends AbstractActionController
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage($exc->getMessage());
+                    $this->flashMessenger()->addErrorMessage("Inativar Usuário| Ocorreu um problema ao realizar a operação.");
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
@@ -387,7 +387,7 @@ class AdministradorController extends AbstractActionController
         ]);
     }
     
-    public function excluirLaboratorioAction()
+    public function inativarLaboratorioAction()
     {
         $id_laboratorio = (int) $this->params()->fromRoute('id', 0);
         
@@ -407,7 +407,7 @@ class AdministradorController extends AbstractActionController
             return;
         }
         
-        $form = new ExcluirLaboratorioForm();
+        $form = new InativarLaboratorioForm();
         
         if($this->getRequest()->isPost()) 
         {
@@ -419,15 +419,15 @@ class AdministradorController extends AbstractActionController
             {
                 try 
                 {
-                    $this->laboratoristaModel->delete($id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
+                    $this->laboratoristaModel->inativarLaboratorio($id_laboratorio, $this->sessionModel->getUsuario()['id_usuario']);
 
-                    $this->flashMessenger()->addSuccessMessage("Excluir Laboratório| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage("Inativar Laboratório| Operação realizada com sucesso!");
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Excluir Laboratório| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage("Inativar Laboratório| " . $exc->getMessage());
 
                     return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }

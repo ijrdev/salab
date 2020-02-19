@@ -29,8 +29,6 @@ class OcuparLaboratorioForm extends Form
         {
             $reserva = $this->laboratoristaModel->checkReserva($data['id_laboratorio'], $data['data'], $data['horario']);
             
-            
-            
             if(!empty($reserva))
             {
                 $array_status = [
@@ -100,6 +98,20 @@ class OcuparLaboratorioForm extends Form
             'options' => [
                 'label' => 'Tipo',
                 'icon'  => 'folder'
+            ]
+        ]);
+        
+        $this->add([            
+            'type'  => 'text',
+            'name'  => 'descricao',
+            'attributes' => [
+                'id'       => 'descricao',
+                'class'    => 'form-control',
+                'readonly' => 'readonly',
+            ],
+            'options' => [
+                'label' => 'Descricao',
+                'icon'  => 'file-alt'
             ]
         ]);
         
@@ -206,6 +218,24 @@ class OcuparLaboratorioForm extends Form
         
         $inputFilter->add([
             'name'     => 'tipo',
+            'required' => false,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 100
+                    ],
+                ]
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'descricao',
             'required' => false,
             'filters'  => [
                 ['name' => 'StringTrim'],

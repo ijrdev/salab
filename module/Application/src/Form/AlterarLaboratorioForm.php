@@ -60,6 +60,21 @@ class AlterarLaboratorioForm extends Form
         ]);
         
         $this->add([
+            'type'  => 'radio',
+            'name'  => 'ativar',
+            'attributes' => [
+                'id'    => 'ativar',
+                'class' => 'form-control',
+            ],
+            'options' => [
+                'label' => 'Situação Laboratório',
+                'value_options' => [
+                    'A' => 'Ativar',
+                ],
+            ],
+        ]);
+        
+        $this->add([
             'type'  => 'Button',
             'name'  => 'voltar',
             'attributes' => [
@@ -143,6 +158,15 @@ class AlterarLaboratorioForm extends Form
                         'max' => 100
                     ],
                 ]
+            ],
+        ]);
+        
+        $inputFilter->add([
+            'name'     => 'ativar',
+            'required' => false,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
             ],
         ]);
     }        

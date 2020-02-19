@@ -31,9 +31,6 @@ class AuthController extends AbstractActionController
         
         /* Melhorias
          * 
-         * Retirar opção de excluir o usuário e sim inativá-lo. Verificar agendamentos OK
-         * Ao excluir laboratório verificar se há agendamentos... Realizar cancelamento dos mesmo.
-         * Alterar ícone do status do agendamento para algum que mostre que já foi realizado quando passar a data.
          * 
          * 
          * 

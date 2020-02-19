@@ -36,6 +36,7 @@ $this->pageTitle()->setSubTitle('Laboratórios cadastrados no sistema.');
                             <th class="text-center">Laboratório</th>
                             <th class="text-center">Tipo</th>
                             <th class="text-center">Descrição</th>
+                            <th class="text-center">Situação</th>
                             <th class="text-center" style="width: 10px;">Ocupar</th>
                         </tr>
                     </thead>
@@ -50,6 +51,19 @@ $this->pageTitle()->setSubTitle('Laboratórios cadastrados no sistema.');
                                 <td class="text-center align-middle"><?= $laboratorio['lab'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['tipo'] ?></td>
                                 <td class="text-center align-middle"><?= $laboratorio['descricao'] ?></td>
+                                <td class="text-center align-middle">
+                                    <?php
+                                        switch($laboratorio['situacao'])
+                                        {
+                                            case 'A':
+                                                echo '<i class="fas fa-bell text-success" data-toggle="tooltip" data-placement="left" title="Ativo"></i>';
+                                                break;
+                                            case 'I':
+                                                echo '<i class="fas fa-bell-slash text-danger" data-toggle="tooltip" data-placement="left" title="Inativo"></i>';
+                                                break;
+                                        }
+                                    ?>
+                                </td>
                                 <td class="text-center align-middle">
                                     <a href="<?= $this->url('laboratorista', ['action' => 'ocupar-laboratorio', 'id' => $laboratorio['id_laboratorio']]) ?>" class="btn btn-xs btn-default"><i class="fas fa-long-arrow-alt-right text-primary"></i></a>
                                 </td>
