@@ -293,7 +293,7 @@ class ProfessorController extends AbstractActionController
             {
                 try 
                 {                    
-                    $this->administradorModel->updatePerfil($form->getData(), $usuario['id_usuario']);
+                    $this->administradorModel->perfil($form->getData(), $usuario['id_usuario']);
 
                     $this->flashMessenger()->addSuccessMessage("Perfil| Operação realizada com sucesso!");
 

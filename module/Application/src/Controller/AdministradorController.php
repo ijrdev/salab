@@ -113,7 +113,7 @@ class AdministradorController extends AbstractActionController
 
                     $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
 
-                    return $this->redirect()->toRoute('administrador');
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-usuarios']);
                 }
                 catch (\Exception $exc)
                 {
@@ -145,13 +145,13 @@ class AdministradorController extends AbstractActionController
                 {
                     $this->laboratoristaModel->add($form->getData(), $this->sessionModel->getUsuario()['id_usuario']);
 
-                    $this->flashMessenger()->addSuccessMessage("Cadastrar Usuário| Operação realizada com sucesso!");
+                    $this->flashMessenger()->addSuccessMessage("Cadastrar Laboratório| Operação realizada com sucesso!");
 
-                    return $this->redirect()->toRoute('administrador');
+                    return $this->redirect()->toRoute('administrador', ['action' => 'consultar-laboratorios']);
                 }
                 catch (\Exception $exc)
                 {
-                    $this->flashMessenger()->addErrorMessage('Cadastrar Usuários| Ocorreu um problema ao realizar a operação.');
+                    $this->flashMessenger()->addErrorMessage('Cadastrar Laboratório| Ocorreu um problema ao realizar a operação.');
 
                     return $this->redirect()->toRoute('administrador');
                 }
@@ -322,7 +322,7 @@ class AdministradorController extends AbstractActionController
         }
         else
         {
-            $lab = explode(' ', $laboratorio['lab']);
+            $lab                = explode(' ', $laboratorio['lab']);
             $laboratorio['lab'] = $lab[1];
             
             $form->setData($laboratorio);

@@ -22,20 +22,6 @@ class AuthController extends AbstractActionController
     
     public function loginAction()
     {
-//        ÚLTIMO TESTE COMPLETO.
-//        
-//        ALGUNS AJUSTES DE CONFIGURAÇÕES DO PROJETO.
-//        VERIFICAR ESSA QUESTAO DOS MODOS DE PRODUCAO E DESENVOLVIMENTO. (IGOR/MARCOS/IVES)
-//        
-//        AJUSTAR OS ERROS, MOSTRA APENAS O ERRO E NÃO O MOTIVO. (config/autoload/development.local.php)
-        
-        /* Melhorias
-         * 
-         * 
-         * 
-         * 
-         */
-        
         $this->layout('layout/login');
         
         $form = new LoginForm();

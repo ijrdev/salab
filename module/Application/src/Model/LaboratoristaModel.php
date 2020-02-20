@@ -444,8 +444,6 @@ class LaboratoristaModel
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
                     
-                    // ---------------------------------------------------------
-                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
@@ -478,8 +476,6 @@ class LaboratoristaModel
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
-                    
-                    // ---------------------------------------------------------
                     
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
@@ -514,8 +510,6 @@ class LaboratoristaModel
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
-                    
-                    // ---------------------------------------------------------
                     
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
@@ -558,8 +552,6 @@ class LaboratoristaModel
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
                     
-                    // ---------------------------------------------------------
-                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
@@ -595,8 +587,6 @@ class LaboratoristaModel
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
                     
-                    // ---------------------------------------------------------
-                    
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
                         ->values([
@@ -631,8 +621,6 @@ class LaboratoristaModel
                         ]);
 
                     $sql->prepareStatementForSqlObject($insertLog)->execute();
-                    
-                    // ---------------------------------------------------------
                     
                     $insertAgendamento = $sql
                         ->insert('tb_agendamentos')
@@ -678,8 +666,6 @@ class LaboratoristaModel
 
                 $sql->prepareStatementForSqlObject($insertLog)->execute();
                 
-                // -------------------------------------------------------------
-                
                 $where = new Where();
                 $where->equalTo('id_reserva', $id_reserva)
                       ->AND
@@ -716,8 +702,6 @@ class LaboratoristaModel
                     ]);
 
                 $sql->prepareStatementForSqlObject($insertLog)->execute();
-                
-                // -------------------------------------------------------------
                 
                 $where = new Where();
                 $where->equalTo('id_reserva', $id_reserva)
@@ -807,7 +791,7 @@ class LaboratoristaModel
                 
                 if(in_array(1, $arr_turno) || in_array(2, $arr_turno))
                 {
-                    throw new \Exception("Não é possível inativar o laboratório.");
+                    throw new \Exception("Não é possível inativar o laboratório pois o mesmo se encontra reservado.");
                 }
             }
         }
