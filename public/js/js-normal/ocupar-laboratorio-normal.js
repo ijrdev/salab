@@ -32,7 +32,7 @@ $(document).ready(function()
                         $('#manha label').css('color', 'green');
                         break;
                     case '1':
-                        $('#horariomanha').prop('disabled', false);
+                        $('#horariomanha').prop('disabled', true);
                         $('#manha label').css('color', 'red');
                         break;
                     case '2':
@@ -48,7 +48,7 @@ $(document).ready(function()
                         $('#tarde label').css('color', 'green');
                         break;
                     case '1':
-                        $('#horariotarde').prop('disabled', false);
+                        $('#horariotarde').prop('disabled', true);
                         $('#tarde label').css('color', 'red');
                         break;
                     case '2':
@@ -64,7 +64,7 @@ $(document).ready(function()
                         $('#noite label').css('color', 'green');
                         break;
                     case '1':
-                        $('#horarionoite').prop('disabled', false);
+                        $('#horarionoite').prop('disabled', true);
                         $('#noite label').css('color', 'red');
                         break;
                     case '2':
@@ -122,7 +122,7 @@ $(document).ready(function()
                             $('#manha label').css('color', 'green');
                             break;
                         case '1':
-                            $('#horariomanha').prop('disabled', false);
+                            $('#horariomanha').prop('disabled', true);
                             $('#manha label').css('color', 'red');
                             break;
                         case '2':
@@ -138,7 +138,7 @@ $(document).ready(function()
                             $('#tarde label').css('color', 'green');
                             break;
                         case '1':
-                            $('#horariotarde').prop('disabled', false);
+                            $('#horariotarde').prop('disabled', true);
                             $('#tarde label').css('color', 'red');
                             break;
                         case '2':
@@ -154,7 +154,7 @@ $(document).ready(function()
                             $('#noite label').css('color', 'green');
                             break;
                         case '1':
-                            $('#horarionoite').prop('disabled', false);
+                            $('#horarionoite').prop('disabled', true);
                             $('#noite label').css('color', 'red');
                             break;
                         case '2':
