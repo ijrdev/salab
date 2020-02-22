@@ -5,6 +5,7 @@ namespace Application\Model;
 use Application\Adapter\Db;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
 date_default_timezone_set('America/Sao_Paulo');

@@ -2,6 +2,8 @@ $(document).ready(function ()
 {
     $('#foto-perfil').hide();
     
+    $('#perfil-laboratorista-form div img').css('cursor', 'pointer');
+    
     $('[data-toggle="tooltip"]').tooltip();
 });
 
