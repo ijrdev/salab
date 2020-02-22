@@ -7,7 +7,7 @@ use Hashids\Hashids;
 use Laminas\Crypt\Password\Bcrypt;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
-use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
 date_default_timezone_set('America/Sao_Paulo');
@@ -91,7 +91,16 @@ class AdministradorModel
             ->where($where)
             ->order('situacao');
         
-        $pag_adapter = new DbSelect($select, $sql);
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $arr_user = [];
+
+        foreach($result as $value) 
+        {
+            $arr_user[] = $value;
+        }
+
+        $pag_adapter = new ArrayAdapter($arr_user);
         $paginator   = new Paginator($pag_adapter);
 
         $paginator->setDefaultItemCountPerPage(10);
@@ -139,7 +148,16 @@ class AdministradorModel
             ->where($where)
             ->order('a.id_agendamento DESC');
         
-        $pag_adapter = new DbSelect($select, $sql);
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $arr_agen = [];
+
+        foreach($result as $value) 
+        {
+            $arr_agen[] = $value;
+        }
+
+        $pag_adapter = new ArrayAdapter($arr_agen);
         $paginator   = new Paginator($pag_adapter);
 
         $paginator->setDefaultItemCountPerPage(10);

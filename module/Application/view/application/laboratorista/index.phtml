@@ -11,6 +11,10 @@ $this->pageTitle()->setSubTitle('Atividades relacionadas para à administração
             <div class="card-header">
                 <h5 class="card-title"><i class="fas fa-columns"></i> Quadro de Avisos</h5>
             </div>
+            <?php
+            if(count($avisos) > 0)
+            {
+            ?>
             <div class="card-body" style="height: 500px; overflow: auto;">
                <div class="row">
                     <div class="col-12">
@@ -37,7 +41,7 @@ $this->pageTitle()->setSubTitle('Atividades relacionadas para à administração
                                 {
                                 ?>
                                     <span class="ml-2">
-                                        <a href="<?= $this->url('laboratorista', ['action' => 'mostrar-imagem', 'id' => $anexo['id_anexo']]) ?>" target="_blank">
+                                        <a href="<?= $this->url('administrador', ['action' => 'mostrar-imagem', 'id' => $anexo['id_anexo']]) ?>" target="_blank">
                                             <img class="img-fluid" src="<?= 'data:' . $anexo['tipo'] . ';base64,' . base64_encode($anexo['arquivo']) ?>" alt="Photo" style="width: 80px; height: 80px !important;">
                                         </a>
                                     </span>
@@ -53,6 +57,21 @@ $this->pageTitle()->setSubTitle('Atividades relacionadas para à administração
                     </div>
                 </div>
             </div>
+            <?php
+            }
+            else
+            {
+            ?>
+            <div class="card-body align-middle">
+               <div class="row">
+                    <div class="col-12">
+                        Nenhum aviso até o momento.
+                    </div>
+                </div>
+            </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>

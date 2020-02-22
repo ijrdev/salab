@@ -5,7 +5,7 @@ namespace Application\Model;
 use Application\Adapter\Db;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
-use Laminas\Paginator\Adapter\DbSelect;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
 date_default_timezone_set('America/Sao_Paulo');
@@ -79,7 +79,16 @@ class LaboratoristaModel
                 ->where($where)
                 ->order('r.id_reserva DESC');
   
-            $pag_adapter = new DbSelect($select, $sql);
+            $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+            $arr_lab = [];
+
+            foreach($result as $value) 
+            {
+                $arr_lab[] = $value;
+            }
+
+            $pag_adapter = new ArrayAdapter($arr_lab);
             $paginator   = new Paginator($pag_adapter);
 
             $paginator->setDefaultItemCountPerPage(10);
@@ -99,9 +108,18 @@ class LaboratoristaModel
         $select = $sql
             ->select('tb_laboratorios')
             ->where($where)
-            ->order('situacao');
+            ->order('situacao ASC, id_laboratorio DESC');
         
-        $pag_adapter = new DbSelect($select, $sql);
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $arr_lab = [];
+        
+        foreach($result as $value) 
+        {
+            $arr_lab[] = $value;
+        }
+        
+        $pag_adapter = new ArrayAdapter($arr_lab);
         $paginator   = new Paginator($pag_adapter);
 
         $paginator->setDefaultItemCountPerPage(10);

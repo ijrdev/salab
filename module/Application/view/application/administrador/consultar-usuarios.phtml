@@ -113,6 +113,6 @@ $this->pageTitle()->setSubTitle('Veja todos os usuários cadastrados no sistema.
 </div>
 <div class="row">
     <div class="col-12">
-        <?php echo $this->paginationControl($this->usuarios, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'consultar-usuarios']]) ?>
+        <?php echo $this->paginationControl($this->usuarios, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'consultar-usuarios'], 'search' => $this->search]) ?>
     </div>
 </div>

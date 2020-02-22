@@ -98,6 +98,6 @@ $this->pageTitle()->setSubTitle('Verifique todos os laboratórios cadastrados no
 </div>
 <div class="row">
     <div class="col-12">
-        <?php echo $this->paginationControl($this->laboratorios, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'consultar-laboratorios']]) ?>
+        <?php echo $this->paginationControl($this->laboratorios, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'consultar-laboratorios'], 'search' => $this->search]) ?>
     </div>
 </div>

@@ -5,7 +5,6 @@ namespace Application\Model;
 use Application\Adapter\Db;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\Sql\Where;
-use Laminas\Paginator\Adapter\DbSelect;
 use Laminas\Paginator\Paginator;
 
 date_default_timezone_set('America/Sao_Paulo');
@@ -54,7 +53,16 @@ class ProfessorModel
             ->where($where)
             ->order('a.id_agendamento DESC');
         
-        $pag_adapter = new DbSelect($select, $sql);
+        $result = $sql->prepareStatementForSqlObject($select)->execute();
+        
+        $arr_agen = [];
+
+        foreach($result as $value) 
+        {
+            $arr_agen[] = $value;
+        }
+
+        $pag_adapter = new ArrayAdapter($arr_agen);
         $paginator   = new Paginator($pag_adapter);
 
         $paginator->setDefaultItemCountPerPage(10);

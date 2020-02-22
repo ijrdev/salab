@@ -114,6 +114,6 @@ $this->pageTitle()->setSubTitle('Todos os agendamentos realizados.');
 </div>
 <div class="row">
     <div class="col-12">
-        <?php echo $this->paginationControl($this->agendamentos, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'agendamentos']]) ?>
+        <?php echo $this->paginationControl($this->agendamentos, 'Sliding', 'partials/paginator', ['route' => 'administrador', 'params' => ['action' => 'agendamentos'], 'search' => $this->search, 'data' => $this->data]) ?>
     </div>
 </div>
