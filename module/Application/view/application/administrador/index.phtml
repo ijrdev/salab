@@ -49,6 +49,10 @@ echo $this->partial('partials/box-elements', [
             <div class="card-header">
                 <h5 class="card-title"><i class="fas fa-columns"></i> Quadro de Avisos</h5>
             </div>
+            <?php
+            if(count($avisos) > 0)
+            {
+            ?>
             <div class="card-body" style="height: 500px; overflow: auto;">
                <div class="row">
                     <div class="col-12">
@@ -91,6 +95,21 @@ echo $this->partial('partials/box-elements', [
                     </div>
                 </div>
             </div>
+            <?php
+            }
+            else
+            {
+            ?>
+            <div class="card-body align-middle">
+               <div class="row">
+                    <div class="col-12">
+                        Nenhum aviso até o momento.
+                    </div>
+                </div>
+            </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
