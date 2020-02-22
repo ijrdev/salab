@@ -15,10 +15,12 @@ date_default_timezone_set('America/Sao_Paulo');
 class AdministradorModel
 {
     private $db;
+    private $sessionModel;
 
-    public function __construct(Db $db)
+    public function __construct(Db $db, \Application\Model\SessionModel $sessionModel)
     {
-       $this->db = $db->salab;
+       $this->db           = $db->salab;
+       $this->sessionModel = $sessionModel;
     }
     
     public function add($post, $id_usuario)
@@ -61,6 +63,11 @@ class AdministradorModel
         
         $where = new Where();
         $where->notEqualTo('id_usuario', $id_usuario);
+        
+        if($this->sessionModel->getUsuario()['id_usuario'] != 1)
+        {
+            $where->notEqualTo('id_grupo', 1);
+        }
         
         if(isset($search) && !empty($search))
         {
