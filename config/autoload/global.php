@@ -1,15 +1,18 @@
 <?php
 
-use Laminas\Session\Storage\SessionArrayStorage;
-use Laminas\Session\Validator\HttpUserAgent;
-use Laminas\Session\Validator\RemoteAddr;
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Validator\HttpUserAgent;
+use Zend\Session\Validator\RemoteAddr;
+
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
 
 return [
     'connections' => [
         'salab' => [
-            'dsn'            => 'mysql:host=sql10.freesqldatabase.com;port=3306;dbname=sql10322667;',
-            'username'       => 'sql10322667',
-            'password'       => 'zQWyKBlJaP',
+            'dsn'            => 'mysql:host=157.245.123.80;port=3306;dbname=salab;',
+            'username'       => 'salab',
+            'password'       => 'projetosalab',
             'driver'         => 'Pdo',
             'driver_options' => [PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''],
         ]

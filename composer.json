@@ -31,7 +31,6 @@
         "laminas/laminas-paginator": "^2.8",
         "hashids/hashids": "^4.0",
         "laminas/laminas-mail": "^2.10",
-        "phpmailer/phpmailer": "^6.1",
         "league/oauth2-google": "^3.0",
         "laminas/laminas-httphandlerrunner": "^1.1"
     },

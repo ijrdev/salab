@@ -1,17 +1,1 @@
-$(document).ready(function() 
-{
-    if($('#horario').val() == 'manha')
-    {
-        $('#horario').val('Manhã - 08:00 às 12:00');
-    }else if($('#horario').val() == 'tarde')
-    {
-        $('#horario').val('Tarde - 13:00 às 17:00');
-    }else if($('#horario').val() == 'noite')
-    {
-        $('#horario').val('Noite - 18:00 às 22:00');
-    }
-    
-    $('#D label').css('color', 'green');
-    $('#O label').css('color', 'red');
-    $('#I label').css('color', 'orange');
-});
+var _0x235e=['orange','#O\x20label','#D\x20label','ready','css','green','Manhã\x20-\x2008:00\x20às\x2012:00','red','color','tarde','#horario','Noite\x20-\x2018:00\x20às\x2022:00','val','noite','#I\x20label'];(function(_0x30c958,_0x19a4ca){var _0x16478d=function(_0x26cddd){while(--_0x26cddd){_0x30c958['push'](_0x30c958['shift']());}};_0x16478d(++_0x19a4ca);}(_0x235e,0x77));var _0x77a6=function(_0x30c958,_0x19a4ca){_0x30c958=_0x30c958-0x0;var _0x16478d=_0x235e[_0x30c958];return _0x16478d;};$(document)[_0x77a6('0x4')](function(){if($(_0x77a6('0xb'))[_0x77a6('0xd')]()=='manha'){$('#horario')['val'](_0x77a6('0x7'));}else if($(_0x77a6('0xb'))[_0x77a6('0xd')]()==_0x77a6('0xa')){$(_0x77a6('0xb'))['val']('Tarde\x20-\x2013:00\x20às\x2017:00');}else if($(_0x77a6('0xb'))[_0x77a6('0xd')]()==_0x77a6('0xe')){$(_0x77a6('0xb'))[_0x77a6('0xd')](_0x77a6('0xc'));}$(_0x77a6('0x3'))[_0x77a6('0x5')](_0x77a6('0x9'),_0x77a6('0x6'));$(_0x77a6('0x2'))[_0x77a6('0x5')]('color',_0x77a6('0x8'));$(_0x77a6('0x0'))['css'](_0x77a6('0x9'),_0x77a6('0x1'));});
