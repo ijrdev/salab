@@ -10,7 +10,7 @@ Esse é um simples projeto PHP utilizando o framework Laminas Project(Zend) do q
 
 ## O Sistema.
 
-Por sua simplicidade e de fácil utilização o SALAB foi criado visando a utilizaço de três tipos de usuários, são eles: Administradores, Laboratoristas e Professores. A forma como funciona é bem direta e intuitiva, podendo ser adptada e implementada novas funcionalidade de acordo com a necessidade.
+Por sua simplicidade e de fácil utilização o SALAB foi criado visando a utilização de três tipos de usuários, são eles: Administradores, Laboratoristas e Professores. A forma como funciona é bem direta e intuitiva, podendo ser adptada e implementada novas funcionalidade de acordo com a necessidade.
 
 ### Atribuições dos usuários:
 
