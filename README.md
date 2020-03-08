@@ -32,6 +32,7 @@ Linguagens de programação:
 Frameworks e bibliotecas:
 - Laminas Project(Zend).
 - jQuery.
+- Bootstrap.
 
 Banco de dados:
 - MySQL.
@@ -41,4 +42,4 @@ Ferramentas:
 - SGBD - HeidiSQL.
 - Editor - Netbeans.
 - Ambiente de desenvolvimento - Docker.
-- Template utilizado - AdminLTE-3.0.1.
+- Template utilizado - AdminLTE.
