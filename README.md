@@ -2,7 +2,7 @@
 
 ## Introdução.
 
-Esse é um simples projeto PHP utilizando o framework Laminas Project(Zend Framework 3) do qual tem o propósito de realizar o gerenciamento dos laboratórios para os cursos voltados para área de saúde.
+Esse é um simples projeto PHP utilizando o framework Laminas Project(Zend Framework 3) do qual tem o objetivo de realizar o gerenciamento dos laboratórios para os cursos voltados para área de saúde.
 
 ## Propósito.
 
